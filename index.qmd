@@ -258,7 +258,7 @@ Always start a job (interactive or batch) before doing anything intensive to spa
 Clone a test script
 ```bash
 cd ~/
-git clone https://github.com/neuroinformatics-unit/slurm-demo
+git clone https://github.com/neuroinformatics-unit/course-behavioural-analysis-2023
 ```
 
 . . .
@@ -279,7 +279,7 @@ module load miniconda
 
 Create conda environment
 ```bash
-cd slurm-demo
+cd course-behavioural-analysis-2023/demo
 conda env create -f env.yml
 ```
 
