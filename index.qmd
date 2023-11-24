@@ -258,7 +258,7 @@ Always start a job (interactive or batch) before doing anything intensive to spa
 Clone a test script
 ```bash
 cd ~/
-git clone https://github.com/neuroinformatics-unit/course-behavioural-analysis-2023
+git clone https://github.com/neuroinformatics-unit/course-software-skills-hpc
 ```
 
 . . .
