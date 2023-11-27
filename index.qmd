@@ -1,12 +1,13 @@
 ---
-title: Running pose estimation on the SWC HPC system
-author: Adam Tyson, Niko Sirmpilatze & Laura Porta
+title: BrainGlobe and napari
+subtitle: Whole brain microscopy analysis
+author: Adam Tyson & Alessandro Felder
 execute: 
   enabled: true
 format:
     revealjs:
-        theme: [default, niu-light.scss]
-        logo: img/logo_niu_light.png
+        theme: [default, bg-light.scss]
+        logo: img/BG_logo.png
         footer: "SWC | 2023-12-06"
         slide-number: c
         menu:
@@ -25,8 +26,8 @@ format:
           fontFamily: arial
           curve: linear
     html:
-        theme: [default, niu-light.scss]
-        logo: img/logo_niu_light.png
+        theme: [default, bg-light.scss]
+        logo: img/BG_logo.png
         date: "2023-12-06"
         toc: true
         code-overflow: scroll
@@ -38,373 +39,60 @@ format:
           margin-left: 0
         embed-resources: true
         page-layout: full
-my-custom-stuff:
-   my-reuseable-variable: "I can use this wherever I want in the markdown, and change it in only once place :)"
 ---
+# Installation
 
+# BrainGlobe Initiative
 
-## Contents
+## BrainGlobe Initiative
 
-* Introduction to High Performance Computing
-* SWC HPC system
-* Using the job scheduler
-* Running pose estimation on the SWC HPC
+Established 2020 with three aims:
 
-## Introduction to High Performance Computing (HPC) {.smaller}
-* Lots of meanings
-* Often just a system with many machines (nodes) linked together with some/all of:
-  * Lots of CPU cores per node
-  * Powerful GPUs
-  * Lots of memory per node
-  * Fast networking to link nodes
-  * Fast data storage
-  * Standardised software installation
+1. Develop general-purpose tools to help others build interoperable software
+2. Develop specialist software for specific analysis and visualisation needs
+3. Reduce barriers of entry, and facilitate the building of an ecosystem of computational neuroanatomy tools.
 
-## Why?
-* Run jobs too large for desktop workstations
-* Run many jobs at once
-* Efficiency (cheaper to have central machines running 24/7)
+## BrainGlobe Atlas API
+![](img/atlases.png){}
 
-. . .
+## BrainGlobe Atlas API {.smaller}
+**Currently implemented atlases**
 
-* In neuroscience, typically used for:
-  * Analysing large data (e.g. high memory requirements)
-  * Paralellising analysis/modelling (run on many machines at once)
+* [Allen Mouse Brain Atlas](https://portal.brain-map.org/) at 10, 25, 50 and 100 micron resolutions
+* [Allen Human Brain Atlas](https://portal.brain-map.org/) at 100 micron resolution
+* [Max Planck Zebrafish Brain Atlas](http://fishatlas.neuro.mpg.de) at 1 micron resolution
+* [Enhanced and Unified Mouse Brain Atlas](https://kimlab.io/brain-map/atlas/) at 10, 25, 50 and 100 micron resolutions
+* [Smoothed version of the Kim et al. mouse reference atlas](https://doi.org/10.1016/j.celrep.2014.12.014) at 10, 25, 50 and 100 micron resolutions
+* [Gubra's LSFM mouse brain atlas](https://doi.org/10.1007/s12021-020-09490-8) at 20 micron resolution
+* [3D version of the Allen mouse spinal cord atlas](https://doi.org/10.1016/j.crmeth.2021.100074) at 20 x 10 x 10 micron resolution
+* [AZBA: A 3D Adult Zebrafish Brain Atlas]( https://doi.org/10.7554/eLife.69988) at 4 micron resolution
+* [Waxholm Space atlas of the Sprague Dawley rat brain](https://doi.org/10.1016/j.neuroimage.2014.04.001) at 39 micron resolution
+* [3D Edge-Aware Refined Atlases Derived from the Allen Developing Mouse Brain Atlases](https://doi.org/10.7554/eLife.61408) (E13, E15, E18, P4, P14, P28 & P56)
+* [Princeton Mouse Brain Atlas](https://brainmaps.princeton.edu/2020/09/princeton-mouse-brain-atlas-links) at 20 micron resolution
+* [Kim Lab Developmental CCF (P56)](https://data.mendeley.com/datasets/2svx788ddf/1) at 10 micron resolution with 8 reference images - STP, LSFM (iDISCO) and MRI (a0, adc, dwo, fa, MTR, T2)
 
+## cellfinder
+![](img/raw.png){fig-align="center" width=70%}
 
-## SWC HPC hardware
-(Correct at time of writing)
+## cellfinder
+![](img/detect.png){fig-align="center" width=70%}
 
-* Ubuntu 20.04
-* 81 nodes
-  * 46 CPU nodes
-  * 35 GPU nodes
-* 3000 CPU cores
-* 83 GPUs
-* ~20TB RAM
+## cellfinder
+![](img/classify.png){fig-align="center" width=70%}
 
-## Logging in
+## cellfinder
+![](img/cells.png){fig-align="center" width=70%}
 
-Log into bastion node (not necessary within SWC network)
-```bash
-ssh <USERNAME>@ssh.swc.ucl.ac.uk
-```
+## brainglobe-segmentation
+![](img/brainglobe-segmentation.png){fig-align="center" width=100%}
 
-. . . 
+## brainrender {background-video="video/cellfinder.mp4" background-video-loop="true"}
 
-Log into HPC gateway node
-```bash
-ssh <USERNAME>@hpc-gw1
-```
-
-. . .
-
-This node is fine for light work, but no intensive analyses
-
-## File systems  {.smaller}
-
-* `/nfs/nhome/live/<USERNAME>` or `/nfs/ghome/live/<USERNAME>` 
-  * "Home drive" (SWC/GCNU), also at `~/`
-* `/nfs/winstor/<group>` - Old SWC research data storage (read-only soon)
-* `/nfs/gatsbystor` - GCNU data storage
-* `/ceph/<group>` - Current research data storage
-* `/ceph/scratch` - Not backed up, for short-term storage
-* `/ceph/apps` - HPC applications
-
-. . .
-
-::: {.callout-note}
-You may only be able to "see" a drive if you navigate to it
+## Website
+::: {style="text-align: center; margin-top: 1em"}
+[BrainGlobe website](https://brainglobe.info/){preview-link="true" style="text-align: center"}
 :::
 
-## 
-Navigate to the scratch space
-```bash
-cd /ceph/scratch
-```
-. . .
+  
 
-Create a directory for yourself 
-```bash
-mkdir <USERNAME>
-```
-
-
-## HPC software
-All nodes have the same software installed
-
-* Ubuntu 20.04 LTS
-* General linux utilities
-
-## Modules
-Preinstalled packages available for use, including:
-
-
-:::: {.columns}
-
-::: {.column width="40%"}
-* BrainGlobe
-* CUDA
-* DeepLabCut
-* Julia
-* Kilosort
-:::
-
-::: {.column width="60%"}
-* mamba
-* MATLAB
-* miniconda
-* SLEAP
-:::
-
-::::
-
-
-## Using modules
-
-List available modules
-```bash
-module avail
-```
-
-Load a module
-
-```bash
-module load SLEAP
-```
-
-Unload a module
-
-```bash
-module unload SLEAP
-```
-
-Load a specific version
-```bash
-module load SLEAP/2023-08-01
-```
-
-List loaded modules
-```bash
-module list
-```
-
-
-## SLURM
-* Simple Linux Utility for Resource Management
-* Job scheduler
-* Allocates jobs to nodes
-* Queues jobs if nodes are busy
-* Users must explicitly request resources
-
-## SLURM commands
-View a summary of the available resources
-```bash
-sinfo
-```
-
-```
-atyson@sgw2:~$ sinfo
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-cpu*         up   infinite     29  idle~ enc1-node[1,3-14],enc2-node[1-10,12-13],enc3-node[5-8]
-cpu*         up   infinite      1  down* enc3-node3
-cpu*         up   infinite      2    mix enc1-node2,enc2-node11
-cpu*         up   infinite      5   idle enc3-node[1-2,4],gpu-380-[24-25]
-gpu          up   infinite      9    mix gpu-350-[01,03-05],gpu-380-[10,13],gpu-sr670-[20-22]
-gpu          up   infinite      9   idle gpu-350-02,gpu-380-[11-12,14-18],gpu-sr670-23
-medium       up   12:00:00      4  idle~ enc3-node[5-8]
-medium       up   12:00:00      1  down* enc3-node3
-medium       up   12:00:00      1    mix gpu-380-10
-medium       up   12:00:00     10   idle enc3-node[1-2,4],gpu-380-[11-12,14-18]
-fast         up    3:00:00      1    mix gpu-380-10
-fast         up    3:00:00      9   idle enc1-node16,gpu-380-[11-12,14-18],gpu-erlich01
-```
-
-##
-
-View currently running jobs (from everyone)
-```bash
-squeue
-```
-
-```
-atyson@sgw2:~$ squeue
-JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-4036257       cpu     bash   imansd  R 13-01:10:01      1 enc1-node2
-4050946       cpu      zsh apezzott  R 1-01:02:30      1 enc2-node11
-3921466       cpu     bash   imansd  R 51-03:05:29      1 gpu-380-13
-4037613       gpu     bash  pierreg  R 12-05:55:06      1 gpu-sr670-20
-4051306       gpu ddpm-vae   jheald  R      15:49      1 gpu-350-01
-4051294       gpu  jupyter    samoh  R    1:40:59      1 gpu-sr670-22
-4047787       gpu     bash antonins  R 4-18:59:43      1 gpu-sr670-21
-4051063_7       gpu    LRsem apezzott  R 1-00:08:32      1 gpu-350-05
-4051063_8       gpu    LRsem apezzott  R 1-00:08:32      1 gpu-380-10
-4051305       gpu     bash  kjensen  R      18:33      1 gpu-sr670-20
-4051297       gpu     bash   slenzi  R    1:15:39      1 gpu-350-01
-```
-## Partitions
-
-## Interactive job
-Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`).
-```bash
-srun -p cpu --pty bash -i
-```
-. . .
-
-Always start a job (interactive or batch) before doing anything intensive to spare the gateway node.
-
-## Run some "analysis"
-
-Clone a test script
-```bash
-cd ~/
-git clone https://github.com/neuroinformatics-unit/course-software-skills-hpc
-```
-
-. . .
-
-Check out list of available modules
-```bash
-module avail
-```
-. . .
-
-Load the miniconda module
-```bash
-module load miniconda
-```
-
-## 
-
-
-Create conda environment
-```bash
-cd course-behavioural-analysis-2023/demo
-conda env create -f env.yml
-```
-
-Activate conda environment and run Python script
-```bash
-conda activate slurm_demo
-python multiply.py 5 10 --jazzy
-```
-Stop interactive job
-```bash
-exit
-```
-
-
-## Batch jobs
-
-Check out batch script:
-```bash
-cat batch_example.sh
-```
-
-```bash
-#!/bin/bash
-
-#SBATCH -p gpu # partition (queue)
-#SBATCH -N 1   # number of nodes
-#SBATCH --mem 2G # memory pool for all cores
-#SBATCH -n 2 # number of cores
-#SBATCH -t 0-0:10 # time (D-HH:MM)
-#SBATCH -o slurm_output.out
-#SBATCH -e slurm_error.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=adam.tyson@ucl.ac.uk
-
-module load miniconda
-conda activate slurm_demo
-
-for i in {1..5}
-do
-  echo "Multiplying $i by 10"
-  python multiply.py $i 10 --jazzy
-done
-```
-
-## 
-
-Run batch job:
-```bash
-sbatch batch_example.sh
-```
-
-
-## Array jobs
-
-
-Check out array script:
-```bash
-cat array_example.sh
-```
-
-```bash
-#!/bin/bash
-
-#SBATCH -p gpu # partition (queue)
-#SBATCH -N 1   # number of nodes
-#SBATCH --mem 2G # memory pool for all cores
-#SBATCH -n 2 # number of cores
-#SBATCH -t 0-0:10 # time (D-HH:MM)
-#SBATCH -o slurm_array_%A-%a.out
-#SBATCH -e slurm_array_%A-%a.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=adam.tyson@ucl.ac.uk
-#SBATCH --array=0-9%4
-
-# Array job runs 10 separate jobs, but not more than four at a time.
-# This is flexible and the array ID ($SLURM_ARRAY_TASK_ID) can be used in any way.
-
-module load miniconda
-conda activate slurm_demo
-
-echo "Multiplying $SLURM_ARRAY_TASK_ID by 10"
-python multiply.py $SLURM_ARRAY_TASK_ID 10 --jazzy
-```
-
-## 
-
-Run array job:
-```bash
-sbatch array_example.sh
-```
-
-
-## Using GPUs
-
-Start an interactive job with one GPU:
-```bash
-srun -p gpu --gres=gpu:1 --pty bash -i
-```
-
-Load CUDA
-```bash
-module load cuda
-```
-Activate conda environment & check GPU 
-```bash
-conda activate slurm_demo
-python
-```
-
-```python
-import tensorflow as tf
-tf.config.list_physical_devices('GPU')
-```
-
-## Useful commands
-Cancel a job
-```bash
-scancel <JOBID>
-```
-
-Cancel all your jobs
-```bash
-scancel -u <USERNAME>
-```
-
-## Further reading
-* [SWC/GCNU Scientific Computing wiki](https://wiki.ucl.ac.uk/display/SSC/High+Performance+Computing)
-* [SLURM documentation](https://slurm.schedmd.com/)
+# napari
