@@ -307,12 +307,15 @@ Create conda environment
 cd course-behavioural-analysis-2023/demo
 conda env create -f env.yml
 ```
+. . .
 
 Activate conda environment and run Python script
 ```bash
 conda activate slurm_demo
 python multiply.py 5 10 --jazzy
 ```
+. . .
+
 Stop interactive job
 ```bash
 exit
