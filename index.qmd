@@ -178,23 +178,27 @@ List available modules
 ```bash
 module avail
 ```
+. . .
 
 Load a module
 
 ```bash
 module load SLEAP
 ```
+. . .
 
 Unload a module
 
 ```bash
 module unload SLEAP
 ```
+. . .
 
 Load a specific version
 ```bash
 module load SLEAP/2023-08-01
 ```
+. . .
 
 List loaded modules
 ```bash
