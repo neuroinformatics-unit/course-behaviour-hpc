@@ -69,7 +69,7 @@ my-custom-stuff:
 
 * In neuroscience, typically used for:
   * Analysing large data (e.g. high memory requirements)
-  * Paralellising analysis/modelling (run on many machines at once)
+  * Parallelising analysis/modelling (run on many machines at once)
 
 
 ## SWC HPC hardware
@@ -90,6 +90,7 @@ Log into bastion node (not necessary within SWC network)
 ssh <USERNAME>@ssh.swc.ucl.ac.uk
 ```
 
+
 . . . 
 
 Log into HPC gateway node
@@ -100,6 +101,18 @@ ssh <USERNAME>@hpc-gw1
 . . .
 
 This node is fine for light work, but no intensive analyses
+
+## Logging in
+
+![](img/swc_hpc_access_flowchart.png){fig-align="center" width=100%}
+
+. . .
+
+::: {.callout-tip}
+## More details
+
+See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SSH-SWC-cluster.html){preview-link="true"}
+:::
 
 ## File systems  {.smaller}
 
@@ -145,7 +158,6 @@ Preinstalled packages available for use, including:
 ::: {.column width="40%"}
 * BrainGlobe
 * CUDA
-* DeepLabCut
 * Julia
 * Kilosort
 :::
@@ -166,23 +178,27 @@ List available modules
 ```bash
 module avail
 ```
+. . .
 
 Load a module
 
 ```bash
 module load SLEAP
 ```
+. . .
 
 Unload a module
 
 ```bash
 module unload SLEAP
 ```
+. . .
 
 Load a specific version
 ```bash
 module load SLEAP/2023-08-01
 ```
+. . .
 
 List loaded modules
 ```bash
@@ -242,6 +258,15 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 4051305       gpu     bash  kjensen  R      18:33      1 gpu-sr670-20
 4051297       gpu     bash   slenzi  R    1:15:39      1 gpu-350-01
 ```
+
+. . .
+
+::: {.callout-tip}
+## More details
+
+See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SLURM-arguments.html){preview-link="true"}
+:::
+
 ## Partitions
 
 ## Interactive job
@@ -282,12 +307,15 @@ Create conda environment
 cd course-behavioural-analysis-2023/demo
 conda env create -f env.yml
 ```
+. . .
 
 Activate conda environment and run Python script
 ```bash
 conda activate slurm_demo
 python multiply.py 5 10 --jazzy
 ```
+. . .
+
 Stop interactive job
 ```bash
 exit
@@ -378,11 +406,14 @@ Start an interactive job with one GPU:
 ```bash
 srun -p gpu --gres=gpu:1 --pty bash -i
 ```
+. . .
 
 Load CUDA
 ```bash
 module load cuda
 ```
+. . .
+
 Activate conda environment & check GPU 
 ```bash
 conda activate slurm_demo
@@ -399,6 +430,7 @@ Cancel a job
 ```bash
 scancel <JOBID>
 ```
+. . .
 
 Cancel all your jobs
 ```bash
