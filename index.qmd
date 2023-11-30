@@ -438,6 +438,182 @@ Cancel all your jobs
 scancel -u <USERNAME>
 ```
 
+# Example: pose estimation with SLEAP {background-color="#03A062"}
+
+## Modern behavioural analysis
+
+:::: {.columns}
+
+::: {.column width="70%"}
+![](img/modern_behav_experiment_analysis.png){fig-align="center" height=400px}
+:::
+
+::: {.column width="30%"}
+```{mermaid}
+%%| file: img/diagrams/video_pipeline_pose.mmd
+%%| fig-height: 400px
+```
+:::
+
+::::
+
+::: aside
+[Open-source tools for behavioral video analysis: Setup, methods, and best practices](https://elifesciences.org/articles/79305)
+:::
+
+## Pose estimation {.smaller}
+
+![](img/pose_estimation_2D.png){fig-align="center"}
+
+::: {.fragment}
+- "easy" in humans - vast amounts of data
+- "harder" in animals - less data, more variability
+:::
+
+::: aside
+[Quantifying behavior to understand the brain](https://www.nature.com/articles/s41593-020-00734-z)
+:::
+
+## Pose estimation software {.smaller}
+
+:::: {.columns}
+
+:::{.column width="50%"}
+[DeepLabCut](http://www.mackenziemathislab.org/deeplabcut): *transfer learning*
+:::
+
+::: {.column width="50%"}
+[SLEAP](https://sleap.ai/):*smaller networks*
+:::
+::::
+
+![source: [sleap.ai](https://sleap.ai/)](img/sleap_movie.gif){fig-align="center" height="400px" style="text-align: center"}
+
+::: aside
+Many others: 
+[LightningPose](https://github.com/danbider/lightning-pose),
+[DeepPoseKit](https://github.com/jgraving/DeepPoseKit),
+[Anipose](https://anipose.readthedocs.io/en/latest/),
+...
+:::
+
+## Top-down pose estimation
+
+![](img/pose_estimation_topdown.png)
+
+## SLEAP workflow
+
+![](img/diagrams/pose-estimation.svg){fig-align=center width=600}
+
+::: {.fragment}
+- Training and inference are GPU-intensive
+- We can delegate to the HPC cluster's GPU nodes
+:::
+
+## Sample data
+`/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023`
+
+- Mouse videos from [Loukia Katsouri](https://www.sainsburywellcome.org/web/people/loukia-katsouri)
+- SLEAP project with:
+  - labelled frames
+  - trained models
+  - prediction results
+
+## Labeling data locally
+![](img/sleap-labeling.png){fig-align=center}
+
+## Exporting a training job
+![](img/sleap-training.png){fig-align=center}
+
+## Training job package contents
+
+`labels.v001.slp.training_job.zip` => unzip
+
+```{.bash code-line-numbers=false}
+# Copy of labelled frames
+labels.v001.pkg.slp
+
+# Model configuration files
+centroid.json
+centered_instance.json
+
+# Bash scripts for running training and inference
+train_script.sh
+inference_script.sh
+
+# Summary of all jobs
+jobs.yaml
+```
+
+## Finding our project on the HPC {.smaller}
+
+```{.bash code-line-numbers="1-3|5-8|10-12|14-15"}
+# Logging into the HPC cluster
+ssh <SWC-USERNAME>@ssh.swc.ucl.ac.uk # Provide password
+ssh hpc-gw1 # Provide password again
+
+# Navigate to your SLEAP project
+cd /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023
+# Check the contents of your folder
+ls -l
+
+# Go inside the exported training package
+cd labels.v001.slp.training_job
+ls -l
+
+# View the contents of train-script.sh
+cat train-script.sh
+```
+
+::: {.fragment}
+```{.bash filename="train-script.sh"}
+#!/bin/bash
+sleap-train centroid.json labels.v001.pkg.slp
+sleap-train centered_instance.json labels.v001.pkg.slp
+```
+:::
+
+## Get SLURM to run the script {.smaller}
+
+::: {.panel-tabset}
+
+### Interactive
+Suitable for debugging (immediate feedback)
+
+- Start an interactive job with one GPU
+  ```{.bash code-line-numbers=false}
+  srun -p gpu --gres=gpu:1 --pty bash -i
+  ```
+- Execute commands one-by-one, e.g.:
+  ```{.bash code-line-numbers=false}
+  module load SLEAP
+  cd <MY-TRAINING-DIRECTORY>
+  bash train-script.sh
+
+  # Stop the session
+  exit
+  ```
+
+### Batch
+Main method for submitting jobs
+
+- Prepare a batch script, e.g. `train_script.sbatch`
+- Submit the job:
+  ```{.bash code-line-numbers=false}
+  sbatch train_script.sbatch
+  ```
+- Monitor job status: 
+  ```{.bash code-line-numbers=false}
+  squeue -u <SWC-USERNAME>
+  ```
+
+### Array batch
+Useful for submitting many similar jobs
+
+- Write a batch script
+- Execute the script over an array of inputs in parallel
+:::
+
 ## Further reading
 * [SWC/GCNU Scientific Computing wiki](https://wiki.ucl.ac.uk/display/SSC/High+Performance+Computing)
 * [SLURM documentation](https://slurm.schedmd.com/)
