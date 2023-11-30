@@ -69,7 +69,7 @@ my-custom-stuff:
 
 * In neuroscience, typically used for:
   * Analysing large data (e.g. high memory requirements)
-  * Paralellising analysis/modelling (run on many machines at once)
+  * Parallelising analysis/modelling (run on many machines at once)
 
 
 ## SWC HPC hardware
@@ -90,6 +90,7 @@ Log into bastion node (not necessary within SWC network)
 ssh <USERNAME>@ssh.swc.ucl.ac.uk
 ```
 
+
 . . . 
 
 Log into HPC gateway node
@@ -100,6 +101,18 @@ ssh <USERNAME>@hpc-gw1
 . . .
 
 This node is fine for light work, but no intensive analyses
+
+## Logging in
+
+![](img/swc_hpc_access_flowchart.png){fig-align="center" width=100%}
+
+. . .
+
+::: {.callout-tip}
+## More details
+
+See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SSH-SWC-cluster.html){preview-link="true"}
+:::
 
 ## File systems  {.smaller}
 
@@ -145,7 +158,6 @@ Preinstalled packages available for use, including:
 ::: {.column width="40%"}
 * BrainGlobe
 * CUDA
-* DeepLabCut
 * Julia
 * Kilosort
 :::
@@ -242,6 +254,15 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 4051305       gpu     bash  kjensen  R      18:33      1 gpu-sr670-20
 4051297       gpu     bash   slenzi  R    1:15:39      1 gpu-350-01
 ```
+
+. . .
+
+::: {.callout-tip}
+## More details
+
+See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SLURM-arguments.html){preview-link="true"}
+:::
+
 ## Partitions
 
 ## Interactive job
