@@ -406,11 +406,14 @@ Start an interactive job with one GPU:
 ```bash
 srun -p gpu --gres=gpu:1 --pty bash -i
 ```
+. . .
 
 Load CUDA
 ```bash
 module load cuda
 ```
+. . .
+
 Activate conda environment & check GPU 
 ```bash
 conda activate slurm_demo
@@ -427,6 +430,7 @@ Cancel a job
 ```bash
 scancel <JOBID>
 ```
+. . .
 
 Cancel all your jobs
 ```bash
