@@ -416,9 +416,8 @@ module load cuda/11.8
 ```
 . . .
 
-Activate conda environment & check GPU 
+Check GPU 
 ```bash
-conda activate slurm_demo
 python
 ```
 
