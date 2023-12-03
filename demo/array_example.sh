@@ -7,8 +7,6 @@
 #SBATCH -t 0-0:10 # time (D-HH:MM)
 #SBATCH -o slurm_array_%A-%a.out
 #SBATCH -e slurm_array_%A-%a.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=adam.tyson@ucl.ac.uk
 #SBATCH --array=0-9%4
 
 # Array job runs 10 separate jobs, but not more than four at a time.
