@@ -304,7 +304,7 @@ module load miniconda
 
 Create conda environment
 ```bash
-cd course-behavioural-analysis-2023/demo
+cd course-software-skills-hpc/demo
 conda env create -f env.yml
 ```
 . . .
