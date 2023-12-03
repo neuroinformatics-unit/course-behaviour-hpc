@@ -326,6 +326,7 @@ exit
 
 Check out batch script:
 ```bash
+cd course-software-skills-hpc/demo
 cat batch_example.sh
 ```
 
@@ -408,9 +409,10 @@ srun -p gpu --gres=gpu:1 --pty bash -i
 ```
 . . .
 
-Load CUDA
+Load TensorFlow & CUDA
 ```bash
-module load cuda
+module load tensorflow
+module load cuda/11.8
 ```
 . . .
 
