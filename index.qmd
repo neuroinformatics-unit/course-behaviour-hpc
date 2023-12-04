@@ -7,7 +7,7 @@ format:
     revealjs:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        footer: "SWC | 2023-12-06"
+        footer: "SWC | 2023-12-04"
         slide-number: c
         menu:
             numbers: true
