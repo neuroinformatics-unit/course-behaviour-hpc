@@ -7,8 +7,6 @@
 #SBATCH -t 0-0:10 # time (D-HH:MM)
 #SBATCH -o slurm_output.out
 #SBATCH -e slurm_error.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=adam.tyson@ucl.ac.uk
 
 module load miniconda
 conda activate slurm_demo
