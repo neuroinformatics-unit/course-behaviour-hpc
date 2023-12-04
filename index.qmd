@@ -440,7 +440,7 @@ scancel -u <USERNAME>
 
 # Example: pose estimation with SLEAP {background-color="#03A062"}
 
-## Modern behavioural analysis
+## Modern behavioural analysis {.smaller}
 
 :::: {.columns}
 
@@ -458,7 +458,7 @@ scancel -u <USERNAME>
 ::::
 
 ::: aside
-[Open-source tools for behavioral video analysis: Setup, methods, and best practices](https://elifesciences.org/articles/79305)
+Source: [Open-source tools for behavioral video analysis: Setup, methods, and best practices](https://elifesciences.org/articles/79305)
 :::
 
 ## Pose estimation {.smaller}
@@ -471,7 +471,7 @@ scancel -u <USERNAME>
 :::
 
 ::: aside
-[Quantifying behavior to understand the brain](https://www.nature.com/articles/s41593-020-00734-z)
+Source: [Quantifying behavior to understand the brain](https://www.nature.com/articles/s41593-020-00734-z)
 :::
 
 ## Pose estimation software {.smaller}
@@ -522,12 +522,24 @@ Many others:
 ## Labeling data locally
 ![](img/sleap-labeling.png){fig-align=center}
 
-## Exporting a training job
+## Exporting a training job package
 ![](img/sleap-training.png){fig-align=center}
 
-## Training job package contents
+::: aside
+see also [SLEAP's guide for remote training](https://sleap.ai/guides/remote.html)
+:::
 
-`labels.v001.slp.training_job.zip` => unzip
+## Copy the training job package {.smaller}
+
+If you want to follow along with the next steps,
+feel free to copy the unzipped training package to 
+your scratch space:
+
+```{.bash}
+cp -r /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/labels.v001.slp.training_job /ceph/scratch/<USERNAME>/
+```
+
+## Training job package contents
 
 ```{.bash code-line-numbers=false}
 # Copy of labelled frames
@@ -545,15 +557,12 @@ inference_script.sh
 jobs.yaml
 ```
 
-## Finding our project on the HPC {.smaller}
+## Find  {.smaller}
 
-```{.bash code-line-numbers="1-3|5-8|10-12|14-15"}
-# Logging into the HPC cluster
-ssh <SWC-USERNAME>@ssh.swc.ucl.ac.uk # Provide password
-ssh hpc-gw1 # Provide password again
+```{.bash code-line-numbers="1-3|5-7|8-10|11-12"}
+# Navigate to your scratch space
+cd /ceph/scratch/<USERNAME>
 
-# Navigate to your SLEAP project
-cd /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023
 # Check the contents of your folder
 ls -l
 
@@ -575,7 +584,22 @@ sleap-train centered_instance.json labels.v001.pkg.slp
 
 ## Get SLURM to run the script {.smaller}
 
+![](img/swc_hpc_access_flowchart.png){fig-align="center" width=100%}
+
 ::: {.panel-tabset}
+
+### Batch
+Main method for submitting jobs
+
+- Prepare a batch script, e.g. `train_slurm.sh`
+- Submit the job:
+  ```{.bash code-line-numbers=false}
+  sbatch train_slurm.sh
+  ```
+- Monitor job status: 
+  ```{.bash code-line-numbers=false}
+  squeue -u <SWC-USERNAME>
+  ```
 
 ### Interactive
 Suitable for debugging (immediate feedback)
@@ -593,25 +617,6 @@ Suitable for debugging (immediate feedback)
   # Stop the session
   exit
   ```
-
-### Batch
-Main method for submitting jobs
-
-- Prepare a batch script, e.g. `train_script.sbatch`
-- Submit the job:
-  ```{.bash code-line-numbers=false}
-  sbatch train_script.sbatch
-  ```
-- Monitor job status: 
-  ```{.bash code-line-numbers=false}
-  squeue -u <SWC-USERNAME>
-  ```
-
-### Array batch
-Useful for submitting many similar jobs
-
-- Write a batch script
-- Execute the script over an array of inputs in parallel
 :::
 
 ## Further reading
