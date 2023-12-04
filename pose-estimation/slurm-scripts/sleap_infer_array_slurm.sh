@@ -24,7 +24,7 @@ VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-
 VIDEO1_PREFIX=sub-01_ses-01_task-EPM_time-165049
 VIDEO2_PREFIX=sub-02_ses-01_task-EPM_time-185651
 VIDEOS_PREFIXES=($VIDEO1_PREFIX $VIDEO2_PREFIX)
-CURRENT_VIDEO_PREFIX=${VIDEOS_PREFIXES[$SLURM_ARRAY_TASK_ID]}
+CURRENT_VIDEO_PREFIX=${VIDEOS_PREFIXES[$SLURM_ARRAY_TASK_ID - 1]}
 echo "Current video prefix: $CURRENT_VIDEO_PREFIX"
 
 # Go to the job directory
@@ -37,6 +37,6 @@ mkdir -p predictions
 sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}_video.mp4 \
     -m $SLP_JOB_DIR/models/231130_160757.centroid/training_config.json \
     -m $SLP_JOB_DIR/models/231130_160757.centered_instance/training_config.json \
-    -o predictions/${CURRENT_VIDEO_PREFIX}_array_predictions.slp \
+    -o $SLP_JOB_DIR/predictions/${CURRENT_VIDEO_PREFIX}_array_predictions.slp \
     --gpu auto \
     --no-empty-frames

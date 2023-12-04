@@ -615,7 +615,7 @@ Main method for submitting jobs
   ```
 - Monitor job status: 
   ```{.bash code-line-numbers=false}
-  squeue -u <SWC-USERNAME>
+  squeue --me
   ```
 :::
 
@@ -728,8 +728,9 @@ cat slurm.slp_train.gpu-380-18.4232289.err
 :::
 
 ## View trained models {.smaller}
-
+While you wait for the training job to finish, you can copy and inspect the trained models from a previous run:
 ```{.bash code-line-numbers="false"}
+cp -R /ceph/scratch/sirmpilatzen/labels.v001.slp.training_job/models /ceph/scratch/$USER/labels.v001.slp.training_job/
 cd /ceph/scratch/$USER/labels.v001.slp.training_job/models
 ls
 ```
@@ -810,7 +811,7 @@ mkdir -p predictions
 sleap-track $VIDEO_DIR/${VIDEO1_PREFIX}_video.mp4 \
     -m $SLP_JOB_DIR/models/231130_160757.centroid/training_config.json \
     -m $SLP_JOB_DIR/models/231130_160757.centered_instance/training_config.json \
-    -o predictions/${VIDEO1_PREFIX}_predictions.slp \
+    -o $SLP_JOB_DIR/predictions/${VIDEO1_PREFIX}_predictions.slp \
     --gpu auto \
     --no-empty-frames
 ```
@@ -839,7 +840,52 @@ squeue --me
 %%| fig-height: 500px
 ```
 
-## Batch script for array job
+## Batch script for array job {.smaller}
+
+```{.bash filename="sleap_inference_slurm_array.sh" code-line-numbers="14|24-28|36-42"}
+#!/bin/bash
+
+#SBATCH -J slp_infer # job name
+#SBATCH -p gpu # partition
+#SBATCH -N 1   # number of nodes
+#SBATCH --mem 64G # memory pool for all cores
+#SBATCH -n 32 # number of cores
+#SBATCH -t 0-01:00 # time (D-HH:MM)
+#SBATCH --gres gpu:rtx5000:1 # request 1 RTX5000 GPU
+#SBATCH -o slurm.%x.%N.%j.out # write STDOUT
+#SBATCH -e slurm.%x.%N.%j.err # write STDERR
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=user@domain.com
+#SBATCH --array=1-2
+
+# Load the SLEAP module
+module load SLEAP
+
+# Define directories for exported SLEAP job package and videos
+SLP_JOB_NAME=labels.v001.slp.training_job
+SLP_JOB_DIR=/ceph/scratch/$USER/$SLP_JOB_NAME
+VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos
+
+VIDEO1_PREFIX=sub-01_ses-01_task-EPM_time-165049
+VIDEO2_PREFIX=sub-02_ses-01_task-EPM_time-185651
+VIDEOS_PREFIXES=($VIDEO1_PREFIX $VIDEO2_PREFIX)
+CURRENT_VIDEO_PREFIX=${VIDEOS_PREFIXES[$SLURM_ARRAY_TASK_ID - 1]}
+echo "Current video prefix: $CURRENT_VIDEO_PREFIX"
+
+# Go to the job directory
+cd $SLP_JOB_DIR
+
+# Make a directory to store the predictions
+mkdir -p predictions
+
+# Run the inference command
+sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}_video.mp4 \
+    -m $SLP_JOB_DIR/models/231130_160757.centroid/training_config.json \
+    -m $SLP_JOB_DIR/models/231130_160757.centered_instance/training_config.json \
+    -o $SLP_JOB_DIR/predictions/${CURRENT_VIDEO_PREFIX}_array_predictions.slp \
+    --gpu auto \
+    --no-empty-frames
+```
 
 ## Further reading
 * [SWC/GCNU Scientific Computing wiki](https://wiki.ucl.ac.uk/display/SSC/High+Performance+Computing)
