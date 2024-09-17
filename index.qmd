@@ -95,7 +95,7 @@ my-custom-stuff:
     * Typically in the GB-TB range
 :::
 ::: {.fragment}
-* Network storage (ceph)
+* Network storage (e.g. ceph)
     * Shared storage accessible from multiple machines
     * Typically in the TB-PB range
     * High latency compared to local storage
