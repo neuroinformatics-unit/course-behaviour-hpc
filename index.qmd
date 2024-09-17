@@ -45,10 +45,95 @@ my-custom-stuff:
 
 ## Contents
 
+* Hardware overview
 * Introduction to High Performance Computing
 * SWC HPC system
 * Using the job scheduler
 * Running pose estimation on the SWC HPC
+
+## Hardware overview {.smaller}
+::: {.fragment}
+* CPU (Central Processing Unit)
+    * General-purpose
+    * Split into cores (typically between 4 and 64)
+    * Each core can run a separate process
+    * Typically higher clock speed than GPU (~3-5GHz)
+:::
+::: {.fragment}
+* GPU (Graphics Processing Unit)
+    * Originally for rendering graphics
+    * Thousands of cores
+    * Optimised for parallel processing of matrix multiplication
+    * Typically lower clock speed than CPU (~1-2GHz)
+:::
+
+## Hardware overview {.smaller}
+#### Primary storage:
+
+::: {.fragment}
+* Cache
+    * Small, fast memory
+    * Stores frequently accessed data
+    * Fastest outside of CPU/GPU registers
+    * Typically in the MB range with multiple levels
+:::
+::: {.fragment}
+* Main memory (RAM/VRAM)
+    * Fast storage for data
+    * CPU/GPU can access data quickly
+    * Lost when machine is powered off
+    * Typically 8-512 GB range
+:::
+
+## Hardware overview {.smaller}
+#### Secondary storage:
+
+::: {.fragment}
+* Drive storage (HDD/SSD)
+    * Much slower than RAM
+    * SSDs faster than HDDs
+    * Typically in the GB-TB range
+:::
+::: {.fragment}
+* Network storage (e.g. ceph)
+    * Shared storage accessible from multiple machines
+    * Typically in the TB-PB range
+    * High latency compared to local storage
+:::
+
+## Hardware overview {.smaller}
+![](img/memory_hierarchy.png){fig-align="center" width="80%"}
+
+::: aside
+Source: [Dive into Systems](https://diveintosystems.org/book/C11-MemHierarchy/mem_hierarchy.html)
+:::
+
+## Hardware overview {.smaller}
+![](img/bandwidth_interfaces.png){fig-align="center" width="60%"}
+
+::: aside
+Source: [High Performance Python](https://learning.oreilly.com/library/view/high-performance-python/9781492055013/)
+:::
+
+
+## Performance considerations {.smaller}
+::: {.fragment}
+* CPU
+    * Frequency is important for single-threaded tasks
+    * More cores can be better for parallel tasks
+    * Sometimes your local machine is faster than the HPC for CPU tasks
+:::
+::: {.fragment}
+* GPU
+    * Great for parallel tasks (e.g. machine learning)
+    * Memory is important - make sure your data fits in VRAM
+    * Generation can be important, a new generation is typically ~10 -- 20% faster
+:::
+::: {.fragment}
+* Storage
+    * Best if you can keep data in primary memory (Cache/RAM)
+    * If data doesn't fit in memory make sure it's on fast storage (local)
+:::
 
 ## Introduction to High Performance Computing (HPC) {.smaller}
 * Lots of meanings
