@@ -1,13 +1,13 @@
 ---
 title: Running pose estimation on the SWC HPC system
-author: Adam Tyson, Niko Sirmpilatze & Laura Porta
+author: Adam Tyson, Niko Sirmpilatze & Igor Tatarnikov
 execute: 
   enabled: true
 format:
     revealjs:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        footer: "SWC | 2023-12-04"
+        footer: "SWC | 2024-10-04"
         slide-number: c
         menu:
             numbers: true
@@ -27,7 +27,7 @@ format:
     html:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        date: "2023-12-06"
+        date: "2024-10-04"
         toc: true
         code-overflow: scroll
         highlight-style: atom-one
