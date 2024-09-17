@@ -67,7 +67,9 @@ my-custom-stuff:
     * Typically lower clock speed than CPU (~1-2GHz)
 :::
 
-## Primary storage {.smaller}
+## Hardware overview {.smaller}
+#### Primary storage:
+
 ::: {.fragment}
 * Cache
     * Small, fast memory
@@ -83,7 +85,9 @@ my-custom-stuff:
     * Typically 8-512 GB range
 :::
 
-## Secondary storage {.smaller}
+## Hardware overview {.smaller}
+#### Secondary storage:
+
 ::: {.fragment}
 * Drive storage (HDD/SSD)
     * Much slower than RAM
