@@ -355,7 +355,7 @@ See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev
 ## Partitions
 
 ## Interactive job
-Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`).
+Start an interactive job (`bash -i`) in the fast partition (`-p fast`) in pseudoterminal mode (`--pty`) with one CPU core (`-n 1`).
 ```bash
 srun -p fast -n 1 --pty bash -i
 ```
