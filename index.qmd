@@ -187,12 +187,6 @@ ssh <USERNAME>@hpc-gw1
 
 This node is fine for light work, but no intensive analyses
 
-## Logging in
-
-![](img/swc_hpc_access_flowchart.png){fig-align="center" width=100%}
-
-. . .
-
 ::: {.callout-tip}
 ## More details
 
@@ -203,7 +197,7 @@ See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev
 
 * `/nfs/nhome/live/<USERNAME>` or `/nfs/ghome/live/<USERNAME>` 
   * "Home drive" (SWC/GCNU), also at `~/`
-* `/nfs/winstor/<group>` - Old SWC research data storage (read-only soon)
+* `/nfs/winstor/<group>` - Old SWC research data storage
 * `/nfs/gatsbystor` - GCNU data storage
 * `/ceph/<group>` - Current research data storage
 * `/ceph/scratch` - Not backed up, for short-term storage
@@ -241,15 +235,19 @@ Preinstalled packages available for use, including:
 :::: {.columns}
 
 ::: {.column width="40%"}
+* ANTs
 * BrainGlobe
 * CUDA
+* DeepLabCut
+* FSL
 * Julia
-* Kilosort
 :::
 
 ::: {.column width="60%"}
+* Kilosort
 * mamba
 * MATLAB
+* neuron
 * miniconda
 * SLEAP
 :::
@@ -281,7 +279,7 @@ module unload SLEAP
 
 Load a specific version
 ```bash
-module load SLEAP/2023-08-01
+module load SLEAP/2024-08-14
 ```
 . . .
 
@@ -305,20 +303,22 @@ sinfo
 ```
 
 ```
-atyson@sgw2:~$ sinfo
+atyson@hpc-gw1:~$ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-cpu*         up   infinite     29  idle~ enc1-node[1,3-14],enc2-node[1-10,12-13],enc3-node[5-8]
-cpu*         up   infinite      1  down* enc3-node3
-cpu*         up   infinite      2    mix enc1-node2,enc2-node11
-cpu*         up   infinite      5   idle enc3-node[1-2,4],gpu-380-[24-25]
-gpu          up   infinite      9    mix gpu-350-[01,03-05],gpu-380-[10,13],gpu-sr670-[20-22]
-gpu          up   infinite      9   idle gpu-350-02,gpu-380-[11-12,14-18],gpu-sr670-23
-medium       up   12:00:00      4  idle~ enc3-node[5-8]
-medium       up   12:00:00      1  down* enc3-node3
-medium       up   12:00:00      1    mix gpu-380-10
-medium       up   12:00:00     10   idle enc3-node[1-2,4],gpu-380-[11-12,14-18]
-fast         up    3:00:00      1    mix gpu-380-10
-fast         up    3:00:00      9   idle enc1-node16,gpu-380-[11-12,14-18],gpu-erlich01
+cpu*         up 10-00:00:0      1   mix# gpu-380-25
+cpu*         up 10-00:00:0     31    mix enc1-node[1-14],enc2-node[1-13],enc3-node[6-8],gpu-380-24
+cpu*         up 10-00:00:0      4  alloc enc3-node[1-2,4-5]
+gpu          up 10-00:00:0      1   mix# gpu-380-15
+gpu          up 10-00:00:0      1  down~ gpu-380-16
+gpu          up 10-00:00:0     12    mix gpu-350-[01-05], gpu-380-[11,13-14,17-18],gpu-sr670-[20,22]
+a100         up 30-00:00:0      2    mix gpu-sr670-[21,23]
+lmem         up 10-00:00:0      1  idle~ gpu-380-12
+medium       up   12:00:00      1   mix# gpu-380-15
+medium       up   12:00:00      1  down~ gpu-380-16
+medium       up   12:00:00      7    mix enc3-node[6-8],gpu-380-[11,14,17-18]
+medium       up   12:00:00      4  alloc enc3-node[1-2,4-5]
+fast         up    3:00:00      2  idle~ enc1-node16,gpu-erlich01
+fast         up    3:00:00      4    mix gpu-380-[11,14,17-18]
 ```
 
 ##
@@ -329,7 +329,7 @@ squeue
 ```
 
 ```
-atyson@sgw2:~$ squeue
+atyson@hpc-gw1:~$ squeue
 JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 4036257       cpu     bash   imansd  R 13-01:10:01      1 enc1-node2
 4050946       cpu      zsh apezzott  R 1-01:02:30      1 enc2-node11
@@ -357,7 +357,7 @@ See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev
 ## Interactive job
 Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`).
 ```bash
-srun -p cpu --pty bash -i
+srun -p fast -n 1 --pty bash -i
 ```
 . . .
 
@@ -373,31 +373,17 @@ git clone https://github.com/neuroinformatics-unit/course-software-skills-hpc
 
 . . .
 
-Check out list of available modules
-```bash
-module avail
-```
-. . .
-
-Load the miniconda module
-```bash
-module load miniconda
-```
-
-## 
-
-
-Create conda environment
+Make the script executable
 ```bash
 cd course-software-skills-hpc/demo
-conda env create -f env.yml
+chmod +x multiply.sh
 ```
+
 . . .
 
-Activate conda environment and run Python script
+Run the script
 ```bash
-conda activate slurm_demo
-python multiply.py 5 10 --jazzy
+./multiply.sh 10 5
 ```
 . . .
 
@@ -418,23 +404,17 @@ cat batch_example.sh
 ```bash
 #!/bin/bash
 
-#SBATCH -p gpu # partition (queue)
+#SBATCH -p fast # partition (queue)
 #SBATCH -N 1   # number of nodes
-#SBATCH --mem 2G # memory pool for all cores
-#SBATCH -n 2 # number of cores
-#SBATCH -t 0-0:10 # time (D-HH:MM)
+#SBATCH --mem 1G # memory pool for all cores
+#SBATCH -n 1 # number of cores
+#SBATCH -t 0-0:1 # time (D-HH:MM)
 #SBATCH -o slurm_output.out
 #SBATCH -e slurm_error.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=adam.tyson@ucl.ac.uk
-
-module load miniconda
-conda activate slurm_demo
 
 for i in {1..5}
 do
-  echo "Multiplying $i by 10"
-  python multiply.py $i 10 --jazzy
+  ./multiply.sh $i 10
 done
 ```
 
@@ -457,25 +437,20 @@ cat array_example.sh
 ```bash
 #!/bin/bash
 
-#SBATCH -p gpu # partition (queue)
+#SBATCH -p fast # partition (queue)
 #SBATCH -N 1   # number of nodes
-#SBATCH --mem 2G # memory pool for all cores
-#SBATCH -n 2 # number of cores
-#SBATCH -t 0-0:10 # time (D-HH:MM)
+#SBATCH --mem 1G # memory pool for all cores
+#SBATCH -n 1 # number of cores
+#SBATCH -t 0-0:1 # time (D-HH:MM)
 #SBATCH -o slurm_array_%A-%a.out
 #SBATCH -e slurm_array_%A-%a.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=adam.tyson@ucl.ac.uk
 #SBATCH --array=0-9%4
 
 # Array job runs 10 separate jobs, but not more than four at a time.
 # This is flexible and the array ID ($SLURM_ARRAY_TASK_ID) can be used in any way.
 
-module load miniconda
-conda activate slurm_demo
-
 echo "Multiplying $SLURM_ARRAY_TASK_ID by 10"
-python multiply.py $SLURM_ARRAY_TASK_ID 10 --jazzy
+./multiply.sh $SLURM_ARRAY_TASK_ID 10 
 ```
 
 ## 
