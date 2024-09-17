@@ -67,7 +67,7 @@ my-custom-stuff:
     * Typically lower clock speed than CPU (~1-2GHz)
 :::
 
-## Hardware overview {.smaller}
+## Primary storage {.smaller}
 ::: {.fragment}
 * Cache
     * Small, fast memory
@@ -76,16 +76,16 @@ my-custom-stuff:
     * Typically in the MB range with multiple levels
 :::
 ::: {.fragment}
-* Memory (RAM/VRAM)
+* Main memory (RAM/VRAM)
     * Fast storage for data
     * CPU/GPU can access data quickly
     * Lost when machine is powered off
     * Typically 8-512 GB range
 :::
 
-## Hardware overview {.smaller}
+## Secondary storage {.smaller}
 ::: {.fragment}
-* Storage
+* Drive storage (HDD/SSD)
     * Much slower than RAM
     * SSDs faster than HDDs
     * Typically in the GB-TB range
@@ -98,10 +98,10 @@ my-custom-stuff:
 :::
 
 ## Hardware overview {.smaller}
-![](img/memory_unit_characteristics.png){fig-align="center" width="60%"}
+![](img/memory_hierarchy.png){fig-align="center" width="80%"}
 
 ::: aside
-Source: [High Performance Python](https://learning.oreilly.com/library/view/high-performance-python/9781492055013/)
+Source: [Dive into Systems](https://diveintosystems.org/book/C11-MemHierarchy/mem_hierarchy.html)
 :::
 
 ## Hardware overview {.smaller}
@@ -114,11 +114,6 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
 
 ## Performance considerations {.smaller}
 ::: {.fragment}
-* Storage
-    * Best if you can keep data in memory (RAM)
-    * If data doesn't fit in memory make sure it's on fast storage (local)
-:::
-::: {.fragment}
 * CPU
     * Frequency is important for single-threaded tasks
     * More cores can be better for parallel tasks
@@ -129,6 +124,11 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
     * Great for parallel tasks (e.g. machine learning)
     * Memory is important - make sure your data fits in VRAM
     * Generation can be important, a new generation is typically ~10 -- 20% faster
+:::
+::: {.fragment}
+* Storage
+    * Best if you can keep data in primary memory (Cache/RAM)
+    * If data doesn't fit in memory make sure it's on fast storage (local)
 :::
 
 ## Introduction to High Performance Computing (HPC) {.smaller}
