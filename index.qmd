@@ -74,7 +74,7 @@ my-custom-stuff:
 * Cache
     * Small, fast memory
     * Stores frequently accessed data
-    * Fastest outside of CPU/GPU registers
+    * Sits directly on the CPU/GPU
     * Typically in the MB range with multiple levels
 :::
 ::: {.fragment}
