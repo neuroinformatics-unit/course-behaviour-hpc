@@ -1,4 +1,4 @@
-##
+# Basic Linux Commands {.smaller}
 
 ## `cd`: Navigate Directories {.smaller}
 - `cd [directory]` -- Changes the current working directory to the specified directory.
