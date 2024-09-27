@@ -27,11 +27,13 @@
 - `rm -f [file]` - Removes to force remove a file (no undo be careful!).
 
 
-## `mv`: Move or Rename {.smaller}
+## `mv` and `cp`: Move, Rename and Copy {.smaller}
+- `cp [source] [destination]` -- Copies a file or directory to the destination.
 - `mv [source] [destination]` -- Moves a file or directory to the destination.
-- Can also be used to rename a file or directory if the source and destination directories match.
+- `mv` can also be used to rename a file or directory if the source and destination directories match.
 
 ```{bash}
+cp file.txt /new/location/
 mv file.txt /new/location/
 mv old_name.txt new_name.txt
 ```
