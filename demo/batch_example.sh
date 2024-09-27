@@ -1,18 +1,14 @@
 #!/bin/bash
 
-#SBATCH -p gpu # partition (queue)
+#SBATCH -p fast # partition (queue)
 #SBATCH -N 1   # number of nodes
-#SBATCH --mem 2G # memory pool for all cores
-#SBATCH -n 2 # number of cores
-#SBATCH -t 0-0:10 # time (D-HH:MM)
+#SBATCH --mem 1G # memory pool for all cores
+#SBATCH -n 1 # number of cores
+#SBATCH -t 0-0:1 # time (D-HH:MM)
 #SBATCH -o slurm_output.out
 #SBATCH -e slurm_error.err
 
-module load miniconda
-conda activate slurm_demo
-
 for i in {1..5}
 do
-  echo "Multiplying $i by 10"
-  python multiply.py $i 10 --jazzy
+  ./multiply.sh $i 10
 done
