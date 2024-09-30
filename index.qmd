@@ -839,7 +839,7 @@ see also the SLEAP [model evaluation notebook](https://sleap.ai/notebooks/Model_
 
 ## Batch script for inference {.smaller}
 
-```{.bash filename="sleap_inference_slurm.sh" code-line-numbers="1-16|18-22|24-28|30-36"}
+```{.bash filename="sleap_infer_slurm.sh" code-line-numbers="1-16|18-22|24-28|30-36"}
 #!/bin/bash
 
 #SBATCH -J slp_infer # job name
@@ -882,12 +882,12 @@ sleap-track $VIDEO_DIR/${VIDEO1_PREFIX}_video.mp4 \
 
 1. Edit and save the batch script
 ```{.bash code-line-numbers="false"}
-nano sleap_inference_slurm.sh
+nano sleap_infer_slurm.sh
 ```
 
 2. Submit the job
 ```{.bash code-line-numbers="false"}
-sbatch sleap_inference_slurm.sh
+sbatch sleap_infer_slurm.sh
 ```
 
 3. Monitor the job
@@ -904,7 +904,7 @@ squeue --me
 
 ## Batch script for array job {.smaller}
 
-```{.bash filename="sleap_inference_slurm_array.sh" code-line-numbers="14|24-28|36-42"}
+```{.bash filename="sleap_infer_array_slurm.sh" code-line-numbers="14|24-28|36-42"}
 #!/bin/bash
 
 #SBATCH -J slp_infer # job name
