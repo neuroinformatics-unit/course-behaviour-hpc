@@ -368,14 +368,14 @@ Always start a job (interactive or batch) before doing anything intensive to spa
 Clone a test script
 ```bash
 cd ~/
-git clone https://github.com/neuroinformatics-unit/course-software-skills-hpc
+git clone https://github.com/neuroinformatics-unit/course-behaviour-hpc
 ```
 
 . . .
 
 Make the script executable
 ```bash
-cd course-software-skills-hpc/demo
+cd course-behaviour-hpc/demo
 chmod +x multiply.sh
 ```
 
@@ -397,7 +397,7 @@ exit
 
 Check out batch script:
 ```bash
-cd course-software-skills-hpc/demo
+cd course-behaviour-hpc/demo
 cat batch_example.sh
 ```
 
@@ -682,7 +682,7 @@ Main method for submitting jobs
 ## See example batch scripts
 
 ```{.bash code-line-numbers="false"}
-cd ~/course-software-skills-hpc/pose-estimation/slurm-scripts
+cd ~/course-behaviour-hpc/pose-estimation/slurm-scripts
 ls
 ```
 
