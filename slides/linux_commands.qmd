@@ -32,7 +32,7 @@
 - `mv [source] [destination]` -- Moves a file or directory to the destination.
 - `mv` can also be used to rename a file or directory if the source and destination directories match.
 
-```{bash}
+```{.bash}
 cp file.txt /new/location/
 mv file.txt /new/location/
 mv old_name.txt new_name.txt
@@ -45,7 +45,7 @@ mv old_name.txt new_name.txt
 - `>` -- Redirects output to a file.
 - `>>` -- Appends output to a file.
 
-```{bash}
+```{.bash}
 echo "Hello, Linux!"
 touch file.txt
 echo "Hello, Linux!" > file.txt
@@ -56,7 +56,7 @@ echo $HOME >> file.txt
 - `watch [command]` -- Repeatedly runs a command at intervals and displays the result.
 - Use `watch -n [seconds] [command]` to change the interval.
 
-```{bash}
+```{.bash}
 watch -n 0.5 nvidia-smi
 ```
 
@@ -64,7 +64,7 @@ watch -n 0.5 nvidia-smi
 - `man [command]` -- Opens the manual page for a command.
 - `help [command]` -- Provides a short description of built-in commands.
 
-```{bash}
+```{.bash}
 man ls
 help cd
 ```
@@ -75,7 +75,7 @@ Description:
 - `|` -- Pipes the output of one command as input to another.
 - Useful for chaining commands together to perform complex operations.
 
-```{bash}
+```{.bash}
 ls | grep ".txt"
 cat large_log_file.log | grep "ERROR" | less
 ```
