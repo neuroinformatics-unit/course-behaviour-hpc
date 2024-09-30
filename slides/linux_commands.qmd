@@ -1,0 +1,79 @@
+## `cd`: Navigate Directories {.smaller}
+- `cd [directory]` -- Changes the current working directory to the specified directory.
+- `cd ..` -- Move up one directory level.
+- `cd /path/to/directory` -- Go to a specific path.
+- `cd ~` or `cd` -- Go to the home directory.
+- `cd /` -- Go to the root directory.
+
+## `ls`: List Directory Contents {.smaller}
+- `ls` -- Lists files and directories in the current working directory.
+- `ls -l` -- Displays detailed information about each file (permissions, owner, size, etc.).
+- `ls -a` -- Shows all files, including hidden files (files starting with a dot).
+- `ls -h` -- Displays sizes in human-readable format (e.g., KB, MB).
+- `ls -lah` -- Combines the above options.
+
+
+## `mkdir`: Make Directory {.smaller}
+- `mkdir [directory_name]` -- Creates a new directory with the specified name.
+- `mkdir -p /path/to/dir` to create nested directories.
+
+
+## `rmdir` and `rm`: Remove Directories and Files {.smaller}
+- `rm [file] `-- Removes a file.
+- `rmdir [directory]` -- Removes an empty directory.
+- `rm -r [directory]` - Removes a directory and its contents recursively.
+- `rm -f [file]` - Removes to force remove a file (no undo be careful!).
+
+
+## `mv` and `cp`: Move, Rename and Copy {.smaller}
+- `cp [source] [destination]` -- Copies a file or directory to the destination.
+- `mv [source] [destination]` -- Moves a file or directory to the destination.
+- `mv` can also be used to rename a file or directory if the source and destination directories match.
+
+```{.bash}
+cp file.txt /new/location/
+mv file.txt /new/location/
+mv old_name.txt new_name.txt
+```
+
+## Input and Output {.smaller}
+- `echo [text]` -- Displays text or outputs text to a file.
+- `echo $ENV_VAR` -- Displays the value of an environment variable.
+- `touch [filename]` -- Creates an empty file or updates the timestamp of an existing file.
+- `>` -- Redirects output to a file.
+- `>>` -- Appends output to a file.
+
+```{.bash}
+echo "Hello, Linux!"
+touch file.txt
+echo "Hello, Linux!" > file.txt
+echo $HOME >> file.txt
+```
+
+## `watch`: Monitor Command Output {.smaller}
+- `watch [command]` -- Repeatedly runs a command at intervals and displays the result.
+- Use `watch -n [seconds] [command]` to change the interval.
+
+```{.bash}
+watch -n 0.5 nvidia-smi
+```
+
+## man and help: Get Help {.smaller}
+- `man [command]` -- Opens the manual page for a command.
+- `help [command]` -- Provides a short description of built-in commands.
+
+```{.bash}
+man ls
+help cd
+```
+
+## `|`: Pipes!{.smaller}
+Description:
+
+- `|` -- Pipes the output of one command as input to another.
+- Useful for chaining commands together to perform complex operations.
+
+```{.bash}
+ls | grep ".txt"
+cat large_log_file.log | grep "ERROR" | less
+```
