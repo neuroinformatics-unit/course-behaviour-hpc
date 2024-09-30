@@ -3,15 +3,15 @@
 #SBATCH -J slp_infer # job name
 #SBATCH -p gpu # partition
 #SBATCH -N 1   # number of nodes
-#SBATCH --mem 64G # memory pool for all cores
-#SBATCH -n 32 # number of cores
+#SBATCH --mem 32G # memory pool for all cores
+#SBATCH -n 8 # number of cores
 #SBATCH -t 0-01:00 # time (D-HH:MM)
-#SBATCH --gres gpu:rtx5000:1 # request 1 RTX5000 GPU
+#SBATCH --gres gpu:1 # request 1 GPU
 #SBATCH -o slurm.%x.%N.%j.out # write STDOUT
 #SBATCH -e slurm.%x.%N.%j.err # write STDERR
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
-#SBATCH --array=1-2
+#SBATCH --array=0-1
 
 # Load the SLEAP module
 module load SLEAP
@@ -24,7 +24,7 @@ VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-
 VIDEO1_PREFIX=sub-01_ses-01_task-EPM_time-165049
 VIDEO2_PREFIX=sub-02_ses-01_task-EPM_time-185651
 VIDEOS_PREFIXES=($VIDEO1_PREFIX $VIDEO2_PREFIX)
-CURRENT_VIDEO_PREFIX=${VIDEOS_PREFIXES[$SLURM_ARRAY_TASK_ID - 1]}
+CURRENT_VIDEO_PREFIX=${VIDEOS_PREFIXES[$SLURM_ARRAY_TASK_ID]}
 echo "Current video prefix: $CURRENT_VIDEO_PREFIX"
 
 # Go to the job directory
