@@ -3,10 +3,10 @@
 #SBATCH -J slp_infer # job name
 #SBATCH -p gpu # partition
 #SBATCH -N 1   # number of nodes
-#SBATCH --mem 64G # memory pool for all cores
-#SBATCH -n 32 # number of cores
+#SBATCH --mem 32G # memory pool for all cores
+#SBATCH -n 8 # number of cores
 #SBATCH -t 0-01:00 # time (D-HH:MM)
-#SBATCH --gres gpu:rtx5000:1 # request 1 RTX5000 GPU
+#SBATCH --gres gpu:1 # request 1 GPU
 #SBATCH -o slurm.%x.%N.%j.out # write STDOUT
 #SBATCH -e slurm.%x.%N.%j.err # write STDERR
 #SBATCH --mail-type=ALL
