@@ -388,10 +388,6 @@
       margin-right: 0; 
     }
   </style>
-  <meta name="mermaid-theme" content="neutral">
-  <script src="index_files/libs/quarto-diagram/mermaid.min.js"></script>
-  <script src="index_files/libs/quarto-diagram/mermaid-init.js"></script>
-  <link href="index_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -453,7 +449,7 @@ Adam Tyson, Niko Sirmpilatze &amp; Igor Tatarnikov
 <ul>
 <li>Small, fast memory</li>
 <li>Stores frequently accessed data</li>
-<li>Fastest outside of CPU/GPU registers</li>
+<li>Sits directly on the CPU/GPU</li>
 <li>Typically in the MB range with multiple levels</li>
 </ul></li>
 </ul>
@@ -548,6 +544,94 @@ Adam Tyson, Niko Sirmpilatze &amp; Igor Tatarnikov
 </ul>
 </div>
 </section>
+<section id="cd-navigate-directories" class="slide level2 smaller">
+<h2><code>cd</code>: Navigate Directories</h2>
+<ul>
+<li><code>cd [directory]</code> – Changes the current working directory to the specified directory.</li>
+<li><code>cd ..</code> – Move up one directory level.</li>
+<li><code>cd /path/to/directory</code> – Go to a specific path.</li>
+<li><code>cd ~</code> or <code>cd</code> – Go to the home directory.</li>
+<li><code>cd /</code> – Go to the root directory.</li>
+</ul>
+</section>
+<section id="ls-list-directory-contents" class="slide level2 smaller">
+<h2><code>ls</code>: List Directory Contents</h2>
+<ul>
+<li><code>ls</code> – Lists files and directories in the current working directory.</li>
+<li><code>ls -l</code> – Displays detailed information about each file (permissions, owner, size, etc.).</li>
+<li><code>ls -a</code> – Shows all files, including hidden files (files starting with a dot).</li>
+<li><code>ls -h</code> – Displays sizes in human-readable format (e.g., KB, MB).</li>
+<li><code>ls -lah</code> – Combines the above options.</li>
+</ul>
+</section>
+<section id="mkdir-make-directory" class="slide level2 smaller">
+<h2><code>mkdir</code>: Make Directory</h2>
+<ul>
+<li><code>mkdir [directory_name]</code> – Creates a new directory with the specified name.</li>
+<li><code>mkdir -p /path/to/dir</code> to create nested directories.</li>
+</ul>
+</section>
+<section id="rmdir-and-rm-remove-directories-and-files" class="slide level2 smaller">
+<h2><code>rmdir</code> and <code>rm</code>: Remove Directories and Files</h2>
+<ul>
+<li><code>rm [file]</code>– Removes a file.</li>
+<li><code>rmdir [directory]</code> – Removes an empty directory.</li>
+<li><code>rm -r [directory]</code> - Removes a directory and its contents recursively.</li>
+<li><code>rm -f [file]</code> - Removes to force remove a file (no undo be careful!).</li>
+</ul>
+</section>
+<section id="mv-and-cp-move-rename-and-copy" class="slide level2 smaller">
+<h2><code>mv</code> and <code>cp</code>: Move, Rename and Copy</h2>
+<ul>
+<li><code>cp [source] [destination]</code> – Copies a file or directory to the destination.</li>
+<li><code>mv [source] [destination]</code> – Moves a file or directory to the destination.</li>
+<li><code>mv</code> can also be used to rename a file or directory if the source and destination directories match.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href=""></a><span class="fu">cp</span> file.txt /new/location/</span>
+<span id="cb1-2"><a href=""></a><span class="fu">mv</span> file.txt /new/location/</span>
+<span id="cb1-3"><a href=""></a><span class="fu">mv</span> old_name.txt new_name.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="input-and-output" class="slide level2 smaller">
+<h2>Input and Output</h2>
+<ul>
+<li><code>echo [text]</code> – Displays text or outputs text to a file.</li>
+<li><code>echo $ENV_VAR</code> – Displays the value of an environment variable.</li>
+<li><code>touch [filename]</code> – Creates an empty file or updates the timestamp of an existing file.</li>
+<li><code>&gt;</code> – Redirects output to a file.</li>
+<li><code>&gt;&gt;</code> – Appends output to a file.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href=""></a><span class="bu">echo</span> <span class="st">"Hello, Linux!"</span></span>
+<span id="cb2-2"><a href=""></a><span class="fu">touch</span> file.txt</span>
+<span id="cb2-3"><a href=""></a><span class="bu">echo</span> <span class="st">"Hello, Linux!"</span> <span class="op">&gt;</span> file.txt</span>
+<span id="cb2-4"><a href=""></a><span class="bu">echo</span> <span class="va">$HOME</span> <span class="op">&gt;&gt;</span> file.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="watch-monitor-command-output" class="slide level2 smaller">
+<h2><code>watch</code>: Monitor Command Output</h2>
+<ul>
+<li><code>watch [command]</code> – Repeatedly runs a command at intervals and displays the result.</li>
+<li>Use <code>watch -n [seconds] [command]</code> to change the interval.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="ex">watch</span> <span class="at">-n</span> 0.5 nvidia-smi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="man-and-help-get-help" class="slide level2 smaller">
+<h2>man and help: Get Help</h2>
+<ul>
+<li><code>man [command]</code> – Opens the manual page for a command.</li>
+<li><code>help [command]</code> – Provides a short description of built-in commands.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="fu">man</span> ls</span>
+<span id="cb4-2"><a href=""></a><span class="bu">help</span> cd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="pipes" class="slide level2 smaller">
+<h2><code>|</code>: Pipes!</h2>
+<p>Description:</p>
+<ul>
+<li><code>|</code> – Pipes the output of one command as input to another.</li>
+<li>Useful for chaining commands together to perform complex operations.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href=""></a><span class="fu">ls</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">".txt"</span></span>
+<span id="cb5-2"><a href=""></a><span class="fu">cat</span> large_log_file.log <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"ERROR"</span> <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="introduction-to-high-performance-computing-hpc" class="slide level2 smaller">
 <h2>Introduction to High Performance Computing (HPC)</h2>
 <ul>
@@ -598,10 +682,10 @@ Adam Tyson, Niko Sirmpilatze &amp; Igor Tatarnikov
 <section id="logging-in" class="slide level2">
 <h2>Logging in</h2>
 <p>Log into bastion node (not necessary within SWC network)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href=""></a><span class="fu">ssh</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>@ssh.swc.ucl.ac.uk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href=""></a><span class="fu">ssh</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>@ssh.swc.ucl.ac.uk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Log into HPC gateway node</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href=""></a><span class="fu">ssh</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>@hpc-gw1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href=""></a><span class="fu">ssh</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>@hpc-gw1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>This node is fine for light work, but no intensive analyses</p>
@@ -652,10 +736,10 @@ Adam Tyson, Niko Sirmpilatze &amp; Igor Tatarnikov
 <section id="section" class="slide level2">
 <h2></h2>
 <p>Navigate to the scratch space</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="bu">cd</span> /ceph/scratch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a><span class="bu">cd</span> /ceph/scratch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Create a directory for yourself</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="fu">mkdir</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href=""></a><span class="fu">mkdir</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hpc-software" class="slide level2">
@@ -693,22 +777,22 @@ Adam Tyson, Niko Sirmpilatze &amp; Igor Tatarnikov
 <section id="using-modules" class="slide level2">
 <h2>Using modules</h2>
 <p>List available modules</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href=""></a><span class="ex">module</span> avail</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href=""></a><span class="ex">module</span> avail</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Load a module</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href=""></a><span class="ex">module</span> load SLEAP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href=""></a><span class="ex">module</span> load SLEAP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Unload a module</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href=""></a><span class="ex">module</span> unload SLEAP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href=""></a><span class="ex">module</span> unload SLEAP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Load a specific version</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a><span class="ex">module</span> load SLEAP/2024-08-14</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a><span class="ex">module</span> load SLEAP/2024-08-14</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>List loaded modules</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href=""></a><span class="ex">module</span> list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href=""></a><span class="ex">module</span> list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="slurm" class="slide level2">
@@ -724,7 +808,7 @@ Adam Tyson, Niko Sirmpilatze &amp; Igor Tatarnikov
 <section id="slurm-commands" class="slide level2">
 <h2>SLURM commands</h2>
 <p>View a summary of the available resources</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href=""></a><span class="ex">sinfo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a><span class="ex">sinfo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>atyson@hpc-gw1:~$ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
 cpu*         up 10-00:00:0      1   mix# gpu-380-25
@@ -745,7 +829,7 @@ fast         up    3:00:00      4    mix gpu-380-[11,14,17-18]</code></pre>
 <section id="section-1" class="slide level2">
 <h2></h2>
 <p>View currently running jobs (from everyone)</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href=""></a><span class="ex">squeue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="ex">squeue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>atyson@hpc-gw1:~$ squeue
 JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 4036257       cpu     bash   imansd  R 13-01:10:01      1 enc1-node2
@@ -781,7 +865,7 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <section id="interactive-job" class="slide level2">
 <h2>Interactive job</h2>
 <p>Start an interactive job (<code>bash -i</code>) in the fast partition (<code>-p fast</code>) in pseudoterminal mode (<code>--pty</code>) with one CPU core (<code>-n 1</code>).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href=""></a><span class="ex">srun</span> <span class="at">-p</span> fast <span class="at">-n</span> 1 <span class="at">--pty</span> bash <span class="at">-i</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="ex">srun</span> <span class="at">-p</span> fast <span class="at">-n</span> 1 <span class="at">--pty</span> bash <span class="at">-i</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Always start a job (interactive or batch) before doing anything intensive to spare the gateway node.</p>
 </div>
@@ -789,96 +873,96 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <section id="run-some-analysis" class="slide level2">
 <h2>Run some “analysis”</h2>
 <p>Clone a test script</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href=""></a><span class="bu">cd</span> ~/</span>
-<span id="cb15-2"><a href=""></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/course-software-skills-hpc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href=""></a><span class="bu">cd</span> ~/</span>
+<span id="cb20-2"><a href=""></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/course-behaviour-hpc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Make the script executable</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href=""></a><span class="bu">cd</span> course-software-skills-hpc/demo</span>
-<span id="cb16-2"><a href=""></a><span class="fu">chmod</span> +x multiply.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a><span class="bu">cd</span> course-behaviour-hpc/demo</span>
+<span id="cb21-2"><a href=""></a><span class="fu">chmod</span> +x multiply.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Run the script</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="ex">./multiply.sh</span> 10 5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href=""></a><span class="ex">./multiply.sh</span> 10 5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Stop interactive job</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href=""></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="batch-jobs" class="slide level2">
 <h2>Batch jobs</h2>
 <p>Check out batch script:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="bu">cd</span> course-software-skills-hpc/demo</span>
-<span id="cb19-2"><a href=""></a><span class="fu">cat</span> batch_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
-<span id="cb20-2"><a href=""></a></span>
-<span id="cb20-3"><a href=""></a><span class="co">#SBATCH -p fast # partition (queue)</span></span>
-<span id="cb20-4"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
-<span id="cb20-5"><a href=""></a><span class="co">#SBATCH --mem 1G # memory pool for all cores</span></span>
-<span id="cb20-6"><a href=""></a><span class="co">#SBATCH -n 1 # number of cores</span></span>
-<span id="cb20-7"><a href=""></a><span class="co">#SBATCH -t 0-0:1 # time (D-HH:MM)</span></span>
-<span id="cb20-8"><a href=""></a><span class="co">#SBATCH -o slurm_output.out</span></span>
-<span id="cb20-9"><a href=""></a><span class="co">#SBATCH -e slurm_error.err</span></span>
-<span id="cb20-10"><a href=""></a></span>
-<span id="cb20-11"><a href=""></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">5</span><span class="dt">}</span></span>
-<span id="cb20-12"><a href=""></a><span class="cf">do</span></span>
-<span id="cb20-13"><a href=""></a>  <span class="ex">./multiply.sh</span> <span class="va">$i</span> 10</span>
-<span id="cb20-14"><a href=""></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href=""></a><span class="bu">cd</span> course-behaviour-hpc/demo</span>
+<span id="cb24-2"><a href=""></a><span class="fu">cat</span> batch_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a><span class="co">#SBATCH -p fast # partition (queue)</span></span>
+<span id="cb25-4"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
+<span id="cb25-5"><a href=""></a><span class="co">#SBATCH --mem 1G # memory pool for all cores</span></span>
+<span id="cb25-6"><a href=""></a><span class="co">#SBATCH -n 1 # number of cores</span></span>
+<span id="cb25-7"><a href=""></a><span class="co">#SBATCH -t 0-0:1 # time (D-HH:MM)</span></span>
+<span id="cb25-8"><a href=""></a><span class="co">#SBATCH -o slurm_output.out</span></span>
+<span id="cb25-9"><a href=""></a><span class="co">#SBATCH -e slurm_error.err</span></span>
+<span id="cb25-10"><a href=""></a></span>
+<span id="cb25-11"><a href=""></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">5</span><span class="dt">}</span></span>
+<span id="cb25-12"><a href=""></a><span class="cf">do</span></span>
+<span id="cb25-13"><a href=""></a>  <span class="ex">./multiply.sh</span> <span class="va">$i</span> 10</span>
+<span id="cb25-14"><a href=""></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="section-2" class="slide level2">
 <h2></h2>
 <p>Run batch job:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a><span class="ex">sbatch</span> batch_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href=""></a><span class="ex">sbatch</span> batch_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="array-jobs" class="slide level2">
 <h2>Array jobs</h2>
 <p>Check out array script:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href=""></a><span class="fu">cat</span> array_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a><span class="co">#SBATCH -p fast # partition (queue)</span></span>
-<span id="cb23-4"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
-<span id="cb23-5"><a href=""></a><span class="co">#SBATCH --mem 1G # memory pool for all cores</span></span>
-<span id="cb23-6"><a href=""></a><span class="co">#SBATCH -n 1 # number of cores</span></span>
-<span id="cb23-7"><a href=""></a><span class="co">#SBATCH -t 0-0:1 # time (D-HH:MM)</span></span>
-<span id="cb23-8"><a href=""></a><span class="co">#SBATCH -o slurm_array_%A-%a.out</span></span>
-<span id="cb23-9"><a href=""></a><span class="co">#SBATCH -e slurm_array_%A-%a.err</span></span>
-<span id="cb23-10"><a href=""></a><span class="co">#SBATCH --array=0-9%4</span></span>
-<span id="cb23-11"><a href=""></a></span>
-<span id="cb23-12"><a href=""></a><span class="co"># Array job runs 10 separate jobs, but not more than four at a time.</span></span>
-<span id="cb23-13"><a href=""></a><span class="co"># This is flexible and the array ID ($SLURM_ARRAY_TASK_ID) can be used in any way.</span></span>
-<span id="cb23-14"><a href=""></a></span>
-<span id="cb23-15"><a href=""></a><span class="bu">echo</span> <span class="st">"Multiplying </span><span class="va">$SLURM_ARRAY_TASK_ID</span><span class="st"> by 10"</span></span>
-<span id="cb23-16"><a href=""></a><span class="ex">./multiply.sh</span> <span class="va">$SLURM_ARRAY_TASK_ID</span> 10 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href=""></a><span class="fu">cat</span> array_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
+<span id="cb28-2"><a href=""></a></span>
+<span id="cb28-3"><a href=""></a><span class="co">#SBATCH -p fast # partition (queue)</span></span>
+<span id="cb28-4"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
+<span id="cb28-5"><a href=""></a><span class="co">#SBATCH --mem 1G # memory pool for all cores</span></span>
+<span id="cb28-6"><a href=""></a><span class="co">#SBATCH -n 1 # number of cores</span></span>
+<span id="cb28-7"><a href=""></a><span class="co">#SBATCH -t 0-0:1 # time (D-HH:MM)</span></span>
+<span id="cb28-8"><a href=""></a><span class="co">#SBATCH -o slurm_array_%A-%a.out</span></span>
+<span id="cb28-9"><a href=""></a><span class="co">#SBATCH -e slurm_array_%A-%a.err</span></span>
+<span id="cb28-10"><a href=""></a><span class="co">#SBATCH --array=0-9%4</span></span>
+<span id="cb28-11"><a href=""></a></span>
+<span id="cb28-12"><a href=""></a><span class="co"># Array job runs 10 separate jobs, but not more than four at a time.</span></span>
+<span id="cb28-13"><a href=""></a><span class="co"># This is flexible and the array ID ($SLURM_ARRAY_TASK_ID) can be used in any way.</span></span>
+<span id="cb28-14"><a href=""></a></span>
+<span id="cb28-15"><a href=""></a><span class="bu">echo</span> <span class="st">"Multiplying </span><span class="va">$SLURM_ARRAY_TASK_ID</span><span class="st"> by 10"</span></span>
+<span id="cb28-16"><a href=""></a><span class="ex">./multiply.sh</span> <span class="va">$SLURM_ARRAY_TASK_ID</span> 10 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="section-3" class="slide level2">
 <h2></h2>
 <p>Run array job:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href=""></a><span class="ex">sbatch</span> array_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href=""></a><span class="ex">sbatch</span> array_example.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="using-gpus" class="slide level2">
 <h2>Using GPUs</h2>
 <p>Start an interactive job with one GPU:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href=""></a><span class="ex">srun</span> <span class="at">-p</span> gpu <span class="at">--gres</span><span class="op">=</span>gpu:1 <span class="at">--pty</span> bash <span class="at">-i</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a><span class="ex">srun</span> <span class="at">-p</span> gpu <span class="at">--gres</span><span class="op">=</span>gpu:1 <span class="at">--pty</span> bash <span class="at">-i</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Load TensorFlow &amp; CUDA</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href=""></a><span class="ex">module</span> load tensorflow</span>
-<span id="cb26-2"><a href=""></a><span class="ex">module</span> load cuda/11.8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href=""></a><span class="ex">module</span> load tensorflow</span>
+<span id="cb31-2"><a href=""></a><span class="ex">module</span> load cuda/11.8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Check GPU</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href=""></a><span class="ex">python</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
-<span id="cb28-2"><a href=""></a>tf.config.list_physical_devices(<span class="st">'GPU'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a><span class="ex">python</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb33-2"><a href=""></a>tf.config.list_physical_devices(<span class="st">'GPU'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="useful-commands" class="slide level2">
 <h2>Useful commands</h2>
 <p>Cancel a job</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href=""></a><span class="ex">scancel</span> <span class="op">&lt;</span>JOBID<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a><span class="ex">scancel</span> <span class="op">&lt;</span>JOBID<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Cancel all your jobs</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href=""></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section>
@@ -886,43 +970,6 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <h1>Example: pose estimation with SLEAP</h1>
 
 </section>
-<section id="modern-behavioural-analysis" class="slide level2 smaller">
-<h2>Modern behavioural analysis</h2>
-<div class="columns">
-<div class="column" style="width:70%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="img/modern_behav_experiment_analysis.png" class="quarto-figure quarto-figure-center" height="400"></p>
-</figure>
-</div>
-</div><div class="column" style="width:30%;">
-<div class="cell" data-reveal="true" data-file="img/diagrams/video_pipeline_pose.mmd" data-fig-height="400px" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class=""><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-    classDef emphasis fill:#03A062;
-
-    video --&gt;|compression/re-encoding | video2["compressed video"]
-    video2 --&gt;|pose estimation + tracking| tracks["pose tracks"]
-    tracks --&gt; |calculations| kinematics
-    tracks --&gt;|classifiers| actions["actions / behav syllables"]
-    video2 --&gt; |comp vision| actions
-
-    linkStyle 1 stroke:#03A062, color:;
-    class video2 emphasis
-    class tracks emphasis</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div></div>
-
-<aside><div>
-<p>Source: <a href="https://elifesciences.org/articles/79305">Open-source tools for behavioral video analysis: Setup, methods, and best practices</a></p>
-</div></aside></section>
 <section id="pose-estimation" class="slide level2 smaller">
 <h2>Pose estimation</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -1007,20 +1054,20 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <section id="training-job-package-contents" class="slide level2 smaller">
 <h2>Training job package contents</h2>
 <p>Copy the unzipped training package to your scratch space and inspect its contents:</p>
-<div class="sourceCode" id="cb31" data-code-line-numbers="1|2-3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href=""></a><span class="fu">cp</span> <span class="at">-r</span> /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/labels.v001.slp.training_job /ceph/scratch/<span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>/</span>
-<span id="cb31-2"><a href=""></a><span class="bu">cd</span> /ceph/scratch/<span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>/labels.v001.slp.training_job</span>
-<span id="cb31-3"><a href=""></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36" data-code-line-numbers="1|2-3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a><span class="fu">cp</span> <span class="at">-r</span> /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/labels.v001.slp.training_job /ceph/scratch/<span class="va">$USER</span>/</span>
+<span id="cb36-2"><a href=""></a><span class="bu">cd</span> /ceph/scratch/<span class="va">$USER</span>/labels.v001.slp.training_job</span>
+<span id="cb36-3"><a href=""></a><span class="fu">ls</span> <span class="at">-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>labels.v001.slp.training_job</strong></pre>
 </div>
-<div class="sourceCode" id="cb32" data-filename="labels.v001.slp.training_job"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">labels.v001.pkg.slp</span>     <span class="co"># Copy of labeled frames</span></span>
-<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">centroid.json</span>           <span class="co"># Model configuration</span></span>
-<span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">centered_instance.json</span>  <span class="co"># Model configuration</span></span>
-<span id="cb32-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">train-script.sh</span>         <span class="co"># Bash script to run training</span></span>
-<span id="cb32-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">inference-script.sh</span>     <span class="co"># Bash script to run inference</span></span>
-<span id="cb32-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs.yaml</span>               <span class="co"># Summary of all jobs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37" data-filename="labels.v001.slp.training_job"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">labels.v001.pkg.slp</span>     <span class="co"># Copy of labeled frames</span></span>
+<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">centroid.json</span>           <span class="co"># Model configuration</span></span>
+<span id="cb37-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">centered_instance.json</span>  <span class="co"># Model configuration</span></span>
+<span id="cb37-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">train-script.sh</span>         <span class="co"># Bash script to run training</span></span>
+<span id="cb37-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">inference-script.sh</span>     <span class="co"># Bash script to run inference</span></span>
+<span id="cb37-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs.yaml</span>               <span class="co"># Summary of all jobs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment">
@@ -1034,7 +1081,7 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 </div>
 <div class="callout-content">
 <p>Make sure all scripts are executable</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x <span class="pp">*</span>.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x <span class="pp">*</span>.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1043,14 +1090,14 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <section id="whats-in-the-sleap-scripts" class="slide level2">
 <h2>What’s in the SLEAP scripts?</h2>
 <p>Training</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> train-script.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-train</span> centroid.json labels.v001.pkg.slp</span>
-<span id="cb35-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-train</span> centered_instance.json labels.v001.pkg.slp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> train-script.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-train</span> centroid.json labels.v001.pkg.slp</span>
+<span id="cb40-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-train</span> centered_instance.json labels.v001.pkg.slp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>Inference</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> inference-script.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> inference-script.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="get-slurm-to-run-the-script" class="slide level2 smaller">
@@ -1062,14 +1109,14 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <p>Suitable for debugging (immediate feedback)</p>
 <ul>
 <li><p>Start an interactive job with one GPU</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">-p</span> gpu <span class="at">--gres</span><span class="op">=</span>gpu:1 <span class="at">--pty</span> bash <span class="at">-i</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">-p</span> gpu <span class="at">--gres</span><span class="op">=</span>gpu:1 <span class="at">--pty</span> bash <span class="at">-i</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>Execute commands one-by-one, e.g.:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load SLEAP</span>
-<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /ceph/scratch/<span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>/labels.v001.slp.training_job</span>
-<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> train-script.sh</span>
-<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop the session</span></span>
-<span id="cb39-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load SLEAP</span>
+<span id="cb44-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /ceph/scratch/<span class="va">$USER</span>/labels.v001.slp.training_job</span>
+<span id="cb44-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> train-script.sh</span>
+<span id="cb44-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop the session</span></span>
+<span id="cb44-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 </div>
 <div id="tabset-1-2">
@@ -1077,9 +1124,9 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <ul>
 <li><p>Prepare a batch script, e.g.&nbsp;<code>sleap_train_slurm.sh</code></p></li>
 <li><p>Submit the job:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sleap_train_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sleap_train_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>Monitor job status:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 </div>
 </div>
@@ -1087,8 +1134,8 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 </section>
 <section id="see-example-batch-scripts" class="slide level2">
 <h2>See example batch scripts</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/course-software-skills-hpc/pose-estimation/slurm-scripts</span>
-<span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/course-behaviour-hpc/pose-estimation/slurm-scripts</span>
+<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
@@ -1100,14 +1147,14 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 </div>
 <div class="callout-content">
 <p>Make sure all scripts are executable</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x <span class="pp">*</span>.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x <span class="pp">*</span>.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="fragment">
 <p>Edit a specific script:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> sleap_train_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> sleap_train_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Save with <code>Ctrl+O</code> (followed by <code>Enter</code>), exit with <code>Ctrl+X</code></p>
 </div>
 </section>
@@ -1117,66 +1164,66 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <div class="code-with-filename-file">
 <pre><strong>sleap_train_slurm.sh</strong></pre>
 </div>
-<div class="sourceCode" id="cb45" data-filename="sleap_train_slurm.sh" data-code-line-numbers="1-13|15-16|18-20|22-26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
-<span id="cb45-2"><a href=""></a></span>
-<span id="cb45-3"><a href=""></a><span class="co">#SBATCH -J slp_train # job name</span></span>
-<span id="cb45-4"><a href=""></a><span class="co">#SBATCH -p gpu # partition (queue)</span></span>
-<span id="cb45-5"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
-<span id="cb45-6"><a href=""></a><span class="co">#SBATCH --mem 16G # memory pool for all cores</span></span>
-<span id="cb45-7"><a href=""></a><span class="co">#SBATCH -n 4 # number of cores</span></span>
-<span id="cb45-8"><a href=""></a><span class="co">#SBATCH -t 0-06:00 # time (D-HH:MM)</span></span>
-<span id="cb45-9"><a href=""></a><span class="co">#SBATCH --gres gpu:1 # request 1 GPU (of any kind)</span></span>
-<span id="cb45-10"><a href=""></a><span class="co">#SBATCH -o slurm.%x.%N.%j.out # STDOUT</span></span>
-<span id="cb45-11"><a href=""></a><span class="co">#SBATCH -e slurm.%x.%N.%j.err # STDERR</span></span>
-<span id="cb45-12"><a href=""></a><span class="co">#SBATCH --mail-type=ALL</span></span>
-<span id="cb45-13"><a href=""></a><span class="co">#SBATCH --mail-user=user@domain.com</span></span>
-<span id="cb45-14"><a href=""></a></span>
-<span id="cb45-15"><a href=""></a><span class="co"># Load the SLEAP module</span></span>
-<span id="cb45-16"><a href=""></a><span class="ex">module</span> load SLEAP</span>
-<span id="cb45-17"><a href=""></a></span>
-<span id="cb45-18"><a href=""></a><span class="co"># Define the directory of the exported training job package</span></span>
-<span id="cb45-19"><a href=""></a><span class="va">SLP_JOB_NAME</span><span class="op">=</span>labels.v001.slp.training_job</span>
-<span id="cb45-20"><a href=""></a><span class="va">SLP_JOB_DIR</span><span class="op">=</span>/ceph/scratch/<span class="va">$USER</span>/<span class="va">$SLP_JOB_NAME</span></span>
-<span id="cb45-21"><a href=""></a></span>
-<span id="cb45-22"><a href=""></a><span class="co"># Go to the job directory</span></span>
-<span id="cb45-23"><a href=""></a><span class="bu">cd</span> <span class="va">$SLP_JOB_DIR</span></span>
-<span id="cb45-24"><a href=""></a></span>
-<span id="cb45-25"><a href=""></a><span class="co"># Run the training script generated by SLEAP</span></span>
-<span id="cb45-26"><a href=""></a><span class="ex">./train-script.sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb50" data-filename="sleap_train_slurm.sh" data-code-line-numbers="1-13|15-16|18-20|22-26"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
+<span id="cb50-2"><a href=""></a></span>
+<span id="cb50-3"><a href=""></a><span class="co">#SBATCH -J slp_train # job name</span></span>
+<span id="cb50-4"><a href=""></a><span class="co">#SBATCH -p gpu # partition (queue)</span></span>
+<span id="cb50-5"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
+<span id="cb50-6"><a href=""></a><span class="co">#SBATCH --mem 16G # memory pool for all cores</span></span>
+<span id="cb50-7"><a href=""></a><span class="co">#SBATCH -n 4 # number of cores</span></span>
+<span id="cb50-8"><a href=""></a><span class="co">#SBATCH -t 0-06:00 # time (D-HH:MM)</span></span>
+<span id="cb50-9"><a href=""></a><span class="co">#SBATCH --gres gpu:1 # request 1 GPU (of any kind)</span></span>
+<span id="cb50-10"><a href=""></a><span class="co">#SBATCH -o slurm.%x.%N.%j.out # STDOUT</span></span>
+<span id="cb50-11"><a href=""></a><span class="co">#SBATCH -e slurm.%x.%N.%j.err # STDERR</span></span>
+<span id="cb50-12"><a href=""></a><span class="co">#SBATCH --mail-type=ALL</span></span>
+<span id="cb50-13"><a href=""></a><span class="co">#SBATCH --mail-user=user@domain.com</span></span>
+<span id="cb50-14"><a href=""></a></span>
+<span id="cb50-15"><a href=""></a><span class="co"># Load the SLEAP module</span></span>
+<span id="cb50-16"><a href=""></a><span class="ex">module</span> load SLEAP</span>
+<span id="cb50-17"><a href=""></a></span>
+<span id="cb50-18"><a href=""></a><span class="co"># Define the directory of the exported training job package</span></span>
+<span id="cb50-19"><a href=""></a><span class="va">SLP_JOB_NAME</span><span class="op">=</span>labels.v001.slp.training_job</span>
+<span id="cb50-20"><a href=""></a><span class="va">SLP_JOB_DIR</span><span class="op">=</span>/ceph/scratch/<span class="va">$USER</span>/<span class="va">$SLP_JOB_NAME</span></span>
+<span id="cb50-21"><a href=""></a></span>
+<span id="cb50-22"><a href=""></a><span class="co"># Go to the job directory</span></span>
+<span id="cb50-23"><a href=""></a><span class="bu">cd</span> <span class="va">$SLP_JOB_DIR</span></span>
+<span id="cb50-24"><a href=""></a></span>
+<span id="cb50-25"><a href=""></a><span class="co"># Run the training script generated by SLEAP</span></span>
+<span id="cb50-26"><a href=""></a><span class="ex">./train-script.sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="monitoring-the-training-job" class="slide level2 smaller">
 <h2>Monitoring the training job</h2>
-<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sleap_train_slurm.sh</span>
-<span id="cb46-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Submitted</span> batch job 4232289</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sleap_train_slurm.sh</span>
+<span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Submitted</span> batch job 4232289</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="panel-tabset">
 <ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">squeue</a></li><li><a href="#tabset-2-2">sacct</a></li><li><a href="#tabset-2-3">View the logs</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1">
 <p>View the status of your queued/running jobs with <code>squeue --me</code></p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span></span>
-<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">JOBID</span>    PARTITION    NAME       USER      ST   TIME  NODES   NODELIST<span class="er">(</span><span class="ex">REASON</span><span class="kw">)</span></span>
-<span id="cb47-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">4232289</span>  gpu          slp_trai   sirmpila  R    0:20      1   gpu-380-18</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span></span>
+<span id="cb52-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">JOBID</span>    PARTITION    NAME       USER      ST   TIME  NODES   NODELIST<span class="er">(</span><span class="ex">REASON</span><span class="kw">)</span></span>
+<span id="cb52-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">4232289</span>  gpu          slp_trai   sirmpila  R    0:20      1   gpu-380-18</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-2">
 <p>View status of running/completed jobs with <code>sacct</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span></span>
-<span id="cb48-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">JobID</span>           JobName  Partition    Account  AllocCPUS      State ExitCode</span>
-<span id="cb48-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">------------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">--------</span></span>
-<span id="cb48-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">4232289</span>       slp_train        gpu     swc-ac          4    RUNNING      0:0</span>
-<span id="cb48-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">4232289.bat+</span>      batch                swc-ac          4    RUNNING      0:0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span></span>
+<span id="cb53-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">JobID</span>           JobName  Partition    Account  AllocCPUS      State ExitCode</span>
+<span id="cb53-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">------------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">----------</span> <span class="at">--------</span></span>
+<span id="cb53-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">4232289</span>       slp_train        gpu     swc-ac          4    RUNNING      0:0</span>
+<span id="cb53-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">4232289.bat+</span>      batch                swc-ac          4    RUNNING      0:0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Run <code>sacct</code> with some more helpful arguments, e.g.&nbsp;view jobs from the last 24 hours, incl.&nbsp;time elapsed and peak memory usage in KB (MaxRSS):</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="dt">\</span></span>
-<span id="cb49-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">--starttime</span> <span class="va">$(</span><span class="fu">date</span> <span class="at">-d</span> <span class="st">'24 hours ago'</span> +%Y-%m-%dT%H:%M:%S<span class="va">)</span> <span class="dt">\</span></span>
-<span id="cb49-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">--endtime</span> <span class="va">$(</span><span class="fu">date</span> +%Y-%m-%dT%H:%M:%S<span class="va">)</span> <span class="dt">\</span></span>
-<span id="cb49-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">--format</span><span class="op">=</span>JobID,JobName,Partition,State,Start,Elapsed,MaxRSS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="dt">\</span></span>
+<span id="cb54-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">--starttime</span> <span class="va">$(</span><span class="fu">date</span> <span class="at">-d</span> <span class="st">'24 hours ago'</span> +%Y-%m-%dT%H:%M:%S<span class="va">)</span> <span class="dt">\</span></span>
+<span id="cb54-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">--endtime</span> <span class="va">$(</span><span class="fu">date</span> +%Y-%m-%dT%H:%M:%S<span class="va">)</span> <span class="dt">\</span></span>
+<span id="cb54-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">--format</span><span class="op">=</span>JobID,JobName,Partition,State,Start,Elapsed,MaxRSS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-3">
 <p>View the contents of standard output and error (the job name, node name and job ID will differ in each case):</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> slurm.slp_train.gpu-380-18.4232289.out</span>
-<span id="cb50-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> slurm.slp_train.gpu-380-18.4232289.err</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> slurm.slp_train.gpu-380-18.4232289.out</span>
+<span id="cb55-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> slurm.slp_train.gpu-380-18.4232289.err</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1184,25 +1231,25 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <section id="view-trained-models" class="slide level2 smaller">
 <h2>View trained models</h2>
 <p>While you wait for the training job to finish, you can copy and inspect the trained models from a previous run:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> /ceph/scratch/sirmpilatzen/labels.v001.slp.training_job/models /ceph/scratch/<span class="va">$USER</span>/labels.v001.slp.training_job/</span>
-<span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /ceph/scratch/<span class="va">$USER</span>/labels.v001.slp.training_job/models</span>
-<span id="cb51-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">231130_160757.centroid</span></span>
-<span id="cb52-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">231130_160757.centered_instance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/labels.v001.slp.training_job/models /ceph/scratch/<span class="va">$USER</span>/labels.v001.slp.training_job/</span>
+<span id="cb56-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /ceph/scratch/<span class="va">$USER</span>/labels.v001.slp.training_job/models</span>
+<span id="cb56-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">231130_160757.centroid</span></span>
+<span id="cb57-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">231130_160757.centered_instance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="fragment">
 <p>What’s in the model directory?</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 231130_160757.centroid</span>
-<span id="cb53-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb54" data-code-line-numbers="1,9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href=""></a><span class="ex">best_model.h5</span></span>
-<span id="cb54-2"><a href=""></a><span class="ex">initial_config.json</span></span>
-<span id="cb54-3"><a href=""></a><span class="ex">labels_gt.train.slp</span></span>
-<span id="cb54-4"><a href=""></a><span class="ex">labels_gt.val.slp</span></span>
-<span id="cb54-5"><a href=""></a><span class="ex">labels_pr.train.slp</span></span>
-<span id="cb54-6"><a href=""></a><span class="ex">labels_pr.val.slp</span></span>
-<span id="cb54-7"><a href=""></a><span class="ex">metrics.train.npz</span></span>
-<span id="cb54-8"><a href=""></a><span class="ex">metrics.val.npz</span></span>
-<span id="cb54-9"><a href=""></a><span class="ex">training_config.json</span></span>
-<span id="cb54-10"><a href=""></a><span class="ex">training_log.csv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 231130_160757.centroid</span>
+<span id="cb58-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb59" data-code-line-numbers="1,9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href=""></a><span class="ex">best_model.h5</span></span>
+<span id="cb59-2"><a href=""></a><span class="ex">initial_config.json</span></span>
+<span id="cb59-3"><a href=""></a><span class="ex">labels_gt.train.slp</span></span>
+<span id="cb59-4"><a href=""></a><span class="ex">labels_gt.val.slp</span></span>
+<span id="cb59-5"><a href=""></a><span class="ex">labels_pr.train.slp</span></span>
+<span id="cb59-6"><a href=""></a><span class="ex">labels_pr.val.slp</span></span>
+<span id="cb59-7"><a href=""></a><span class="ex">metrics.train.npz</span></span>
+<span id="cb59-8"><a href=""></a><span class="ex">metrics.val.npz</span></span>
+<span id="cb59-9"><a href=""></a><span class="ex">training_config.json</span></span>
+<span id="cb59-10"><a href=""></a><span class="ex">training_log.csv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="evaluate-trained-models" class="slide level2">
@@ -1224,44 +1271,44 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <h2>Batch script for inference</h2>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>sleap_inference_slurm.sh</strong></pre>
+<pre><strong>sleap_infer_slurm.sh</strong></pre>
 </div>
-<div class="sourceCode" id="cb55" data-filename="sleap_inference_slurm.sh" data-code-line-numbers="1-16|18-22|24-28|30-36"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
-<span id="cb55-2"><a href=""></a></span>
-<span id="cb55-3"><a href=""></a><span class="co">#SBATCH -J slp_infer # job name</span></span>
-<span id="cb55-4"><a href=""></a><span class="co">#SBATCH -p gpu # partition</span></span>
-<span id="cb55-5"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
-<span id="cb55-6"><a href=""></a><span class="co">#SBATCH --mem 64G # memory pool for all cores</span></span>
-<span id="cb55-7"><a href=""></a><span class="co">#SBATCH -n 32 # number of cores</span></span>
-<span id="cb55-8"><a href=""></a><span class="co">#SBATCH -t 0-01:00 # time (D-HH:MM)</span></span>
-<span id="cb55-9"><a href=""></a><span class="co">#SBATCH --gres gpu:rtx5000:1 # request 1 RTX5000 GPU</span></span>
-<span id="cb55-10"><a href=""></a><span class="co">#SBATCH -o slurm.%x.%N.%j.out # write STDOUT</span></span>
-<span id="cb55-11"><a href=""></a><span class="co">#SBATCH -e slurm.%x.%N.%j.err # write STDERR</span></span>
-<span id="cb55-12"><a href=""></a><span class="co">#SBATCH --mail-type=ALL</span></span>
-<span id="cb55-13"><a href=""></a><span class="co">#SBATCH --mail-user=user@domain.com</span></span>
-<span id="cb55-14"><a href=""></a></span>
-<span id="cb55-15"><a href=""></a><span class="co"># Load the SLEAP module</span></span>
-<span id="cb55-16"><a href=""></a><span class="ex">module</span> load SLEAP</span>
-<span id="cb55-17"><a href=""></a></span>
-<span id="cb55-18"><a href=""></a><span class="co"># Define directories for exported SLEAP job package and videos</span></span>
-<span id="cb55-19"><a href=""></a><span class="va">SLP_JOB_NAME</span><span class="op">=</span>labels.v001.slp.training_job</span>
-<span id="cb55-20"><a href=""></a><span class="va">SLP_JOB_DIR</span><span class="op">=</span>/ceph/scratch/<span class="va">$USER</span>/<span class="va">$SLP_JOB_NAME</span></span>
-<span id="cb55-21"><a href=""></a><span class="va">VIDEO_DIR</span><span class="op">=</span>/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos</span>
-<span id="cb55-22"><a href=""></a><span class="va">VIDEO1_PREFIX</span><span class="op">=</span>sub-01_ses-01_task-EPM_time-165049</span>
-<span id="cb55-23"><a href=""></a></span>
-<span id="cb55-24"><a href=""></a><span class="co"># Go to the job directory</span></span>
-<span id="cb55-25"><a href=""></a><span class="bu">cd</span> <span class="va">$SLP_JOB_DIR</span></span>
-<span id="cb55-26"><a href=""></a></span>
-<span id="cb55-27"><a href=""></a><span class="co"># Make a directory to store the predictions</span></span>
-<span id="cb55-28"><a href=""></a><span class="fu">mkdir</span> <span class="at">-p</span> predictions</span>
-<span id="cb55-29"><a href=""></a></span>
-<span id="cb55-30"><a href=""></a><span class="co"># Run the inference command</span></span>
-<span id="cb55-31"><a href=""></a><span class="ex">sleap-track</span> <span class="va">$VIDEO_DIR</span>/<span class="va">${VIDEO1_PREFIX}</span>_video.mp4 <span class="dt">\</span></span>
-<span id="cb55-32"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centroid/training_config.json <span class="dt">\</span></span>
-<span id="cb55-33"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centered_instance/training_config.json <span class="dt">\</span></span>
-<span id="cb55-34"><a href=""></a>    <span class="at">-o</span> <span class="va">$SLP_JOB_DIR</span>/predictions/<span class="va">${VIDEO1_PREFIX}</span>_predictions.slp <span class="dt">\</span></span>
-<span id="cb55-35"><a href=""></a>    <span class="at">--gpu</span> auto <span class="dt">\</span></span>
-<span id="cb55-36"><a href=""></a>    <span class="at">--no-empty-frames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb60" data-filename="sleap_infer_slurm.sh" data-code-line-numbers="1-16|18-22|24-28|30-36"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
+<span id="cb60-2"><a href=""></a></span>
+<span id="cb60-3"><a href=""></a><span class="co">#SBATCH -J slp_infer # job name</span></span>
+<span id="cb60-4"><a href=""></a><span class="co">#SBATCH -p gpu # partition</span></span>
+<span id="cb60-5"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
+<span id="cb60-6"><a href=""></a><span class="co">#SBATCH --mem 32G # memory pool for all cores</span></span>
+<span id="cb60-7"><a href=""></a><span class="co">#SBATCH -n 8 # number of cores</span></span>
+<span id="cb60-8"><a href=""></a><span class="co">#SBATCH -t 0-01:00 # time (D-HH:MM)</span></span>
+<span id="cb60-9"><a href=""></a><span class="co">#SBATCH --gres gpu:1 # request 1 GPU</span></span>
+<span id="cb60-10"><a href=""></a><span class="co">#SBATCH -o slurm.%x.%N.%j.out # write STDOUT</span></span>
+<span id="cb60-11"><a href=""></a><span class="co">#SBATCH -e slurm.%x.%N.%j.err # write STDERR</span></span>
+<span id="cb60-12"><a href=""></a><span class="co">#SBATCH --mail-type=ALL</span></span>
+<span id="cb60-13"><a href=""></a><span class="co">#SBATCH --mail-user=user@domain.com</span></span>
+<span id="cb60-14"><a href=""></a></span>
+<span id="cb60-15"><a href=""></a><span class="co"># Load the SLEAP module</span></span>
+<span id="cb60-16"><a href=""></a><span class="ex">module</span> load SLEAP</span>
+<span id="cb60-17"><a href=""></a></span>
+<span id="cb60-18"><a href=""></a><span class="co"># Define directories for exported SLEAP job package and videos</span></span>
+<span id="cb60-19"><a href=""></a><span class="va">SLP_JOB_NAME</span><span class="op">=</span>labels.v001.slp.training_job</span>
+<span id="cb60-20"><a href=""></a><span class="va">SLP_JOB_DIR</span><span class="op">=</span>/ceph/scratch/<span class="va">$USER</span>/<span class="va">$SLP_JOB_NAME</span></span>
+<span id="cb60-21"><a href=""></a><span class="va">VIDEO_DIR</span><span class="op">=</span>/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos</span>
+<span id="cb60-22"><a href=""></a><span class="va">VIDEO1_PREFIX</span><span class="op">=</span>sub-01_ses-01_task-EPM_time-165049</span>
+<span id="cb60-23"><a href=""></a></span>
+<span id="cb60-24"><a href=""></a><span class="co"># Go to the job directory</span></span>
+<span id="cb60-25"><a href=""></a><span class="bu">cd</span> <span class="va">$SLP_JOB_DIR</span></span>
+<span id="cb60-26"><a href=""></a></span>
+<span id="cb60-27"><a href=""></a><span class="co"># Make a directory to store the predictions</span></span>
+<span id="cb60-28"><a href=""></a><span class="fu">mkdir</span> <span class="at">-p</span> predictions</span>
+<span id="cb60-29"><a href=""></a></span>
+<span id="cb60-30"><a href=""></a><span class="co"># Run the inference command</span></span>
+<span id="cb60-31"><a href=""></a><span class="ex">sleap-track</span> <span class="va">$VIDEO_DIR</span>/<span class="va">${VIDEO1_PREFIX}</span>_video.mp4 <span class="dt">\</span></span>
+<span id="cb60-32"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centroid/training_config.json <span class="dt">\</span></span>
+<span id="cb60-33"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centered_instance/training_config.json <span class="dt">\</span></span>
+<span id="cb60-34"><a href=""></a>    <span class="at">-o</span> <span class="va">$SLP_JOB_DIR</span>/predictions/<span class="va">${VIDEO1_PREFIX}</span>_predictions.slp <span class="dt">\</span></span>
+<span id="cb60-35"><a href=""></a>    <span class="at">--gpu</span> auto <span class="dt">\</span></span>
+<span id="cb60-36"><a href=""></a>    <span class="at">--no-empty-frames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="run-inference-job" class="slide level2 smaller scrollable">
@@ -1269,87 +1316,68 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 <ol type="1">
 <li>Edit and save the batch script</li>
 </ol>
-<div class="sourceCode" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> sleap_inference_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> sleap_infer_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Submit the job</li>
 </ol>
-<div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sleap_inference_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sleap_infer_slurm.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li>Monitor the job</li>
 </ol>
-<div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="run-inference-as-an-array-job" class="slide level2 smaller">
 <h2>Run inference as an array job</h2>
-<div class="cell" data-reveal="true" data-file="img/diagrams/array-jobs.mmd" data-fig-height="500px" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class=""><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {"theme": "neutral", "fontFamily": "arial", "curve": "linear"} }%%
 
-flowchart LR
-    classDef emphasis fill:#03A062;
-
-    script["array script"] --&gt;|"video 1"| GPU1["GPU 1"] --&gt; model1["predictions 1"]
-    script --&gt;|"video 2"| GPU2GPU1["GPU 2"] --&gt; model2["predictions 2"]
-    script --&gt;|"video n"| GPU3GPU1["GPU n"] --&gt; model3["predictions n"]
-
-    class script emphasis</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
+<img data-src="img/diagrams/array-jobs.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="batch-script-for-array-job" class="slide level2 smaller">
 <h2>Batch script for array job</h2>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>sleap_inference_slurm_array.sh</strong></pre>
+<pre><strong>sleap_infer_array_slurm.sh</strong></pre>
 </div>
-<div class="sourceCode" id="cb59" data-filename="sleap_inference_slurm_array.sh" data-code-line-numbers="14|24-28|36-42"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
-<span id="cb59-2"><a href=""></a></span>
-<span id="cb59-3"><a href=""></a><span class="co">#SBATCH -J slp_infer # job name</span></span>
-<span id="cb59-4"><a href=""></a><span class="co">#SBATCH -p gpu # partition</span></span>
-<span id="cb59-5"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
-<span id="cb59-6"><a href=""></a><span class="co">#SBATCH --mem 64G # memory pool for all cores</span></span>
-<span id="cb59-7"><a href=""></a><span class="co">#SBATCH -n 32 # number of cores</span></span>
-<span id="cb59-8"><a href=""></a><span class="co">#SBATCH -t 0-01:00 # time (D-HH:MM)</span></span>
-<span id="cb59-9"><a href=""></a><span class="co">#SBATCH --gres gpu:rtx5000:1 # request 1 RTX5000 GPU</span></span>
-<span id="cb59-10"><a href=""></a><span class="co">#SBATCH -o slurm.%x.%N.%j.out # write STDOUT</span></span>
-<span id="cb59-11"><a href=""></a><span class="co">#SBATCH -e slurm.%x.%N.%j.err # write STDERR</span></span>
-<span id="cb59-12"><a href=""></a><span class="co">#SBATCH --mail-type=ALL</span></span>
-<span id="cb59-13"><a href=""></a><span class="co">#SBATCH --mail-user=user@domain.com</span></span>
-<span id="cb59-14"><a href=""></a><span class="co">#SBATCH --array=1-2</span></span>
-<span id="cb59-15"><a href=""></a></span>
-<span id="cb59-16"><a href=""></a><span class="co"># Load the SLEAP module</span></span>
-<span id="cb59-17"><a href=""></a><span class="ex">module</span> load SLEAP</span>
-<span id="cb59-18"><a href=""></a></span>
-<span id="cb59-19"><a href=""></a><span class="co"># Define directories for exported SLEAP job package and videos</span></span>
-<span id="cb59-20"><a href=""></a><span class="va">SLP_JOB_NAME</span><span class="op">=</span>labels.v001.slp.training_job</span>
-<span id="cb59-21"><a href=""></a><span class="va">SLP_JOB_DIR</span><span class="op">=</span>/ceph/scratch/<span class="va">$USER</span>/<span class="va">$SLP_JOB_NAME</span></span>
-<span id="cb59-22"><a href=""></a><span class="va">VIDEO_DIR</span><span class="op">=</span>/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos</span>
-<span id="cb59-23"><a href=""></a></span>
-<span id="cb59-24"><a href=""></a><span class="va">VIDEO1_PREFIX</span><span class="op">=</span>sub-01_ses-01_task-EPM_time-165049</span>
-<span id="cb59-25"><a href=""></a><span class="va">VIDEO2_PREFIX</span><span class="op">=</span>sub-02_ses-01_task-EPM_time-185651</span>
-<span id="cb59-26"><a href=""></a><span class="va">VIDEOS_PREFIXES</span><span class="op">=</span><span class="va">($VIDEO1_PREFIX</span> <span class="va">$VIDEO2_PREFIX)</span></span>
-<span id="cb59-27"><a href=""></a><span class="va">CURRENT_VIDEO_PREFIX</span><span class="op">=</span><span class="va">${VIDEOS_PREFIXES</span><span class="op">[</span><span class="va">$SLURM_ARRAY_TASK_ID</span> - 1<span class="op">]</span><span class="va">}</span></span>
-<span id="cb59-28"><a href=""></a><span class="bu">echo</span> <span class="st">"Current video prefix: </span><span class="va">$CURRENT_VIDEO_PREFIX</span><span class="st">"</span></span>
-<span id="cb59-29"><a href=""></a></span>
-<span id="cb59-30"><a href=""></a><span class="co"># Go to the job directory</span></span>
-<span id="cb59-31"><a href=""></a><span class="bu">cd</span> <span class="va">$SLP_JOB_DIR</span></span>
-<span id="cb59-32"><a href=""></a></span>
-<span id="cb59-33"><a href=""></a><span class="co"># Make a directory to store the predictions</span></span>
-<span id="cb59-34"><a href=""></a><span class="fu">mkdir</span> <span class="at">-p</span> predictions</span>
-<span id="cb59-35"><a href=""></a></span>
-<span id="cb59-36"><a href=""></a><span class="co"># Run the inference command</span></span>
-<span id="cb59-37"><a href=""></a><span class="ex">sleap-track</span> <span class="va">$VIDEO_DIR</span>/<span class="va">${CURRENT_VIDEO_PREFIX}</span>_video.mp4 <span class="dt">\</span></span>
-<span id="cb59-38"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centroid/training_config.json <span class="dt">\</span></span>
-<span id="cb59-39"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centered_instance/training_config.json <span class="dt">\</span></span>
-<span id="cb59-40"><a href=""></a>    <span class="at">-o</span> <span class="va">$SLP_JOB_DIR</span>/predictions/<span class="va">${CURRENT_VIDEO_PREFIX}</span>_array_predictions.slp <span class="dt">\</span></span>
-<span id="cb59-41"><a href=""></a>    <span class="at">--gpu</span> auto <span class="dt">\</span></span>
-<span id="cb59-42"><a href=""></a>    <span class="at">--no-empty-frames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb64" data-filename="sleap_infer_array_slurm.sh" data-code-line-numbers="14|24-28|36-42"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href=""></a><span class="co">#!/bin/bash</span></span>
+<span id="cb64-2"><a href=""></a></span>
+<span id="cb64-3"><a href=""></a><span class="co">#SBATCH -J slp_infer # job name</span></span>
+<span id="cb64-4"><a href=""></a><span class="co">#SBATCH -p gpu # partition</span></span>
+<span id="cb64-5"><a href=""></a><span class="co">#SBATCH -N 1   # number of nodes</span></span>
+<span id="cb64-6"><a href=""></a><span class="co">#SBATCH --mem 32G # memory pool for all cores</span></span>
+<span id="cb64-7"><a href=""></a><span class="co">#SBATCH -n 8 # number of cores</span></span>
+<span id="cb64-8"><a href=""></a><span class="co">#SBATCH -t 0-01:00 # time (D-HH:MM)</span></span>
+<span id="cb64-9"><a href=""></a><span class="co">#SBATCH --gres gpu:1 # request 1 GPU</span></span>
+<span id="cb64-10"><a href=""></a><span class="co">#SBATCH -o slurm.%x.%N.%j.out # write STDOUT</span></span>
+<span id="cb64-11"><a href=""></a><span class="co">#SBATCH -e slurm.%x.%N.%j.err # write STDERR</span></span>
+<span id="cb64-12"><a href=""></a><span class="co">#SBATCH --mail-type=ALL</span></span>
+<span id="cb64-13"><a href=""></a><span class="co">#SBATCH --mail-user=user@domain.com</span></span>
+<span id="cb64-14"><a href=""></a><span class="co">#SBATCH --array=0-1</span></span>
+<span id="cb64-15"><a href=""></a></span>
+<span id="cb64-16"><a href=""></a><span class="co"># Load the SLEAP module</span></span>
+<span id="cb64-17"><a href=""></a><span class="ex">module</span> load SLEAP</span>
+<span id="cb64-18"><a href=""></a></span>
+<span id="cb64-19"><a href=""></a><span class="co"># Define directories for exported SLEAP job package and videos</span></span>
+<span id="cb64-20"><a href=""></a><span class="va">SLP_JOB_NAME</span><span class="op">=</span>labels.v001.slp.training_job</span>
+<span id="cb64-21"><a href=""></a><span class="va">SLP_JOB_DIR</span><span class="op">=</span>/ceph/scratch/<span class="va">$USER</span>/<span class="va">$SLP_JOB_NAME</span></span>
+<span id="cb64-22"><a href=""></a><span class="va">VIDEO_DIR</span><span class="op">=</span>/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos</span>
+<span id="cb64-23"><a href=""></a></span>
+<span id="cb64-24"><a href=""></a><span class="va">VIDEO1_PREFIX</span><span class="op">=</span>sub-01_ses-01_task-EPM_time-165049</span>
+<span id="cb64-25"><a href=""></a><span class="va">VIDEO2_PREFIX</span><span class="op">=</span>sub-02_ses-01_task-EPM_time-185651</span>
+<span id="cb64-26"><a href=""></a><span class="va">VIDEOS_PREFIXES</span><span class="op">=</span><span class="va">($VIDEO1_PREFIX</span> <span class="va">$VIDEO2_PREFIX)</span></span>
+<span id="cb64-27"><a href=""></a><span class="va">CURRENT_VIDEO_PREFIX</span><span class="op">=</span><span class="va">${VIDEOS_PREFIXES</span><span class="op">[</span><span class="va">$SLURM_ARRAY_TASK_ID</span><span class="op">]</span><span class="va">}</span></span>
+<span id="cb64-28"><a href=""></a><span class="bu">echo</span> <span class="st">"Current video prefix: </span><span class="va">$CURRENT_VIDEO_PREFIX</span><span class="st">"</span></span>
+<span id="cb64-29"><a href=""></a></span>
+<span id="cb64-30"><a href=""></a><span class="co"># Go to the job directory</span></span>
+<span id="cb64-31"><a href=""></a><span class="bu">cd</span> <span class="va">$SLP_JOB_DIR</span></span>
+<span id="cb64-32"><a href=""></a></span>
+<span id="cb64-33"><a href=""></a><span class="co"># Make a directory to store the predictions</span></span>
+<span id="cb64-34"><a href=""></a><span class="fu">mkdir</span> <span class="at">-p</span> predictions</span>
+<span id="cb64-35"><a href=""></a></span>
+<span id="cb64-36"><a href=""></a><span class="co"># Run the inference command</span></span>
+<span id="cb64-37"><a href=""></a><span class="ex">sleap-track</span> <span class="va">$VIDEO_DIR</span>/<span class="va">${CURRENT_VIDEO_PREFIX}</span>_video.mp4 <span class="dt">\</span></span>
+<span id="cb64-38"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centroid/training_config.json <span class="dt">\</span></span>
+<span id="cb64-39"><a href=""></a>    <span class="at">-m</span> <span class="va">$SLP_JOB_DIR</span>/models/231130_160757.centered_instance/training_config.json <span class="dt">\</span></span>
+<span id="cb64-40"><a href=""></a>    <span class="at">-o</span> <span class="va">$SLP_JOB_DIR</span>/predictions/<span class="va">${CURRENT_VIDEO_PREFIX}</span>_array_predictions.slp <span class="dt">\</span></span>
+<span id="cb64-41"><a href=""></a>    <span class="at">--gpu</span> auto <span class="dt">\</span></span>
+<span id="cb64-42"><a href=""></a>    <span class="at">--no-empty-frames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="further-reading" class="slide level2">
@@ -1357,6 +1385,7 @@ flowchart LR
 <ul>
 <li><a href="https://wiki.ucl.ac.uk/display/SSC/High+Performance+Computing">SWC/GCNU Scientific Computing wiki</a></li>
 <li><a href="https://slurm.schedmd.com/">SLURM documentation</a></li>
+<li><a href="https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html">How to use the SLEAP module on the SWC HPC cluster</a></li>
 </ul>
 <div class="quarto-auto-generated-content">
 <p><img src="img/logo_niu_light.png" class="slide-logo"></p>
