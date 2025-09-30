@@ -16,7 +16,7 @@
 module load SLEAP
 
 # Define the directory of the exported training job package
-SLP_JOB_NAME=labels.v001.slp.training_job
+SLP_JOB_NAME=mouse044_task1_annotator1.training_job
 SLP_JOB_DIR=/ceph/scratch/$USER/$SLP_JOB_NAME
 
 # Go to the job directory
