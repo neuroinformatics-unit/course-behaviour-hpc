@@ -575,7 +575,7 @@ See [animals-in-motion.neuroinformatics.dev/latest/prerequisites](https://animal
 ![](img/sleap-training.png){fig-align=center height=500px}
 
 ::: aside
-see also [SLEAP's guide for remote training](https://sleap.ai/guides/remote.html)
+see also [SLEAP's guide for remote training](http://legacy.sleap.ai/guides/remote.html)
 :::
 
 ## Training job package contents {.smaller}
@@ -817,7 +817,7 @@ training_log.csv
 ![](img/sleap-evaluation.png){fig-align="center" height="500px"}
 
 ::: aside
-see also the SLEAP [model evaluation notebook](https://sleap.ai/notebooks/Model_evaluation.html){preview-link="true"}
+see also the SLEAP [model evaluation notebook](http://legacy.sleap.ai/notebooks/Model_evaluation.html){preview-link="true"}
 :::
 
 
