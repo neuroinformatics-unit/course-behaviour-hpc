@@ -46,6 +46,7 @@ my-custom-stuff:
 ## Contents
 
 * Hardware overview
+* Basic Linux commands
 * Introduction to High Performance Computing
 * SWC HPC system
 * Using the job scheduler
