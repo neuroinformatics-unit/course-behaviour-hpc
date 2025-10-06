@@ -163,7 +163,7 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
 ## SWC HPC hardware
 (Correct at time of writing)
 
-* Ubuntu 22.04
+* Ubuntu 24.04
 * 81 nodes
   * 35 CPU nodes
   * 31 GPU nodes
