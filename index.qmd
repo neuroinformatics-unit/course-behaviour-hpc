@@ -228,7 +228,7 @@ mkdir <USERNAME>
 ## HPC software
 All nodes have the same software installed
 
-* Ubuntu 22.04 LTS
+* Ubuntu 24.04 LTS
 * General linux utilities
 
 ## Modules
