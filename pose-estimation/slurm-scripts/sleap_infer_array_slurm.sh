@@ -13,6 +13,9 @@
 #SBATCH --mail-user=user@domain.com
 #SBATCH --array=0-2
 
+# print GPU info
+nvidia-smi
+
 # Load the SLEAP module
 module load SLEAP
 
@@ -37,4 +40,5 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
     -m $SLP_JOB_DIR/models/250807_162146.multi_class_topdown.n=679/training_config.json \
     -o predictions/${CURRENT_VIDEO_PREFIX}_array_predictions.slp \
     --gpu auto \
-    --no-empty-frames
+    --no-empty-frames \
+    --batch_size 1

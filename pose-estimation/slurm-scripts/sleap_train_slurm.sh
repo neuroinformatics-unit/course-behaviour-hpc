@@ -12,6 +12,9 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
 
+# print GPU info
+nvidia-smi
+
 # Load the SLEAP module
 module load SLEAP
 
