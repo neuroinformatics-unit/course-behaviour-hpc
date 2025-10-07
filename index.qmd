@@ -7,7 +7,7 @@ format:
     revealjs:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        footer: "SWC | 2024-10-04"
+        footer: "SWC | 2025-10-09"
         slide-number: c
         menu:
             numbers: true
@@ -27,7 +27,7 @@ format:
     html:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        date: "2024-10-04"
+        date: "2025-10-09"
         toc: true
         code-overflow: scroll
         highlight-style: atom-one
@@ -46,6 +46,7 @@ my-custom-stuff:
 ## Contents
 
 * Hardware overview
+* Basic Linux commands
 * Introduction to High Performance Computing
 * SWC HPC system
 * Using the job scheduler
@@ -162,12 +163,12 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
 ## SWC HPC hardware
 (Correct at time of writing)
 
-* Ubuntu 20.04
+* Ubuntu 24.04
 * 81 nodes
-  * 46 CPU nodes
-  * 35 GPU nodes
-* 3000 CPU cores
-* 83 GPUs
+  * 35 CPU nodes
+  * 31 GPU nodes
+* ~4500 CPU cores
+* 128 GPUs
 * ~20TB RAM
 
 ## Logging in
@@ -182,7 +183,7 @@ ssh <USERNAME>@ssh.swc.ucl.ac.uk
 
 Log into HPC gateway node
 ```bash
-ssh <USERNAME>@hpc-gw1
+ssh <USERNAME>@hpc-gw2
 ```
 
 . . .
@@ -227,7 +228,7 @@ mkdir <USERNAME>
 ## HPC software
 All nodes have the same software installed
 
-* Ubuntu 20.04 LTS
+* Ubuntu 24.04 LTS
 * General linux utilities
 
 ## Modules
@@ -305,22 +306,26 @@ sinfo
 ```
 
 ```
-atyson@hpc-gw1:~$ sinfo
+atyson@hpc-gw2:~$ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-cpu*         up 10-00:00:0      1   mix# gpu-380-25
-cpu*         up 10-00:00:0     31    mix enc1-node[1-14],enc2-node[1-13],enc3-node[6-8],gpu-380-24
-cpu*         up 10-00:00:0      4  alloc enc3-node[1-2,4-5]
-gpu          up 10-00:00:0      1   mix# gpu-380-15
-gpu          up 10-00:00:0      1  down~ gpu-380-16
-gpu          up 10-00:00:0     12    mix gpu-350-[01-05], gpu-380-[11,13-14,17-18],gpu-sr670-[20,22]
-a100         up 30-00:00:0      2    mix gpu-sr670-[21,23]
-lmem         up 10-00:00:0      1  idle~ gpu-380-12
-medium       up   12:00:00      1   mix# gpu-380-15
-medium       up   12:00:00      1  down~ gpu-380-16
-medium       up   12:00:00      7    mix enc3-node[6-8],gpu-380-[11,14,17-18]
-medium       up   12:00:00      4  alloc enc3-node[1-2,4-5]
-fast         up    3:00:00      2  idle~ enc1-node16,gpu-erlich01
-fast         up    3:00:00      4    mix gpu-380-[11,14,17-18]
+cpu*          up 10-00:00:0     10 drain~ enc1-node[2,4,6,8,10-12],enc2-node[4,7-8]
+cpu*          up 10-00:00:0      3  idle~ enc1-node[3,7],enc2-node10
+cpu*          up 10-00:00:0      5  down~ enc1-node[14,16],enc2-node[3,6,12]
+cpu*          up 10-00:00:0      3  drain enc3-node[6-8]
+cpu*          up 10-00:00:0     10    mix enc1-node[1,5,9,13],enc2-node[1-2,5],enc3-node[2,4-5]
+cpu*          up 10-00:00:0      3  alloc enc2-node[9,11,13]
+cpu*          up 10-00:00:0      1   idle enc3-node1
+gpu           up 10-00:00:0      1 drain* gpu-350-02
+gpu           up 10-00:00:0      1  drain gpu-350-03
+gpu           up 10-00:00:0      5    mix gpu-350-01,gpu-380-[10,12-13],gpu-sr670-20
+gpu           up 10-00:00:0     12   idle gpu-350-[04-05],gpu-380-[11,14-18],gpu-sr670-[21-23],gpu-sr675-31
+a100          up 10-00:00:0      1    mix gpu-sr670-20
+a100          up 10-00:00:0      3   idle gpu-sr670-[21-23]
+gpu_lowp      up 10-00:00:0      5   idle gpu-sr675-[31-34],gpu-xd670-30
+gpu_branco    up 30-00:00:0      3   idle gpu-sr675-[32-34]
+gatsby_ws     up 10-00:00:0      1  down* u236b
+gatsby_ws     up 10-00:00:0      4   idle adrian,u237h,u240c,u434a
+
 ```
 
 ##
@@ -331,7 +336,7 @@ squeue
 ```
 
 ```
-atyson@hpc-gw1:~$ squeue
+atyson@hpc-gw2:~$ squeue
 JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 4036257       cpu     bash   imansd  R 13-01:10:01      1 enc1-node2
 4050946       cpu      zsh apezzott  R 1-01:02:30      1 enc2-node11
@@ -357,9 +362,9 @@ See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev
 ## Partitions
 
 ## Interactive job
-Start an interactive job (`bash -i`) in the fast partition (`-p fast`) in pseudoterminal mode (`--pty`) with one CPU core (`-n 1`).
+Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`) with one CPU core (`-n 1`).
 ```bash
-srun -p fast -n 1 --pty bash -i
+srun -p cpu -n 1 --pty bash -i
 ```
 . . .
 
@@ -406,7 +411,7 @@ cat batch_example.sh
 ```bash
 #!/bin/bash
 
-#SBATCH -p fast # partition (queue)
+#SBATCH -p cpu # partition (queue)
 #SBATCH -N 1   # number of nodes
 #SBATCH --mem 1G # memory pool for all cores
 #SBATCH -n 1 # number of cores
@@ -439,7 +444,7 @@ cat array_example.sh
 ```bash
 #!/bin/bash
 
-#SBATCH -p fast # partition (queue)
+#SBATCH -p cpu # partition (queue)
 #SBATCH -N 1   # number of nodes
 #SBATCH --mem 1G # memory pool for all cores
 #SBATCH -n 1 # number of cores

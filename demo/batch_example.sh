@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -p fast # partition (queue)
+#SBATCH -p cpu # partition (queue)
 #SBATCH -N 1   # number of nodes
 #SBATCH --mem 1G # memory pool for all cores
 #SBATCH -n 1 # number of cores
