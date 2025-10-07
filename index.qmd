@@ -551,11 +551,9 @@ Many others:
 :::: {.fragment}
 
 ::: {.callout-warning}
-This workshop uses **SLEAP version 1.3.4** with a TensorFlow backend.
-Documentation for this version is available at [legacy.sleap.ai](http://legacy.sleap.ai/).
+This workshop uses **SLEAP version 1.3.4** (TensorFlow backend), with documentation available at [legacy.sleap.ai](https://legacy.sleap.ai/).
 
-From **SLEAP 1.5.0 onwards**, the software uses a PyTorch backend.
-Installation and usage instructions differ for these newer versions, with updated docs at [docs.sleap.ai](https://docs.sleap.ai/).
+HPC modules for [SLEAP ≥ 1.5.0](https://docs.sleap.ai/) (PyTorch backend) will be added in future.
 :::
 
 ::::
