@@ -511,10 +511,6 @@ scancel -u <USERNAME>
 
 ![](img/pose_estimation_2D.png){fig-align="center"}
 
-::: {.fragment}
-- "easy" in humans - vast amounts of data
-- "harder" in animals - less data, more variability
-:::
 
 ::: aside
 Source: [Quantifying behavior to understand the brain](https://www.nature.com/articles/s41593-020-00734-z)
@@ -547,23 +543,32 @@ Many others:
 
 ![](img/pose_estimation_topdown.png)
 
-## SLEAP workflow
+## SLEAP workflow {.smaller}
 
-![](img/diagrams/pose-estimation.svg){fig-align=center width=600}
+![Source: [animals-in-motion.neuroinformatics.dev](https://animals-in-motion.neuroinformatics.dev/latest/03-sleap-tutorial.html)](img/diagrams/pose-estimation.png){fig-align=center height=240px}
 
-::: {.fragment}
-- Training and inference are GPU-intensive
-- We can delegate to the HPC cluster's GPU nodes
+
+:::: {.fragment}
+
+::: {.callout-warning}
+This workshop uses **SLEAP version 1.3.4** (TensorFlow backend), with documentation available at [legacy.sleap.ai](https://legacy.sleap.ai/).
+
+HPC modules for [SLEAP ≥ 1.5.0](https://docs.sleap.ai/) (PyTorch backend) will be added in future.
 :::
 
-## Sample data
-`/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023`
+::::
 
-- Mouse videos from [Loukia Katsouri](https://www.sainsburywellcome.org/web/people/loukia-katsouri)
-- SLEAP project with:
-  - labeled frames
-  - trained models
-  - prediction results
+## Sample data {.smaller}
+`/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/CalMS21`
+
+- Contains an example video from the [Caltech Mouse Social Interactions (CalMS21) Dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) (Sun et al. 2021).
+- SLEAP project, made by **Chang Huan Lo**, with labeled frames, trained models and prediction results.
+
+::: {.callout-tip}
+## More details
+
+See [animals-in-motion.neuroinformatics.dev/latest/prerequisites](https://animals-in-motion.neuroinformatics.dev/latest/prerequisites.html#sec-data) for more information about the data.
+:::
 
 ## Labeling data locally {.smaller}
 ![](img/sleap-labeling.png){fig-align=center height=500px}
@@ -571,28 +576,31 @@ Many others:
 ## Exporting a training job package {.smaller}
 ![](img/sleap-training.png){fig-align=center height=500px}
 
+
 ::: aside
-see also [SLEAP's guide for remote training](https://sleap.ai/guides/remote.html)
+See also: [animals-in-motion.neuroinformatics.dev](https://animals-in-motion.neuroinformatics.dev/latest/03-sleap-tutorial.html#configure-and-train-models) and [SLEAP's guide for remote training](http://legacy.sleap.ai/guides/remote.html)
 :::
+
 
 ## Training job package contents {.smaller}
 
 Copy the unzipped training package to your scratch space and inspect its contents:
 
-```{.bash code-line-numbers="1|2-3"}
-cp -r /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/labels.v001.slp.training_job /ceph/scratch/$USER/
-cd /ceph/scratch/$USER/labels.v001.slp.training_job
+```{.bash code-line-numbers="1-2|3-4"}
+cd /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/CalMS21
+cp -r mouse044_task1_annotator1.training_job /ceph/scratch/$USER/
+cd /ceph/scratch/$USER/mouse044_task1_annotator1.training_job
 ls -1
 ```
 
 ::: {.fragment}
-```{.bash code-line-numbers=false filename="labels.v001.slp.training_job"}
-labels.v001.pkg.slp     # Copy of labeled frames
-centroid.json           # Model configuration
-centered_instance.json  # Model configuration
-train-script.sh         # Bash script to run training
-inference-script.sh     # Bash script to run inference
-jobs.yaml               # Summary of all jobs
+```{.bash code-line-numbers=false}
+centroid.json                                # Model configuration
+inference-script.sh                          # Bash script to run inference
+jobs.yaml                                    # Summary of all jobs
+mouse044_task1_annotator1.train.pkg.pkg.slp  # Copy of labeled frames
+multi_class_topdown.json                     # Model configuration
+train-script.sh                              # Bash script to run training
 ```
 :::
 
@@ -605,7 +613,7 @@ chmod +x *.sh
 :::
 ::::
 
-## What's in the SLEAP scripts?
+## What's in the SLEAP scripts? {.smaller}
 
 Training
 ```{.bash code-line-numbers="false"}
@@ -614,8 +622,8 @@ cat train-script.sh
 
 ```{.bash code-line-numbers=false}
 #!/bin/bash
-sleap-train centroid.json labels.v001.pkg.slp
-sleap-train centered_instance.json labels.v001.pkg.slp
+sleap-train centroid.json mouse044_task1_annotator1.train.pkg.pkg.slp
+sleap-train multi_class_topdown.json mouse044_task1_annotator1.train.pkg.pkg.slp
 ```
 
 
@@ -644,7 +652,7 @@ Suitable for debugging (immediate feedback)
 - Execute commands one-by-one, e.g.:
   ```{.bash code-line-numbers=false}
   module load SLEAP
-  cd /ceph/scratch/$USER/labels.v001.slp.training_job
+  cd /ceph/scratch/$USER/mouse044_task1_annotator1.training_job
   bash train-script.sh
 
   # Stop the session
@@ -694,7 +702,7 @@ Save with `Ctrl+O` (followed by `Enter`), exit with `Ctrl+X`
 
 ## Batch script for training {.smaller}
 
-```{.bash filename="sleap_train_slurm.sh" code-line-numbers="1-13|15-16|18-20|22-26"}
+```{.bash filename="sleap_train_slurm.sh" code-line-numbers="1-13|15-16|18-19|21-26|28-29"}
 #!/bin/bash
 
 #SBATCH -J slp_train # job name
@@ -709,11 +717,14 @@ Save with `Ctrl+O` (followed by `Enter`), exit with `Ctrl+X`
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
 
+# print GPU info
+nvidia-smi
+
 # Load the SLEAP module
 module load SLEAP
 
 # Define the directory of the exported training job package
-SLP_JOB_NAME=labels.v001.slp.training_job
+SLP_JOB_NAME=mouse044_task1_annotator1.training_job
 SLP_JOB_DIR=/ceph/scratch/$USER/$SLP_JOB_NAME
 
 # Go to the job directory
@@ -721,8 +732,8 @@ cd $SLP_JOB_DIR
 
 # Run the training script generated by SLEAP
 ./train-script.sh
-```
 
+```
 
 ## Monitoring the training job {.smaller}
 
@@ -775,22 +786,24 @@ cat slurm.slp_train.gpu-380-18.4232289.err
 
 ## View trained models {.smaller}
 While you wait for the training job to finish, you can copy and inspect the trained models from a previous run:
-```{.bash code-line-numbers="false"}
-cp -R /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/labels.v001.slp.training_job/models /ceph/scratch/$USER/labels.v001.slp.training_job/
-cd /ceph/scratch/$USER/labels.v001.slp.training_job/models
-ls
+```{.bash code-line-numbers="1-3|4-5"}
+cd /ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/CalMS21/better_model
+cp -R 250806_174722.centroid.n=679 /ceph/scratch/$USER/mouse044_task1_annotator1.training_job/models/
+cp -R 250807_162146.multi_class_topdown.n=679 /ceph/scratch/$USER/mouse044_task1_annotator1.training_job/models/
+cd /ceph/scratch/$USER/mouse044_task1_annotator1.training_job/models
+ls -1
 ```
 
-```{.bash code-line-numbers=false}
-231130_160757.centroid
-231130_160757.centered_instance
+```{.bash code-line-numbers="true"}
+250806_174722.centroid.n=679
+250807_162146.multi_class_topdown.n=679
 ```
 
 ::: {.fragment}
 What's in the model directory?
 
-```{.bash code-line-numbers="false"}
-cd 231130_160757.centroid
+```{.bash code-line-numbers="true"}
+cd 250806_174722.centroid.n=679
 ls -1
 ```
 
@@ -812,18 +825,22 @@ training_log.csv
 ![](img/sleap-evaluation.png){fig-align="center" height="500px"}
 
 ::: aside
-see also the SLEAP [model evaluation notebook](https://sleap.ai/notebooks/Model_evaluation.html){preview-link="true"}
+See also the SLEAP [model evaluation notebook](http://legacy.sleap.ai/notebooks/Model_evaluation.html){preview-link="true"}
 :::
 
 
 ## SLEAP workflow
 
-![](img/diagrams/pose-estimation.svg){fig-align=center width=600}
+![](img/diagrams/pose-estimation.png){fig-align=center height=240px}
+
+::: aside
+Source: [animals-in-motion.neuroinformatics.dev](https://animals-in-motion.neuroinformatics.dev/latest/03-sleap-tutorial.html)
+:::
 
 
 ## Batch script for inference {.smaller}
 
-```{.bash filename="sleap_infer_slurm.sh" code-line-numbers="1-16|18-22|24-28|30-36"}
+```{.bash filename="sleap_infer_slurm.sh" code-line-numbers="1-19|21-25|27-31|33-40"}
 #!/bin/bash
 
 #SBATCH -J slp_infer # job name
@@ -838,14 +855,17 @@ see also the SLEAP [model evaluation notebook](https://sleap.ai/notebooks/Model_
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
 
+# print GPU info
+nvidia-smi
+
 # Load the SLEAP module
 module load SLEAP
 
 # Define directories for exported SLEAP job package and videos
-SLP_JOB_NAME=labels.v001.slp.training_job
+SLP_JOB_NAME=mouse044_task1_annotator1.training_job
 SLP_JOB_DIR=/ceph/scratch/$USER/$SLP_JOB_NAME
-VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos
-VIDEO1_PREFIX=sub-01_ses-01_task-EPM_time-165049
+VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/CalMS21
+VIDEO_PREFIX=mouse044_task1_annotator1
 
 # Go to the job directory
 cd $SLP_JOB_DIR
@@ -854,12 +874,13 @@ cd $SLP_JOB_DIR
 mkdir -p predictions
 
 # Run the inference command
-sleap-track $VIDEO_DIR/${VIDEO1_PREFIX}_video.mp4 \
-    -m $SLP_JOB_DIR/models/231130_160757.centroid/training_config.json \
-    -m $SLP_JOB_DIR/models/231130_160757.centered_instance/training_config.json \
-    -o $SLP_JOB_DIR/predictions/${VIDEO1_PREFIX}_predictions.slp \
+sleap-track $VIDEO_DIR/${VIDEO_PREFIX}.mp4 \
+    -m $SLP_JOB_DIR/models/250806_174722.centroid.n=679/training_config.json \
+    -m $SLP_JOB_DIR/models/250807_162146.multi_class_topdown.n=679/training_config.json \
+    -o predictions/${VIDEO_PREFIX}_predictions.slp \
     --gpu auto \
-    --no-empty-frames
+    --no-empty-frames \
+    --batch_size 1
 ```
 
 ## Run inference job {.smaller}
@@ -885,7 +906,7 @@ squeue --me
 
 ## Batch script for array job {.smaller}
 
-```{.bash filename="sleap_infer_array_slurm.sh" code-line-numbers="14|24-28|36-42"}
+```{.bash filename="sleap_infer_array_slurm.sh" code-line-numbers="14|27-29|37-44"}
 #!/bin/bash
 
 #SBATCH -J slp_infer # job name
@@ -899,19 +920,20 @@ squeue --me
 #SBATCH -e slurm.%x.%N.%j.err # write STDERR
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
-#SBATCH --array=0-1
+#SBATCH --array=0-2
+
+# print GPU info
+nvidia-smi
 
 # Load the SLEAP module
 module load SLEAP
 
 # Define directories for exported SLEAP job package and videos
-SLP_JOB_NAME=labels.v001.slp.training_job
+SLP_JOB_NAME=mouse044_task1_annotator1.training_job
 SLP_JOB_DIR=/ceph/scratch/$USER/$SLP_JOB_NAME
-VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/course-hpc-2023/videos
+VIDEO_DIR=/ceph/scratch/neuroinformatics-dropoff/SLEAP_HPC_test_data/CalMS21
 
-VIDEO1_PREFIX=sub-01_ses-01_task-EPM_time-165049
-VIDEO2_PREFIX=sub-02_ses-01_task-EPM_time-185651
-VIDEOS_PREFIXES=($VIDEO1_PREFIX $VIDEO2_PREFIX)
+VIDEOS_PREFIXES=(mouse044_task1_annotator1 mouse045_task1_annotator1 mouse046_task1_annotator1)
 CURRENT_VIDEO_PREFIX=${VIDEOS_PREFIXES[$SLURM_ARRAY_TASK_ID]}
 echo "Current video prefix: $CURRENT_VIDEO_PREFIX"
 
@@ -922,15 +944,17 @@ cd $SLP_JOB_DIR
 mkdir -p predictions
 
 # Run the inference command
-sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}_video.mp4 \
-    -m $SLP_JOB_DIR/models/231130_160757.centroid/training_config.json \
-    -m $SLP_JOB_DIR/models/231130_160757.centered_instance/training_config.json \
-    -o $SLP_JOB_DIR/predictions/${CURRENT_VIDEO_PREFIX}_array_predictions.slp \
+sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
+    -m $SLP_JOB_DIR/models/250806_174722.centroid.n=679/training_config.json \
+    -m $SLP_JOB_DIR/models/250807_162146.multi_class_topdown.n=679/training_config.json \
+    -o predictions/${CURRENT_VIDEO_PREFIX}_array_predictions.slp \
     --gpu auto \
-    --no-empty-frames
+    --no-empty-frames \
+    --batch_size 1
+
 ```
 
 ## Further reading
-* [SWC/GCNU Scientific Computing wiki](https://wiki.ucl.ac.uk/display/SSC/High+Performance+Computing)
+* [SWC/GCNU Scientific Computing wiki](https://liveuclac.sharepoint.com/sites/SSC)
 * [SLURM documentation](https://slurm.schedmd.com/)
 * [How to use the SLEAP module on the SWC HPC cluster](https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html)
