@@ -1,16 +1,12 @@
 %%{init: {"theme": "neutral", "fontFamily": "arial", "curve": "linear"} }%%
 
-flowchart LR
-    classDef emphasis fill:#03A062;
+graph LR
+    videos("Videos<br>(1,2,...,n)") --> |extract| frames[/Sampled<br>frames/]
+    frames --> |"label<br>body parts<br>and ID"| labels[/Training<br>dataset/]
+    labels --> |train| model[/Model/]
 
-    videos("videos\n 1,2,...,n")
-    videos -->|extract| frames("sampled\n frames")
-    frames -->|label\n body parts| labels("training\n dataset")
-    labels -->|train| model
-    model("model") -->|infer| predictions("predicted\n body parts")
-    predictions -.->|fix labels| labels
-    videos -->|unseeen data| model
-
-
-    linkStyle 2 stroke:#03A062, color:;
-    linkStyle 3 stroke:#03A062, color:;
+    videos --> test[/Unseen<br>frames/]
+    test --> model
+    model --> |infer| predictions[/Predictions/]
+    
+    predictions --> |fix labels<br>and merge| labels
