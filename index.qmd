@@ -1004,4 +1004,4 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
 * [How to use the SLEAP module on the SWC HPC cluster](https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html)
 * [Green Algorithms calculator](https://calculator.green-algorithms.org/)
 * [CATS: Climate-Aware Task Scheduler](https://cats.readthedocs.io/)
-* [Green DiSC: Digital Sustainability Certification](https://software.ac.uk/GreenDiSC)
+* [UCL Green HPC course](https://github-pages.arc.ucl.ac.uk/green-hpc-course/)
