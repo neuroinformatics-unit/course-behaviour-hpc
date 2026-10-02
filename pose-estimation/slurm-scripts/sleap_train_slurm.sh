@@ -12,6 +12,9 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
 
+# Exit immediately if any command fails
+set -e
+
 # print GPU info
 nvidia-smi
 
