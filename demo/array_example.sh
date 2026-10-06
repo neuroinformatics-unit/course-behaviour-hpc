@@ -9,6 +9,9 @@
 #SBATCH -e slurm_array_%A-%a.err
 #SBATCH --array=0-9%4
 
+# Exit immediately if any command fails
+set -e
+
 # Array job runs 10 separate jobs, but not more than four at a time.
 # This is flexible and the array ID ($SLURM_ARRAY_TASK_ID) can be used in any way.
 

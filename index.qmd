@@ -420,6 +420,9 @@ cat batch_example.sh
 #SBATCH -o slurm_output.out
 #SBATCH -e slurm_error.err
 
+# Exit immediately if any command fails
+set -e
+
 for i in {1..5}
 do
   ./multiply.sh $i 10
@@ -453,6 +456,9 @@ cat array_example.sh
 #SBATCH -o slurm_array_%A-%a.out
 #SBATCH -e slurm_array_%A-%a.err
 #SBATCH --array=0-9%4
+
+# Exit immediately if any command fails
+set -e
 
 # Array job runs 10 separate jobs, but not more than four at a time.
 # This is flexible and the array ID ($SLURM_ARRAY_TASK_ID) can be used in any way.
@@ -505,6 +511,35 @@ Cancel all your jobs
 ```bash
 scancel -u <USERNAME>
 ```
+
+## Green computing: make every job count {.smaller}
+HPC jobs use energy (and emit carbon) whether or not they produce anything useful.
+
+. . .
+
+* Know what each job adds to your research project before running it
+* Test input files and job scripts with small/short jobs (e.g. one video, a few epochs) before scaling up
+* Fail early: make scripts stop at the first error (e.g. `set -e` in bash batch scripts)
+* Achieve the same goals with fewer jobs, e.g. sample parameter spaces wisely rather than exhaustively
+
+## Green computing: request only what you need {.smaller}
+* Request only the CPUs, memory and time your job needs
+* Only request a GPU if your code uses it
+* Cancel jobs that are stuck or misconfigured (`scancel <JOBID>`)
+* Not urgent? Let [CATS](https://cats.readthedocs.io/) (Climate-Aware Task Scheduler) pick the lowest-carbon start time and submit with `sbatch --begin`
+
+## Green computing: check, then right-size {.smaller}
+After a job finishes, compare what it used with what you requested:
+
+```{.bash code-line-numbers="false"}
+sacct -j <JOBID> --format=JobID,JobName,State,Elapsed,Timelimit,ReqMem,MaxRSS,AllocCPUS
+```
+
+. . .
+
+* `MaxRSS` much lower than `ReqMem`? Request less memory next time
+* `Elapsed` much shorter than `Timelimit`? Request less time
+* Estimate your job's carbon footprint with the [Green Algorithms calculator](https://calculator.green-algorithms.org/)
 
 # Example: pose estimation with SLEAP {background-color="#03A062"}
 
@@ -703,7 +738,7 @@ Save with `Ctrl+O` (followed by `Enter`), exit with `Ctrl+X`
 
 ## Batch script for training {.smaller}
 
-```{.bash filename="sleap_train_slurm.sh" code-line-numbers="1-13|15-16|18-19|21-26|28-29"}
+```{.bash filename="sleap_train_slurm.sh" code-line-numbers="1-13|15-16|18-19|21-22|24-29|31-32"}
 #!/bin/bash
 
 #SBATCH -J slp_train # job name
@@ -717,6 +752,9 @@ Save with `Ctrl+O` (followed by `Enter`), exit with `Ctrl+X`
 #SBATCH -e slurm.%x.%N.%j.err # STDERR
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
+
+# Exit immediately if any command fails
+set -e
 
 # print GPU info
 nvidia-smi
@@ -841,7 +879,7 @@ Source: [animals-in-motion.neuroinformatics.dev](https://animals-in-motion.neuro
 
 ## Batch script for inference {.smaller}
 
-```{.bash filename="sleap_infer_slurm.sh" code-line-numbers="1-19|21-25|27-31|33-40"}
+```{.bash filename="sleap_infer_slurm.sh" code-line-numbers="1-22|24-28|30-34|36-43"}
 #!/bin/bash
 
 #SBATCH -J slp_infer # job name
@@ -855,6 +893,9 @@ Source: [animals-in-motion.neuroinformatics.dev](https://animals-in-motion.neuro
 #SBATCH -e slurm.%x.%N.%j.err # write STDERR
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
+
+# Exit immediately if any command fails
+set -e
 
 # print GPU info
 nvidia-smi
@@ -907,7 +948,7 @@ squeue --me
 
 ## Batch script for array job {.smaller}
 
-```{.bash filename="sleap_infer_array_slurm.sh" code-line-numbers="14|27-29|37-44"}
+```{.bash filename="sleap_infer_array_slurm.sh" code-line-numbers="14|30-32|40-47"}
 #!/bin/bash
 
 #SBATCH -J slp_infer # job name
@@ -922,6 +963,9 @@ squeue --me
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=user@domain.com
 #SBATCH --array=0-2
+
+# Exit immediately if any command fails
+set -e
 
 # print GPU info
 nvidia-smi
@@ -959,3 +1003,5 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
 * [SWC/GCNU Scientific Computing wiki](https://liveuclac.sharepoint.com/sites/SSC)
 * [SLURM documentation](https://slurm.schedmd.com/)
 * [How to use the SLEAP module on the SWC HPC cluster](https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html)
+* [Green Algorithms](https://www.green-algorithms.org/)
+* [UCL Green HPC course](https://github-pages.arc.ucl.ac.uk/green-hpc-course/)
