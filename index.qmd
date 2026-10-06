@@ -1,13 +1,14 @@
 ---
-title: Running pose estimation on the SWC HPC system
-author: Adam Tyson, Niko Sirmpilatze & Igor Tatarnikov
+title: Linux and HPC
+subtitle: with a focus on using the SWC's HPC cluster.
+author: "By Igor Tatarnikov, Niko Sirmpilatze, Chris Halcrow & Adam Tyson"
 execute: 
   enabled: true
 format:
     revealjs:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        footer: "SWC | 2025-10-09"
+        footer: "SWC | October 2026"
         slide-number: c
         menu:
             numbers: true
