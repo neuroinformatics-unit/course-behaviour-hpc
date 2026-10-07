@@ -8,6 +8,9 @@
 #SBATCH -o slurm_output.out
 #SBATCH -e slurm_error.err
 
+# Exit immediately if any command fails
+set -e
+
 for i in {1..5}
 do
   ./multiply.sh $i 10

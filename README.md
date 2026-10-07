@@ -1,3 +1,6 @@
-# Running pose estimation on the SWC HPC system
+# Linux and HPC
 
-Slides for the [Running pose estimation on the SWC HPC system](https://software-skills.neuroinformatics.dev/courses/hpc-behaviour.html) course at the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/web/)
+Teaching materials for the **Linux and high performance computing (HPC)** course,
+taught annually as part of the Sainsbury Wellcome Centre's (SWC) [Systems Neuroscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme).
+
+Slides can be viewed at https://neuroinformatics.dev/course-linux-hpc/.
