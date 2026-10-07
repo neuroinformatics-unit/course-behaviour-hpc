@@ -960,7 +960,7 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
 * [How to use the SLEAP module on the SWC HPC cluster](https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html)
 
 
-# Python on the HPC
+# Python on the HPC {.smaller}
 
 Until now, we have used preinstalled *modules*.
 
@@ -975,13 +975,13 @@ Goal: run a Python script on the HPC.
 * An environment is a collection of compatible packages.
 * For each "big" piece of analysis you do (spike sorting, pose estimation, downstream analysis) you should have a different environment.
 * Ideally, you want to be able to use the same environment locally or on the HPC.
-* To achieve this, we'll use `uv` (alternative to `conda`, `poetry`, `mamaba`).
+* To achieve this, we'll use `uv` (alternative to `conda`, `poetry`, `mamba`, ...).
 
-## Getting started locally (optional)
+## Getting started locally (optional) {.smaller}
 
 Let's create a Python project locally:
 
-1. Install uv: https://docs.astral.sh/uv/getting-started/installation/
+1. Install uv: [https://docs.astral.sh/uv/getting-started/installation/](https://docs.astral.sh/uv/getting-started/installation/)
 
 2. Create a directory called `spike_times_analysis`
 
@@ -1003,9 +1003,9 @@ uv init
 uv add numpy
 ```
 
-## Files that manage your environment
+## Files that manage your environment  {.smaller}
 
-`uv` has created two important files. `pyproject.toml` is a description of your project, including which packages you've included. The most important list is the `dependencies`.
+`uv` has created a bunch of files. `pyproject.toml` is a description of your project, including which packages you've included. The most important list is the `dependencies`.
 
 ```bash
 [project]
@@ -1019,11 +1019,11 @@ dependencies = [
 ]
 ```
 
-Add another package using `uv add ??` and check your `pyproject.toml`.
+- Task: Add another package using `uv add ??` and check your `pyproject.toml`.
 
-If you give this `pyproject.toml` file to a friend, they'll be back to (approximately) remake your environment.
+If you give this `pyproject.toml` file to a friend, they'll be able to (approximately) remake your environment.
 
-## Run some code
+## Run some code {.smaller}
 
 Let's write some code. I'll save it at `spike_times_analysis/scripts/analyse_spikes.py`
 
@@ -1081,18 +1081,20 @@ And run it
 uv run test.py
 ```
 
-## Where to keep your environment
+## Where to keep your environment {.smaller}
 
-By default, `uv` saves your environment in your project folder. It also keeps a cache so that if you use the same package in several projects, it can "share" it.
+- By default, `uv` saves your environment in your project folder. 
+
+- It also keeps a cache so that if you use the same package in several projects, it can "share" it.
 
 This is usually fine.
 
-But on the HPC there are many physical drives "stuck together" to look like the `ceph`. It's a good idea to insist that `uv` uses a cache and environment location on the same physical storage.
+- But on the HPC there are many physical drives "stuck together" to look like the `ceph`. It's a good idea to insist that `uv` uses a cache and environment location on the same physical storage.
 
-We can do this by setting the `UV_PROJECT_ENVIRONMENT` variable, as we'll see.
+- We can do this by setting the `UV_PROJECT_ENVIRONMENT` variable, as we'll see.
 
 
-## Run using a script
+## Run using a script {.smaller}
 
 The real power of the HPC comes when we can submit jobs to run scripts. Let's create a bash script
 called `test.sh` containing
@@ -1108,6 +1110,8 @@ called `test.sh` containing
 #SBATCH -o test_output.out
 #SBATCH -e test_error.err
 
+set -e
+
 module load uv
 export UV_PROJECT_ENVIRONMENT="/ceph/python_envs/YOURUSERNAME/spike_sort_pipeline"
 cd /ceph/scratch/YOURUSERNAME/spike_sort_pipeline/
@@ -1121,7 +1125,7 @@ and submit it
 sbatch test.sh
 ```
 
-## Real world example
+## Real world example {.smaller}
 
 We're going to use a GPU to spike sort a Neuropixels recording using `SpikeInterface` and `Kilosort`.
 
@@ -1137,11 +1141,9 @@ and check they are there
 uv pip list
 ```
 
-## Write a spike sorting pipeline
+## Write a spike sorting pipeline {.smaller}
 
 Make a spike sorting file at `spike_sort_pipeline/spike_sort.py`
-
-(todo: share this script somehow)
 
 ```python
 import spikeinterface.full as si
@@ -1159,13 +1161,15 @@ analyzer = si.create_sorting_analyzer(
 analyzer.compute(['random_spikes', 'templates', 'unit_locations', 'correlograms', 'spike_amplitudes', 'spike_locations', 'quality_metrics'])
 ```
 
+(You can find this file at `/ceph/scratch/neuroinformatics-dropoff/spike_sort.py`)
+
 And run it (just to test)
 
 ```bash
 uv run spike_sort.py
 ```
 
-## Submit a proper job
+## Submit a proper job  {.smaller}
 
 Make a bash script called `spike_sort.sh`:
 
@@ -1182,9 +1186,12 @@ Make a bash script called `spike_sort.sh`:
 #SBATCH -o spike_sort_%j.out
 #SBATCH -e spike_sort_%j.err
 
-module load uv
-cd /ceph/scratch/YOURUSERNAME/spike_sort_pipeline/
+set -e
 
+module load uv
+export UV_PROJECT_ENVIRONMENT="/ceph/python_envs/YOURUSERNAME/spike_sort_pipeline"
+
+cd /ceph/scratch/YOURUSERNAME/spike_sort_pipeline/
 uv run spike_sort.py
 ```
 
