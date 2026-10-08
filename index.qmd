@@ -192,7 +192,7 @@ This node should only be used for submitting jobs or editing scripts with a term
 ::: {.callout-tip}
 ## More details
 
-See our guide at [howto.neuroinformatics.dev](https://neuroinformatics.dev/howto/programming/SSH-SWC-cluster.html){preview-link="true"}
+See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SSH-SWC-cluster.html){preview-link="true"}
 :::
 
 ## File systems  {.smaller}
@@ -357,7 +357,7 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 ::: {.callout-tip}
 ## More details
 
-See our guide at [howto.neuroinformatics.dev](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
+See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
 :::
 
 ## Partitions
