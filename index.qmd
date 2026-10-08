@@ -28,7 +28,7 @@ format:
     html:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        date: "2025-10-09"
+        date: "2026-10-09"
         toc: true
         code-overflow: scroll
         highlight-style: atom-one
@@ -137,8 +137,6 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
     * If data doesn't fit in memory make sure it's on fast storage (local)
 :::
 
-{{< include slides/linux_commands.qmd >}}
-
 ## Introduction to High Performance Computing (HPC) {.smaller}
 * Lots of meanings
 * Often just a system with many machines (nodes) linked together with some/all of:
@@ -224,6 +222,8 @@ Create a directory for yourself
 ```bash
 mkdir <USERNAME>
 ```
+
+{{< include slides/linux_commands.qmd >}}
 
 
 ## HPC software
