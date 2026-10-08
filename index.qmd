@@ -51,7 +51,9 @@ my-custom-stuff:
 * Introduction to High Performance Computing
 * SWC HPC system
 * Using the job scheduler
-* Running pose estimation on the SWC HPC
+* Real-world examples on the SWC HPC:
+  * Pose estimation with SLEAP
+  * Spike sorting with spikeinterface
 
 ## Hardware overview {.smaller}
 ::: {.fragment}
