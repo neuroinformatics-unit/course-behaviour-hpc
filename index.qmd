@@ -231,67 +231,66 @@ All nodes have the same software installed
 
 * Ubuntu 24.04 LTS
 * General linux utilities
+* Modules
 
-## Modules
+## Modules {.smaller}
 Preinstalled packages available for use, including:
-
 
 :::: {.columns}
 
-::: {.column width="40%"}
-* ANTs
-* BrainGlobe
-* CUDA
-* DeepLabCut
-* FSL
-* Julia
+::: {.column width="50%"}
+* Python
+* MATLAB
+* julia
+* miniconda
+* mamba
+* uv
 :::
 
-::: {.column width="60%"}
-* Kilosort
-* mamba
-* MATLAB
-* neuron
-* miniconda
+
+::: {.column width="50%"}
+* cuda
+* brainglobe
 * SLEAP
+* FSL
+* ants
+* kilosort3
 :::
 
 ::::
 
-
 ## Using modules
 
 List available modules
-```bash
+```{.bash code-line-numbers=false}
 module avail
 ```
 . . .
 
 Load a module
 
-```bash
+```{.bash code-line-numbers=false}
 module load SLEAP
 ```
 . . .
 
 Unload a module
 
-```bash
+```{.bash code-line-numbers=false}
 module unload SLEAP
 ```
 . . .
 
 Load a specific version
-```bash
-module load SLEAP/2024-08-14
+```{.bash code-line-numbers=false}
+module load SLEAP/2026-05-08
 ```
 . . .
 
 List loaded modules
-```bash
+```{.bash code-line-numbers=false}
 module list
 ```
-
 
 ## SLURM
 * Simple Linux Utility for Resource Management
