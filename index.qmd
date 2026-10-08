@@ -351,12 +351,6 @@ squeue --me
 
 . . .
 
-::: {.callout-tip}
-## More details
-
-See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
-:::
-
 ## Partitions {.smaller}
 
 Think of them as logical **queues**. Three types:
@@ -375,14 +369,33 @@ Think of them as logical **queues**. Three types:
 [Overview of SLURM job scheduler](https://liveuclac.sharepoint.com/sites/SSC/SitePages/SSC-Overview-of-SLURM-job-scheduler-165450965.aspx#slurm-partitions-and-tiered-schediling)
 :::
 
+## Submitting SLURM jobs
+
+![](img/diagrams/ssh_flowchart_light.png){fig-align="center"}
+
+## Types of jobs
+
+- **Interactive** jobs: run commands with real-time feedback (e.g. debugging)
+- **Batch** jobs: submit scripts to run in the background
+  - **Array batch** jobs: submit multiple similar jobs at once
+
+. . .
+
+::: {.callout-warning}
+Always start a job (interactive or batch) before doing anything beyond simple
+filesystem navigation or terminal-based script editing to spare the gateway node.
+:::
+
 ## Interactive job
 Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`) with one CPU core (`-n 1`).
-```bash
+```{.bash code-line-numbers="false"}
 srun -p cpu -n 1 --pty bash -i
 ```
 . . .
 
-Always start a job (interactive or batch) before doing anything intensive to spare the gateway node.
+::: {.callout-tip}
+If the `cpu` partition is busy, you can cancel the request with `Ctrl+C` and try `-p cpu_backfill` instead.
+:::
 
 ## Run some "analysis"
 
@@ -449,6 +462,13 @@ Run batch job:
 sbatch batch_example.sh
 ```
 
+. . . 
+
+::: {.callout-tip}
+## More details
+
+See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
+:::
 
 ## Array jobs
 
