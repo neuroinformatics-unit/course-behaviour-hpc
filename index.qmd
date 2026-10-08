@@ -301,7 +301,8 @@ module list
 * Queues jobs if nodes are busy
 * Users must explicitly request resources
 
-## SLURM commands {.smaller}
+
+## Check available resources {.smaller}
 View a summary of the available resources
 ```{.bash code-line-numbers=false}
 sinfo
@@ -323,7 +324,7 @@ cpu_backfill    up 10-00:00:0     23    mix gpu-350-[01,03-05],gpu-380-[10-18],g
 cpu_backfill    up 10-00:00:0      1   idle gpu-350-02
 ```
 
-## {.smaller}
+## Check the queue {.smaller}
 
 View currently running jobs, from everyone...
 ```{.bash code-line-numbers=false}
@@ -377,15 +378,15 @@ Think of them as logical **queues**. Three types:
 
 ## Types of jobs
 
-- **Interactive** jobs: run commands with real-time feedback (e.g. debugging)
+- **Interactive** jobs: run commands with real-time feedback (e.g. for debugging)
 - **Batch** jobs: submit scripts to run in the background
   - **Array batch** jobs: submit multiple similar jobs at once
 
 . . .
 
 ::: {.callout-warning}
-Always start a job (interactive or batch) before doing anything beyond simple
-filesystem navigation or terminal-based script editing to spare the gateway node.
+To spare the gateway node, always start a job (interactive or batch) before doing
+anything beyond simple filesystem navigation or terminal-based script editing.
 :::
 
 ## Interactive job
@@ -401,43 +402,44 @@ If the `cpu` partition is busy, you can cancel the request with `Ctrl+C` and try
 
 ## Run some "analysis"
 
-Clone a test script
-```bash
-cd ~/
-git clone https://github.com/neuroinformatics-unit/course-behaviour-hpc
+Clone some example scripts
+```{.bash code-line-numbers="false"}
+cd /ceph/scratch/$USER
+git clone https://github.com/neuroinformatics-unit/course-linux-hpc
 ```
 
 . . .
 
-Make the script executable
-```bash
-cd course-behaviour-hpc/demo
-chmod +x multiply.sh
+Make the scripts executable
+```{.bash code-line-numbers="false"}
+cd course-linux-hpc/demo
+chmod +x *.sh
 ```
 
 . . .
 
-Run the script
-```bash
+Run a script
+```{.bash code-line-numbers="false"}
 ./multiply.sh 10 5
 ```
 . . .
 
 Stop interactive job
-```bash
+```{.bash code-line-numbers="false"}
 exit
 ```
 
+## Batch jobs {.smaller}
 
-## Batch jobs
-
-Check out batch script:
-```bash
+Check out batch script
+```{.bash code-line-numbers="false"}
 cd course-behaviour-hpc/demo
 cat batch_example.sh
 ```
 
-```bash
+. . . 
+
+```{.bash}
 #!/bin/bash
 
 #SBATCH -p cpu # partition (queue)
@@ -457,30 +459,39 @@ do
 done
 ```
 
-## 
+## Submit a batch job
 
-Run batch job:
-```bash
+Run batch job
+```{.bash code-line-numbers="false"}
 sbatch batch_example.sh
 ```
 
-. . . 
+. . .
+
+View the output and error logs
+```{.bash code-line-numbers="false"}
+cat slurm_output.out
+cat slurm_error.err
+```
+
+. . .
 
 ::: {.callout-tip}
 ## More details
 
-See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
+See our [SLURM arguments primer](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
 :::
 
-## Array jobs
+## Array jobs {.smaller}
 
-
-Check out array script:
-```bash
+Check out array script
+```{.bash code-line-numbers="false"}
 cat array_example.sh
 ```
 
-```bash
+. . .
+
+```{.bash}
 #!/bin/bash
 
 #SBATCH -p cpu # partition (queue)
@@ -502,40 +513,23 @@ echo "Multiplying $SLURM_ARRAY_TASK_ID by 10"
 ./multiply.sh $SLURM_ARRAY_TASK_ID 10 
 ```
 
-## 
+## Submit an array job
 
-Run array job:
-```bash
+Run array job
+```{.bash code-line-numbers="false"}
 sbatch array_example.sh
 ```
 
+. . . 
 
-## Using GPUs
+List to see all the generated output and error files
 
-Start an interactive job with one GPU:
-```bash
-srun -p gpu --gres=gpu:1 --pty bash -i
-```
-. . .
-
-Load TensorFlow & CUDA
-```bash
-module load tensorflow
-module load cuda/11.8
-```
-. . .
-
-Check GPU 
-```bash
-python
+```{.bash code-line-numbers="false"}
+ls -l
 ```
 
-```python
-import tensorflow as tf
-tf.config.list_physical_devices('GPU')
-```
+## Cancelling jobs
 
-## Useful commands
 Cancel a job
 ```bash
 scancel <JOBID>
@@ -546,6 +540,70 @@ Cancel all your jobs
 ```bash
 scancel -u <USERNAME>
 ```
+
+. . .
+
+::: {.callout-tip}
+You can find the job ID with `squeue --me`.
+:::
+
+## Running Python interactively {.smaller}
+
+So far, we've been running bash scripts, but you can also run Python code in the same way.
+
+. . .
+
+Start an interactive job with one CPU
+
+```{.bash code-line-numbers="false"}
+srun -p cpu -n 1 --pty bash -i
+```
+
+. . .
+
+Load the Python module
+
+```{.bash code-line-numbers="false"}
+module load Python
+```
+
+. . .
+
+Start a Python session
+
+```{.bash code-line-numbers="false"}
+python
+```
+
+. . . 
+
+Run some Python code
+
+```{.python code-line-numbers="false"}
+print("Hello HPC world!")
+```
+
+. . . 
+
+Exit the Python session with `exit()` , then exit the interactive job with `exit`.
+
+
+## Submit a Python script
+
+As an **exercise**, do the exact same thing with a batch job.
+
+::: {.incremental}
+1. Use `nano` to create a Python script called `hello.py` and add a line printing "Hello HPC world!" to it.
+2. Create a batch script called `hello_batch.sh` that runs the Python script.
+3. Submit the batch script and check the output logs.
+:::
+
+. . .
+
+::: {.callout-tip}
+Want to create and use your own Python environments?
+Stay tuned, this is described towards the end of this course.
+:::
 
 ## Green computing: make every job count {.smaller}
 HPC jobs use energy (and emit carbon) whether or not they produce anything useful.
@@ -563,6 +621,12 @@ HPC jobs use energy (and emit carbon) whether or not they produce anything usefu
 * Cancel jobs that are stuck or misconfigured (`scancel <JOBID>`)
 * Not urgent? Let [CATS](https://cats.readthedocs.io/) (Climate-Aware Task Scheduler) pick the lowest-carbon start time and submit with `sbatch --begin`
 
+::: {.callout-tip}
+## See also SWC/GCNU Scientific Computing wiki
+
+[HPC Best Practices](https://liveuclac.sharepoint.com/sites/SSC/SitePages/SSC-HPC-Best-Practices-170396295.aspx)
+:::
+
 ## Green computing: check, then right-size {.smaller}
 After a job finishes, compare what it used with what you requested:
 
@@ -576,7 +640,12 @@ sacct -j <JOBID> --format=JobID,JobName,State,Elapsed,Timelimit,ReqMem,MaxRSS,Al
 * `Elapsed` much shorter than `Timelimit`? Request less time
 * Estimate your job's carbon footprint with the [Green Algorithms calculator](https://calculator.green-algorithms.org/)
 
-# Example: pose estimation with SLEAP {background-color="#03A062"}
+# Pose estimation with SLEAP {background-color="#03A062"}
+
+Let's look at a real-world example. Learning goals:
+
+- using a pre-installed module (here, SLEAP)
+- requesting GPU resources for a job
 
 ## Pose estimation {.smaller}
 
