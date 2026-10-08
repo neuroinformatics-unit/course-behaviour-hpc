@@ -357,7 +357,23 @@ squeue --me
 See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
 :::
 
-## Partitions
+## Partitions {.smaller}
+
+Think of them as logical **queues**. Three types:
+
+::: {.incremental}
+- **General partitions** accessible to all, e.g. `cpu`, `gpu`, `a100`
+- **Owned partitions** for specific groups, e.g. `gpu_saxe`, `gpu_branco`
+- **Backfilling partitions** to utilize spare hardware, e.g. `cpu_backfill`, `gpu_lowp`
+:::
+
+. . .
+
+::: {.callout-tip}
+## More details on SWC/GCNU Scientific Computing wiki
+
+[Overview of SLURM job scheduler](https://liveuclac.sharepoint.com/sites/SSC/SitePages/SSC-Overview-of-SLURM-job-scheduler-165450965.aspx#slurm-partitions-and-tiered-schediling)
+:::
 
 ## Interactive job
 Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`) with one CPU core (`-n 1`).
