@@ -299,56 +299,54 @@ module list
 * Queues jobs if nodes are busy
 * Users must explicitly request resources
 
-## SLURM commands
+## SLURM commands {.smaller}
 View a summary of the available resources
-```bash
+```{.bash code-line-numbers=false}
 sinfo
 ```
 
-```
-atyson@hpc-gw2:~$ sinfo
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-cpu*          up 10-00:00:0     10 drain~ enc1-node[2,4,6,8,10-12],enc2-node[4,7-8]
-cpu*          up 10-00:00:0      3  idle~ enc1-node[3,7],enc2-node10
-cpu*          up 10-00:00:0      5  down~ enc1-node[14,16],enc2-node[3,6,12]
-cpu*          up 10-00:00:0      3  drain enc3-node[6-8]
-cpu*          up 10-00:00:0     10    mix enc1-node[1,5,9,13],enc2-node[1-2,5],enc3-node[2,4-5]
-cpu*          up 10-00:00:0      3  alloc enc2-node[9,11,13]
-cpu*          up 10-00:00:0      1   idle enc3-node1
-gpu           up 10-00:00:0      1 drain* gpu-350-02
-gpu           up 10-00:00:0      1  drain gpu-350-03
-gpu           up 10-00:00:0      5    mix gpu-350-01,gpu-380-[10,12-13],gpu-sr670-20
-gpu           up 10-00:00:0     12   idle gpu-350-[04-05],gpu-380-[11,14-18],gpu-sr670-[21-23],gpu-sr675-31
-a100          up 10-00:00:0      1    mix gpu-sr670-20
-a100          up 10-00:00:0      3   idle gpu-sr670-[21-23]
-gpu_lowp      up 10-00:00:0      5   idle gpu-sr675-[31-34],gpu-xd670-30
-gpu_branco    up 30-00:00:0      3   idle gpu-sr675-[32-34]
-gatsby_ws     up 10-00:00:0      1  down* u236b
-gatsby_ws     up 10-00:00:0      4   idle adrian,u237h,u240c,u434a
+. . .
 
 ```
+sirmpilatzen@hpc-gw2:~$ sinfo
+PARTITION    AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu*            up 10-00:00:0      1  down* enc1-node4
+cpu*            up 10-00:00:0     10    mix enc1-node[1-3,6,8-13]
+cpu*            up 10-00:00:0      2  alloc enc1-node[5,7]
+a100            up 10-00:00:0      4    mix gpu-sr670-[20-23]
+gpu             up 10-00:00:0     18    mix gpu-350-[01,03-05],gpu-380-[10-18],gpu-sr670-[20-23],gpu-sr675-31
+gpu             up 10-00:00:0      1   idle gpu-350-02
+gpu_lowp        up 10-00:00:0      6    mix gpu-sr675-[31-35],gpu-xd670-30
+cpu_backfill    up 10-00:00:0     23    mix gpu-350-[01,03-05],gpu-380-[10-18],gpu-sr670-[20-23],gpu-sr675-[31-35],gpu-xd670-30
+cpu_backfill    up 10-00:00:0      1   idle gpu-350-02
+```
 
-##
+## {.smaller}
 
-View currently running jobs (from everyone)
-```bash
+View currently running jobs, from everyone...
+```{.bash code-line-numbers=false}
 squeue
 ```
 
 ```
-atyson@hpc-gw2:~$ squeue
-JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-4036257       cpu     bash   imansd  R 13-01:10:01      1 enc1-node2
-4050946       cpu      zsh apezzott  R 1-01:02:30      1 enc2-node11
-3921466       cpu     bash   imansd  R 51-03:05:29      1 gpu-380-13
-4037613       gpu     bash  pierreg  R 12-05:55:06      1 gpu-sr670-20
-4051306       gpu ddpm-vae   jheald  R      15:49      1 gpu-350-01
-4051294       gpu  jupyter    samoh  R    1:40:59      1 gpu-sr670-22
-4047787       gpu     bash antonins  R 4-18:59:43      1 gpu-sr670-21
-4051063_7       gpu    LRsem apezzott  R 1-00:08:32      1 gpu-350-05
-4051063_8       gpu    LRsem apezzott  R 1-00:08:32      1 gpu-380-10
-4051305       gpu     bash  kjensen  R      18:33      1 gpu-sr670-20
-4051297       gpu     bash   slenzi  R    1:15:39      1 gpu-350-01
+sirmpilatzen@hpc-gw2:~$ squeue
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3705995      a100 nette-rp  kbiegun  R    1:45:06      1 gpu-sr670-20
+           3705996      a100 nette-rp  kbiegun  R    1:45:06      1 gpu-sr670-20
+         3700888_2      a100 human_ta   mmeyer  R   23:20:39      1 gpu-sr670-21
+           3403594       cpu shrink_r wdorrell PD       0:00      1 (DependencyNeverSatisfied)
+3664831_[154,156,2       cpu r50_clas   isebti PD       0:00      1 (JobArrayTaskLimit)
+  3704854_[9-29%6]       cpu dt_signa    larsr PD       0:00      1 (JobArrayTaskLimit)
+3705838_[73-79,81-       cpu b2lameps    eling PD       0:00      1 (Resources)
+           3014724       cpu modelbui   careyh PD       0:00      1 (Dependency)
+```
+
+. . .
+
+or just yourself.
+
+```{.bash code-line-numbers=false}
+squeue --me
 ```
 
 . . .
