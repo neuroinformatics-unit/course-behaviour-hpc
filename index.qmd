@@ -640,7 +640,7 @@ sacct -j <JOBID> --format=JobID,JobName,State,Elapsed,Timelimit,ReqMem,MaxRSS,Al
 * `Elapsed` much shorter than `Timelimit`? Request less time
 * Estimate your job's carbon footprint with the [Green Algorithms calculator](https://calculator.green-algorithms.org/)
 
-# Pose estimation with SLEAP {background-color="#03A062"}
+# Pose estimation with SLEAP
 
 Let's look at a real-world example. Learning goals:
 
