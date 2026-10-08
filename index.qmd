@@ -192,7 +192,7 @@ This node should only be used for submitting jobs or editing scripts with a term
 ::: {.callout-tip}
 ## More details
 
-See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SSH-SWC-cluster.html){preview-link="true"}
+See our guide at [howto.neuroinformatics.dev](https://neuroinformatics.dev/howto/programming/SSH-SWC-cluster.html){preview-link="true"}
 :::
 
 ## File systems  {.smaller}
@@ -357,7 +357,7 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 ::: {.callout-tip}
 ## More details
 
-See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SLURM-arguments.html){preview-link="true"}
+See our guide at [howto.neuroinformatics.dev](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
 :::
 
 ## Partitions
@@ -1002,6 +1002,6 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
 ## Further reading
 * [SWC/GCNU Scientific Computing wiki](https://liveuclac.sharepoint.com/sites/SSC)
 * [SLURM documentation](https://slurm.schedmd.com/)
-* [How to use the SLEAP module on the SWC HPC cluster](https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html)
+* [How to use the SLEAP module on the SWC HPC cluster](https://neuroinformatics.dev/howto/data_analysis/HPC-module-SLEAP.html)
 * [Green Algorithms](https://www.green-algorithms.org/)
 * [UCL Green HPC course](https://github-pages.arc.ucl.ac.uk/green-hpc-course/)
