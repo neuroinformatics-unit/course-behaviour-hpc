@@ -1,9 +1,13 @@
-## `cd`: Navigate Directories {.smaller}
+## `pwd` and `cd`: Navigate Directories {.smaller}
 - `cd [directory]` -- Changes the current working directory to the specified directory.
 - `cd ..` -- Move up one directory level.
 - `cd /path/to/directory` -- Go to a specific path.
 - `cd ~` or `cd` -- Go to the home directory.
 - `cd /` -- Go to the root directory.
+
+. . .
+
+- `pwd` -- Prints the current working directory.
 
 ## `ls`: List Directory Contents {.smaller}
 - `ls` -- Lists files and directories in the current working directory.
@@ -49,6 +53,12 @@ touch file.txt
 echo "Hello, Linux!" > file.txt
 echo $HOME >> file.txt
 ```
+
+## View File Contents {.smaller}
+- `cat [file]` -- Displays the contents of a file.
+- `less [file]` -- Opens a file in a scrollable viewer, allowing navigation
+- `nano [file]` -- Opens a file in the nano text editor for editing.
+
 
 ## `watch`: Monitor Command Output {.smaller}
 - `watch [command]` -- Repeatedly runs a command at intervals and displays the result.
