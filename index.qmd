@@ -28,7 +28,7 @@ format:
     html:
         theme: [default, niu-light.scss]
         logo: img/logo_niu_light.png
-        date: "2025-10-09"
+        date: "2026-10-09"
         toc: true
         code-overflow: scroll
         highlight-style: atom-one
@@ -137,8 +137,6 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
     * If data doesn't fit in memory make sure it's on fast storage (local)
 :::
 
-{{< include slides/linux_commands.qmd >}}
-
 ## Introduction to High Performance Computing (HPC) {.smaller}
 * Lots of meanings
 * Often just a system with many machines (nodes) linked together with some/all of:
@@ -189,12 +187,12 @@ ssh <USERNAME>@hpc-gw2
 
 . . .
 
-This node is fine for light work, but no intensive analyses
+This node should only be used for navigating the file system, submitting jobs or editing scripts with a terminal text editor (e.g. `nano` or `vim`)
 
 ::: {.callout-tip}
 ## More details
 
-See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SSH-SWC-cluster.html){preview-link="true"}
+See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SSH-SWC-cluster.html){preview-link="true"}
 :::
 
 ## File systems  {.smaller}
@@ -224,6 +222,8 @@ Create a directory for yourself
 ```bash
 mkdir <USERNAME>
 ```
+
+{{< include slides/linux_commands.qmd >}}
 
 
 ## HPC software
@@ -357,7 +357,7 @@ JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 ::: {.callout-tip}
 ## More details
 
-See our guide at [howto.neuroinformatics.dev](https://howto.neuroinformatics.dev/programming/SLURM-arguments.html){preview-link="true"}
+See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
 :::
 
 ## Partitions
@@ -1002,6 +1002,6 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
 ## Further reading
 * [SWC/GCNU Scientific Computing wiki](https://liveuclac.sharepoint.com/sites/SSC)
 * [SLURM documentation](https://slurm.schedmd.com/)
-* [How to use the SLEAP module on the SWC HPC cluster](https://howto.neuroinformatics.dev/data_analysis/HPC-module-SLEAP.html)
+* [How to use the SLEAP module on the SWC HPC cluster](https://neuroinformatics.dev/howto/data_analysis/HPC-module-SLEAP.html)
 * [Green Algorithms](https://www.green-algorithms.org/)
 * [UCL Green HPC course](https://github-pages.arc.ucl.ac.uk/green-hpc-course/)
