@@ -187,7 +187,7 @@ ssh <USERNAME>@hpc-gw2
 
 . . .
 
-This node is fine for light work, but no intensive analyses
+This node should only be used for submitting jobs or editing scripts with a terminal text editor (e.g. `nano` or `vim`)
 
 ::: {.callout-tip}
 ## More details
