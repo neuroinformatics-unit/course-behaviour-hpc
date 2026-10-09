@@ -57,8 +57,23 @@ echo $HOME >> file.txt
 ## View File Contents {.smaller}
 - `cat [file]` -- Displays the contents of a file.
 - `less [file]` -- Opens a file in a scrollable viewer, allowing navigation
-- `nano [file]` -- Opens a file in the nano text editor for editing.
+- `nano [file]` -- Opens a file in the nano text editor for editing
 
+## Permissions and Ownership {.smaller}
+
+:::{.incremental}
+- `chmod [permissions] [file]` -- Changes the permissions of a file or directory
+- Numeric notation is based on binary representation of permissions:
+    - Read: 100 (4)
+    - Write: 010 (2)
+    - Execute: 001 (1)
+    - `chmod 755 file.txt` sets permissions to `rwxr-xr-x` (user has read, write, execute; group and others have read and execute) 
+- Symbolic notation uses letters:
+    - `r` for read, `w` for write, and `x` for execute
+    - `u` for user, `g` for group, and `o` for others (if skipped it applies to all)
+    - `chmod u+x file.txt` adds execute permission for the user
+    - `chmod go-w file.txt` removes write permission for group and others
+:::
 
 ## `watch`: Monitor Command Output {.smaller}
 - `watch [command]` -- Repeatedly runs a command at intervals and displays the result.
