@@ -1109,3 +1109,252 @@ sleap-track $VIDEO_DIR/${CURRENT_VIDEO_PREFIX}.mp4 \
 * [How to use the SLEAP module on the SWC HPC cluster](https://neuroinformatics.dev/howto/data_analysis/HPC-module-SLEAP.html)
 * [Green Algorithms](https://www.green-algorithms.org/)
 * [UCL Green HPC course](https://github-pages.arc.ucl.ac.uk/green-hpc-course/)
+
+# Python on the HPC {.smaller}
+
+Until now, we have used preinstalled *modules*.
+
+But more realistically, you'll want to run your own code. In Neuroscience the most popular
+language is Python.
+
+Goal: run a Python script on the HPC.
+
+## Python is an ecosystem
+
+* There are 800,000+ Python packages, e.g. `numpy`, `pandas`, `scikit-learn`.
+* An environment is a collection of compatible packages.
+* For each "big" piece of analysis you do (spike sorting, pose estimation, downstream analysis) you should have a different environment.
+* Ideally, you want to be able to use the same environment locally or on the HPC.
+* To achieve this, we'll use `uv` (alternative to `conda`, `poetry`, `mamba`, ...).
+
+## Getting started locally (optional) {.smaller}
+
+Let's create a Python project locally:
+
+1. Install uv: [https://docs.astral.sh/uv/getting-started/installation/](https://docs.astral.sh/uv/getting-started/installation/)
+
+2. Create a directory called `spike_times_analysis`
+
+3. Open the directory in the terminal and check you're in the right place
+
+```bash
+pwd
+```
+
+4. **Init**ialize a Python project using uv
+
+```bash
+uv init
+```
+
+5. Add a package
+
+```bash
+uv add numpy
+```
+
+## Files that manage your environment  {.smaller}
+
+`uv` has created a bunch of files. `pyproject.toml` is a description of your project, including which packages you've included. The most important list is the `dependencies`.
+
+```bash
+[project]
+name = "spike-times-analysis"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.5.3",
+]
+```
+
+- Task: Add another package using `uv add ??` and check your `pyproject.toml`.
+
+If you give this `pyproject.toml` file to a friend, they'll be able to (approximately) remake your environment.
+
+## Run some code {.smaller}
+
+Let's write some code. I'll save it at `spike_times_analysis/scripts/analyse_spikes.py`
+
+```python
+import numpy as np
+
+# Make fake spike times in seconds
+spike_times = np.sort(np.random.uniform(low=0.0, high=10.0, size=200))
+
+inter_spike_intervals = np.diff(spike_times)
+mean_isi = np.mean(inter_spike_intervals)
+print(mean_isi)
+```
+
+And try to run it
+
+```bash
+uv run scripts/analyse_spikes.py
+```
+
+## What is `uv run`
+
+`uv run ??` does the following sequence of events:
+
+1. Checks your `pyproject.toml` and figures out which packages and package versions you need
+2. Creates (or updates) a virtual environment at `.venv`
+3. Activates the environment
+4. Runs `python ??`
+
+## Repeat, on the HPC
+
+Let's do the same thing, but now on the HPC
+
+* ssh onto the HPC
+* Get onto a compute node
+* Go to your scratch folder.
+* Create a directory called `spike_sort_pipeline`
+* Enter the directory
+* `uv` is a module on the HPC. Load it.
+* **Init**ialise a project using `uv`
+
+## A test Python script
+
+Create a test Python script in `spike_sort_pipeline/test.py`
+
+```python
+import os
+current_working_directory = os.getcwd()
+print(f"I'm in {current_working_directory}")
+```
+
+And run it
+
+```bash
+uv run test.py
+```
+
+## Where to keep your environment {.smaller}
+
+- By default, `uv` saves your environment in your project folder. 
+
+- It also keeps a cache so that if you use the same package in several projects, it can "share" it.
+
+This is usually fine.
+
+- But on the HPC there are many physical drives "stuck together" to look like the `ceph`. It's a good idea to insist that `uv` uses a cache and environment location on the same physical storage.
+
+- We can do this by setting the `UV_PROJECT_ENVIRONMENT` variable, as we'll see.
+
+
+## Run using a script {.smaller}
+
+The real power of the HPC comes when we can submit jobs to run scripts. Let's create a bash script
+called `test.sh` containing
+
+```bash
+#!/bin/bash
+
+#SBATCH -p cpu
+#SBATCH -N 1
+#SBATCH --mem 1G
+#SBATCH -n 1 
+#SBATCH -t 0-0:1 
+#SBATCH -o test_output.out
+#SBATCH -e test_error.err
+
+set -e
+
+module load uv
+export UV_PROJECT_ENVIRONMENT="/ceph/python_envs/YOURUSERNAME/spike_sort_pipeline"
+cd /ceph/scratch/YOURUSERNAME/spike_sort_pipeline/
+
+uv run test.py
+```
+
+and submit it
+
+```bash
+sbatch test.sh
+```
+
+## Real world example {.smaller}
+
+We're going to use a GPU to spike sort a Neuropixels recording using `SpikeInterface` and `Kilosort`.
+
+First, let's add both these packages to the `spike_sort_pipeline` project
+
+```bash
+uv add 'spikeinterface[full]' kilosort
+```
+
+and check they are there
+
+```bash
+uv pip list
+```
+
+## Write a spike sorting pipeline {.smaller}
+
+Make a spike sorting file at `spike_sort_pipeline/spike_sort.py`
+
+```python
+import spikeinterface.full as si
+recording = si.read_openephys('/ceph/scratch/neuroinformatics-dropoff/neuropixel2_data')
+recording_one_shank = recording.split_by('group')[0]
+sorting = si.run_sorter('kilosort4', recording_one_shank, remove_existing_folder=True, use_binary_file=False, verbose=True)
+
+analyzer = si.create_sorting_analyzer(
+  sorting=sorting,
+  recording=si.bandpass_filter(si.common_reference(recording_one_shank)),
+  folder = 'kilosort4_sorting_analyzer',
+  format='binary_folder'
+)
+
+analyzer.compute(['random_spikes', 'templates', 'unit_locations', 'correlograms', 'spike_amplitudes', 'spike_locations', 'quality_metrics'])
+```
+
+(You can find this file at `/ceph/scratch/neuroinformatics-dropoff/spike_sort.py`)
+
+And run it (just to test)
+
+```bash
+uv run spike_sort.py
+```
+
+## Submit a proper job  {.smaller}
+
+Make a bash script called `spike_sort.sh`:
+
+```bash
+#!/bin/bash
+
+#SBATCH -J spike_sort
+#SBATCH -p gpu
+#SBATCH --gres=gpu:1
+#SBATCH -N 1
+#SBATCH --mem 32G
+#SBATCH -n 8
+#SBATCH -t 0-1:0 
+#SBATCH -o spike_sort_%j.out
+#SBATCH -e spike_sort_%j.err
+
+set -e
+
+module load uv
+export UV_PROJECT_ENVIRONMENT="/ceph/python_envs/YOURUSERNAME/spike_sort_pipeline"
+
+cd /ceph/scratch/YOURUSERNAME/spike_sort_pipeline/
+uv run spike_sort.py
+```
+
+and submit it
+
+```bash
+sbatch spike_sort.sh
+```
+
+## The output
+
+This script creates a `SortingAnalyzer`. This is the "end point" of a 
+`SpikeInterface` spike sorting pipeline. You can take a look at the results
+using [SpikeInterface-GUI](https://github.com/SpikeInterface/spikeinterface-gui/).
+
+![](img/si-gui.png){fig-align="center" width="80%"}
