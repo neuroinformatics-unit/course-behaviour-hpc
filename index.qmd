@@ -51,7 +51,9 @@ my-custom-stuff:
 * Introduction to High Performance Computing
 * SWC HPC system
 * Using the job scheduler
-* Running pose estimation on the SWC HPC
+* Real-world examples on the SWC HPC:
+  * Pose estimation with SLEAP
+  * Spike sorting with spikeinterface
 
 ## Hardware overview {.smaller}
 ::: {.fragment}
@@ -231,67 +233,66 @@ All nodes have the same software installed
 
 * Ubuntu 24.04 LTS
 * General linux utilities
+* Modules
 
-## Modules
+## Modules {.smaller}
 Preinstalled packages available for use, including:
-
 
 :::: {.columns}
 
-::: {.column width="40%"}
-* ANTs
-* BrainGlobe
-* CUDA
-* DeepLabCut
-* FSL
-* Julia
+::: {.column width="50%"}
+* Python
+* MATLAB
+* julia
+* miniconda
+* mamba
+* uv
 :::
 
-::: {.column width="60%"}
-* Kilosort
-* mamba
-* MATLAB
-* neuron
-* miniconda
+
+::: {.column width="50%"}
+* cuda
+* brainglobe
 * SLEAP
+* FSL
+* ants
+* kilosort3
 :::
 
 ::::
 
-
 ## Using modules
 
 List available modules
-```bash
+```{.bash code-line-numbers=false}
 module avail
 ```
 . . .
 
 Load a module
 
-```bash
+```{.bash code-line-numbers=false}
 module load SLEAP
 ```
 . . .
 
 Unload a module
 
-```bash
+```{.bash code-line-numbers=false}
 module unload SLEAP
 ```
 . . .
 
 Load a specific version
-```bash
-module load SLEAP/2024-08-14
+```{.bash code-line-numbers=false}
+module load SLEAP/2026-05-08
 ```
 . . .
 
 List loaded modules
-```bash
+```{.bash code-line-numbers=false}
 module list
 ```
-
 
 ## SLURM
 * Simple Linux Utility for Resource Management
@@ -300,116 +301,145 @@ module list
 * Queues jobs if nodes are busy
 * Users must explicitly request resources
 
-## SLURM commands
+
+## Check available resources {.smaller}
 View a summary of the available resources
-```bash
+```{.bash code-line-numbers=false}
 sinfo
 ```
 
-```
-atyson@hpc-gw2:~$ sinfo
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-cpu*          up 10-00:00:0     10 drain~ enc1-node[2,4,6,8,10-12],enc2-node[4,7-8]
-cpu*          up 10-00:00:0      3  idle~ enc1-node[3,7],enc2-node10
-cpu*          up 10-00:00:0      5  down~ enc1-node[14,16],enc2-node[3,6,12]
-cpu*          up 10-00:00:0      3  drain enc3-node[6-8]
-cpu*          up 10-00:00:0     10    mix enc1-node[1,5,9,13],enc2-node[1-2,5],enc3-node[2,4-5]
-cpu*          up 10-00:00:0      3  alloc enc2-node[9,11,13]
-cpu*          up 10-00:00:0      1   idle enc3-node1
-gpu           up 10-00:00:0      1 drain* gpu-350-02
-gpu           up 10-00:00:0      1  drain gpu-350-03
-gpu           up 10-00:00:0      5    mix gpu-350-01,gpu-380-[10,12-13],gpu-sr670-20
-gpu           up 10-00:00:0     12   idle gpu-350-[04-05],gpu-380-[11,14-18],gpu-sr670-[21-23],gpu-sr675-31
-a100          up 10-00:00:0      1    mix gpu-sr670-20
-a100          up 10-00:00:0      3   idle gpu-sr670-[21-23]
-gpu_lowp      up 10-00:00:0      5   idle gpu-sr675-[31-34],gpu-xd670-30
-gpu_branco    up 30-00:00:0      3   idle gpu-sr675-[32-34]
-gatsby_ws     up 10-00:00:0      1  down* u236b
-gatsby_ws     up 10-00:00:0      4   idle adrian,u237h,u240c,u434a
+. . .
 
 ```
+sirmpilatzen@hpc-gw2:~$ sinfo
+PARTITION    AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu*            up 10-00:00:0      1  down* enc1-node4
+cpu*            up 10-00:00:0     10    mix enc1-node[1-3,6,8-13]
+cpu*            up 10-00:00:0      2  alloc enc1-node[5,7]
+a100            up 10-00:00:0      4    mix gpu-sr670-[20-23]
+gpu             up 10-00:00:0     18    mix gpu-350-[01,03-05],gpu-380-[10-18],gpu-sr670-[20-23],gpu-sr675-31
+gpu             up 10-00:00:0      1   idle gpu-350-02
+gpu_lowp        up 10-00:00:0      6    mix gpu-sr675-[31-35],gpu-xd670-30
+cpu_backfill    up 10-00:00:0     23    mix gpu-350-[01,03-05],gpu-380-[10-18],gpu-sr670-[20-23],gpu-sr675-[31-35],gpu-xd670-30
+cpu_backfill    up 10-00:00:0      1   idle gpu-350-02
+```
 
-##
+## Check the queue {.smaller}
 
-View currently running jobs (from everyone)
-```bash
+View currently running jobs, from everyone...
+```{.bash code-line-numbers=false}
 squeue
 ```
 
 ```
-atyson@hpc-gw2:~$ squeue
-JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-4036257       cpu     bash   imansd  R 13-01:10:01      1 enc1-node2
-4050946       cpu      zsh apezzott  R 1-01:02:30      1 enc2-node11
-3921466       cpu     bash   imansd  R 51-03:05:29      1 gpu-380-13
-4037613       gpu     bash  pierreg  R 12-05:55:06      1 gpu-sr670-20
-4051306       gpu ddpm-vae   jheald  R      15:49      1 gpu-350-01
-4051294       gpu  jupyter    samoh  R    1:40:59      1 gpu-sr670-22
-4047787       gpu     bash antonins  R 4-18:59:43      1 gpu-sr670-21
-4051063_7       gpu    LRsem apezzott  R 1-00:08:32      1 gpu-350-05
-4051063_8       gpu    LRsem apezzott  R 1-00:08:32      1 gpu-380-10
-4051305       gpu     bash  kjensen  R      18:33      1 gpu-sr670-20
-4051297       gpu     bash   slenzi  R    1:15:39      1 gpu-350-01
+sirmpilatzen@hpc-gw2:~$ squeue
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           3705995      a100 nette-rp  kbiegun  R    1:45:06      1 gpu-sr670-20
+           3705996      a100 nette-rp  kbiegun  R    1:45:06      1 gpu-sr670-20
+         3700888_2      a100 human_ta   mmeyer  R   23:20:39      1 gpu-sr670-21
+           3403594       cpu shrink_r wdorrell PD       0:00      1 (DependencyNeverSatisfied)
+3664831_[154,156,2       cpu r50_clas   isebti PD       0:00      1 (JobArrayTaskLimit)
+  3704854_[9-29%6]       cpu dt_signa    larsr PD       0:00      1 (JobArrayTaskLimit)
+3705838_[73-79,81-       cpu b2lameps    eling PD       0:00      1 (Resources)
+           3014724       cpu modelbui   careyh PD       0:00      1 (Dependency)
 ```
+
+. . .
+
+or just yourself.
+
+```{.bash code-line-numbers=false}
+squeue --me
+```
+
+. . .
+
+## Partitions {.smaller}
+
+Think of them as logical **queues**. Three types:
+
+::: {.incremental}
+- **General partitions** accessible to all, e.g. `cpu`, `gpu`, `a100`
+- **Owned partitions** for specific groups, e.g. `gpu_saxe`, `gpu_branco`
+- **Backfilling partitions** to utilize spare hardware, e.g. `cpu_backfill`, `gpu_lowp`
+:::
 
 . . .
 
 ::: {.callout-tip}
-## More details
+## More details on SWC/GCNU Scientific Computing wiki
 
-See our guide at [https://neuroinformatics.dev/howto/](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
+[Overview of SLURM job scheduler](https://liveuclac.sharepoint.com/sites/SSC/SitePages/SSC-Overview-of-SLURM-job-scheduler-165450965.aspx#slurm-partitions-and-tiered-schediling)
 :::
 
-## Partitions
+## Submitting SLURM jobs
+
+![](img/diagrams/ssh_flowchart_light.png){fig-align="center"}
+
+## Types of jobs
+
+- **Interactive** jobs: run commands with real-time feedback (e.g. for debugging)
+- **Batch** jobs: submit scripts to run in the background
+  - **Array batch** jobs: submit multiple similar jobs at once
+
+. . .
+
+::: {.callout-warning}
+To spare the gateway node, always start a job (interactive or batch) before doing
+anything beyond simple filesystem navigation or terminal-based script editing.
+:::
 
 ## Interactive job
 Start an interactive job (`bash -i`) in the cpu partition (`-p cpu`) in pseudoterminal mode (`--pty`) with one CPU core (`-n 1`).
-```bash
+```{.bash code-line-numbers="false"}
 srun -p cpu -n 1 --pty bash -i
 ```
 . . .
 
-Always start a job (interactive or batch) before doing anything intensive to spare the gateway node.
+::: {.callout-tip}
+If the `cpu` partition is busy, you can cancel the request with `Ctrl+C` and try `-p cpu_backfill` instead.
+:::
 
 ## Run some "analysis"
 
-Clone a test script
-```bash
-cd ~/
-git clone https://github.com/neuroinformatics-unit/course-behaviour-hpc
+Clone some example scripts
+```{.bash code-line-numbers="false"}
+cd /ceph/scratch/$USER
+git clone https://github.com/neuroinformatics-unit/course-linux-hpc
 ```
 
 . . .
 
-Make the script executable
-```bash
-cd course-behaviour-hpc/demo
-chmod +x multiply.sh
+Make the scripts executable
+```{.bash code-line-numbers="false"}
+cd course-linux-hpc/demo
+chmod +x *.sh
 ```
 
 . . .
 
-Run the script
-```bash
+Run a script
+```{.bash code-line-numbers="false"}
 ./multiply.sh 10 5
 ```
 . . .
 
 Stop interactive job
-```bash
+```{.bash code-line-numbers="false"}
 exit
 ```
 
+## Batch jobs {.smaller}
 
-## Batch jobs
-
-Check out batch script:
-```bash
+Check out batch script
+```{.bash code-line-numbers="false"}
 cd course-behaviour-hpc/demo
 cat batch_example.sh
 ```
 
-```bash
+. . . 
+
+```{.bash}
 #!/bin/bash
 
 #SBATCH -p cpu # partition (queue)
@@ -429,23 +459,39 @@ do
 done
 ```
 
-## 
+## Submit a batch job
 
-Run batch job:
-```bash
+Run batch job
+```{.bash code-line-numbers="false"}
 sbatch batch_example.sh
 ```
 
+. . .
 
-## Array jobs
+View the output and error logs
+```{.bash code-line-numbers="false"}
+cat slurm_output.out
+cat slurm_error.err
+```
 
+. . .
 
-Check out array script:
-```bash
+::: {.callout-tip}
+## More details
+
+See our [SLURM arguments primer](https://neuroinformatics.dev/howto/programming/SLURM-arguments.html){preview-link="true"}
+:::
+
+## Array jobs {.smaller}
+
+Check out array script
+```{.bash code-line-numbers="false"}
 cat array_example.sh
 ```
 
-```bash
+. . .
+
+```{.bash}
 #!/bin/bash
 
 #SBATCH -p cpu # partition (queue)
@@ -467,40 +513,23 @@ echo "Multiplying $SLURM_ARRAY_TASK_ID by 10"
 ./multiply.sh $SLURM_ARRAY_TASK_ID 10 
 ```
 
-## 
+## Submit an array job
 
-Run array job:
-```bash
+Run array job
+```{.bash code-line-numbers="false"}
 sbatch array_example.sh
 ```
 
+. . . 
 
-## Using GPUs
+List to see all the generated output and error files
 
-Start an interactive job with one GPU:
-```bash
-srun -p gpu --gres=gpu:1 --pty bash -i
-```
-. . .
-
-Load TensorFlow & CUDA
-```bash
-module load tensorflow
-module load cuda/11.8
-```
-. . .
-
-Check GPU 
-```bash
-python
+```{.bash code-line-numbers="false"}
+ls -l
 ```
 
-```python
-import tensorflow as tf
-tf.config.list_physical_devices('GPU')
-```
+## Cancelling jobs
 
-## Useful commands
 Cancel a job
 ```bash
 scancel <JOBID>
@@ -511,6 +540,70 @@ Cancel all your jobs
 ```bash
 scancel -u <USERNAME>
 ```
+
+. . .
+
+::: {.callout-tip}
+You can find the job ID with `squeue --me`.
+:::
+
+## Running Python interactively {.smaller}
+
+So far, we've been running bash scripts, but you can also run Python code in the same way.
+
+. . .
+
+Start an interactive job with one CPU
+
+```{.bash code-line-numbers="false"}
+srun -p cpu -n 1 --pty bash -i
+```
+
+. . .
+
+Load the Python module
+
+```{.bash code-line-numbers="false"}
+module load Python
+```
+
+. . .
+
+Start a Python session
+
+```{.bash code-line-numbers="false"}
+python
+```
+
+. . . 
+
+Run some Python code
+
+```{.python code-line-numbers="false"}
+print("Hello HPC world!")
+```
+
+. . . 
+
+Exit the Python session with `exit()` , then exit the interactive job with `exit`.
+
+
+## Submit a Python script
+
+As an **exercise**, do the exact same thing with a batch job.
+
+::: {.incremental}
+1. Use `nano` to create a Python script called `hello.py` and add a line printing "Hello HPC world!" to it.
+2. Create a batch script called `hello_batch.sh` that runs the Python script.
+3. Submit the batch script and check the output logs.
+:::
+
+. . .
+
+::: {.callout-tip}
+Want to create and use your own Python environments?
+Stay tuned, this is described towards the end of this course.
+:::
 
 ## Green computing: make every job count {.smaller}
 HPC jobs use energy (and emit carbon) whether or not they produce anything useful.
@@ -528,6 +621,12 @@ HPC jobs use energy (and emit carbon) whether or not they produce anything usefu
 * Cancel jobs that are stuck or misconfigured (`scancel <JOBID>`)
 * Not urgent? Let [CATS](https://cats.readthedocs.io/) (Climate-Aware Task Scheduler) pick the lowest-carbon start time and submit with `sbatch --begin`
 
+::: {.callout-tip}
+## See also SWC/GCNU Scientific Computing wiki
+
+[HPC Best Practices](https://liveuclac.sharepoint.com/sites/SSC/SitePages/SSC-HPC-Best-Practices-170396295.aspx)
+:::
+
 ## Green computing: check, then right-size {.smaller}
 After a job finishes, compare what it used with what you requested:
 
@@ -541,7 +640,12 @@ sacct -j <JOBID> --format=JobID,JobName,State,Elapsed,Timelimit,ReqMem,MaxRSS,Al
 * `Elapsed` much shorter than `Timelimit`? Request less time
 * Estimate your job's carbon footprint with the [Green Algorithms calculator](https://calculator.green-algorithms.org/)
 
-# Example: pose estimation with SLEAP {background-color="#03A062"}
+# Pose estimation with SLEAP
+
+Let's look at a real-world example. Learning goals:
+
+- using a pre-installed module (here, SLEAP)
+- requesting GPU resources for a job
 
 ## Pose estimation {.smaller}
 
