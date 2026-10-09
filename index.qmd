@@ -165,12 +165,16 @@ Source: [High Performance Python](https://learning.oreilly.com/library/view/high
 (Correct at time of writing)
 
 * Ubuntu 24.04
-* 81 nodes
-  * 35 CPU nodes
-  * 31 GPU nodes
-* ~4500 CPU cores
-* 128 GPUs
-* ~20TB RAM
+* 37 nodes
+  * 13 CPU nodes
+  * 24 GPU nodes
+* ~2900 CPU cores
+* 90 GPUs
+* ~15 TB RAM
+
+## Logging in
+
+![](img/diagrams/ssh_flowchart_light.png){fig-align="center"}
 
 ## Logging in
 
@@ -226,6 +230,12 @@ mkdir <USERNAME>
 ```
 
 {{< include slides/linux_commands.qmd >}}
+
+## Open on Demand
+
+- Open on Demand (OOD) is a web-based interface for accessing the SWC HPC cluster
+- See the [SWC OOD guide][https://liveuclac.sharepoint.com/sites/SSC/SitePages/Open-On-Demand-web-portal-&-Interactive-Applications.aspx]
+- Demo!
 
 
 ## HPC software
